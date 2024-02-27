@@ -19,3 +19,5 @@ const config = defineConfig({
     plugins: [structureTool()],
 
 })
+
+export { config };
