@@ -1,6 +1,6 @@
 import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
-
+import event from "./sanity/schemas/events-schema";
 
 
 
@@ -17,6 +17,7 @@ const config = defineConfig({
     basePath: "/admin",
     
     plugins: [structureTool()],
+    schema: { types: [event]}
 
 })
 
