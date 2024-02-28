@@ -1,6 +1,6 @@
 import { createClient, groq } from "next-sanity"
 
-export async function getEvents() {
+export async function getEvents(): Promise<Event[]> {
     const client = createClient({
         projectId: "46b4kxer",
         dataset: "production",
