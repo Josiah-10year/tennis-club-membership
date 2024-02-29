@@ -29,27 +29,6 @@ const event = {
         description: 'The location of the event',
       },
       {
-        name: 'image',
-        title: 'Image',
-        type: 'image',
-        options: { hotspot: true },
-        fields: [
-          {
-            name: 'alt',
-            title: 'Alt Text',
-            type: 'string',
-            description: 'Alternative text for the event image',
-          },
-        ],
-        description: 'Image representing the event',
-      },
-      {
-        name: 'url',
-        title: 'URL',
-        type: 'url',
-        description: 'URL for more information about the event',
-      },
-      {
         name: 'description',
         title: 'Description',
         type: 'text',
