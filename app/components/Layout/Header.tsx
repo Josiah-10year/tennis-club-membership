@@ -1,6 +1,6 @@
 // import testIds from '@app/utils/test-ids';
 
-import { NavBar } from "../NavBar/NavBar";
+import { NavBar } from "./NavBar/NavBar";
 
 const Header = () => (
   <>
