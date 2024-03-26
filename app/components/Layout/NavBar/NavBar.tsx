@@ -6,12 +6,12 @@ import { usePathname } from 'next/navigation';
 // import Login from '@app/components/Login/Login';
 
 const navbarItems = [
-  { ref: '/#about', label: 'About' },
-  { ref: '/book-now', label: 'Services' },
-  { ref: '/plans', label: 'Plans' },
-  { ref: '/guides', label: 'Guides' },
-  { ref: '/#contact', label: 'Contact' },
-  { ref: '/account/my-account', label: 'Account', prefetch: false },
+  { ref: '/', label: 'About' },
+  { ref: '/events', label: 'Events' },
+  { ref: '/posts', label: 'Posts' },
+  { ref: '/court_bookings', label: 'Court Bookings' },
+  { ref: '/register', label: 'Register/Login', prefetch: false },
+  // { ref: '/account/my-account', label: 'Account', prefetch: false },
 ];
 
 export const StyledNavLink = ({

@@ -1,12 +1,13 @@
 import { getEvents } from "../sanity/sanity-utils";
 import Link from "next/link";
 
-export default async function Home() {
+export default async function About() {
   const events = await getEvents();
 
   return (
     <div className="max-w-5xl mx-auto py-20">
       {/* Start here */}
+      <h1>About Page</h1>
       <h1>January</h1>
       <div className="mt-5 grid grid-cols-3 gap-8">
         {events.map((event) => (
@@ -26,10 +27,6 @@ export default async function Home() {
             <div 
               className="text-gray-600 mb-2">
               Time: {new Date(event.date).toLocaleTimeString()}
-            </div>
-            <div 
-              className="text-gray-600 mb-2">
-              Location: {event.location}
             </div>
             </Link>
         ))}
