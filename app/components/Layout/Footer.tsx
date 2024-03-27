@@ -1,7 +1,7 @@
 // import './footer.css';
 import Image from 'next/image';//app/components/ScrollIntoView/ScrollIntoView.tsx
 // import testIds from '@app/utils/test-ids';
-import ScrollIntoView from '../ScrollIntoView/ScrollIntoView';
+import ScrollIntoView from '../ScrollIntoView';
 
 const FooterNote = () => (
   <div className="text-xs" >
