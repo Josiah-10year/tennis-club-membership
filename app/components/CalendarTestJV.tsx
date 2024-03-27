@@ -54,6 +54,9 @@ const index: FC<indexProps> = ({}) => {
 
     }
 
+    const log_console = () =>{
+    console.log("Court: " + date.courtSlug + "Time: " + date.dateTime) } 
+
     const times = getTimes();
     const courts = getCourts();
 
@@ -61,7 +64,16 @@ const index: FC<indexProps> = ({}) => {
     <div className='h-screen flex flex-col justify-center items-center'>
         {date.courtSlug ? (
             date.justDate ? (
-                <div className='flex gap-4'>
+                date.dateTime ?(
+
+                    <div>
+                        <p>Selection completed, info should then be sent to Sanity</p>
+                        <button onClick={log_console}>|Click here to log output the console|</button>
+                    </div>
+                    
+
+                ):(
+                    <div className='flex gap-4'>
                     {times?.map((time, i) => (
                         <div key={`time-${i}`} className= 'rounded-sm bg-gray-100 p-2'>
                             <button type='button' onClick={() => setDate((prev) => ({...prev, dateTime: time}))}>
@@ -70,6 +82,8 @@ const index: FC<indexProps> = ({}) => {
                         </div>
                     ))}
                 </div>
+                )
+                
                 ) : (
                 <ReactCalendar 
                 minDate={new Date()}
