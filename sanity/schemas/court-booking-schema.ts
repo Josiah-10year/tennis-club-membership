@@ -4,12 +4,6 @@ const courtBooking = {
     type: 'document',
     fields: [
       {
-        name: 'name',
-        title: 'Name',
-        type: 'string',
-        description: 'The name of the court booking',
-      },
-      {
         name: 'member',
         title: 'Member',
         type: 'reference',

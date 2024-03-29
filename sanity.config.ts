@@ -6,6 +6,8 @@ import courtBooking from "./sanity/schemas/court-booking-schema";
 import user from "./sanity/schemas/user-schema";
 import topic from "./sanity/schemas/topic-schema";
 import interest from "./sanity/schemas/interest-schema";
+import comment from "./sanity/schemas/comment-schema";
+import post from "./sanity/schemas/post-schema";
 
 
 const config = defineConfig({
@@ -21,7 +23,7 @@ const config = defineConfig({
     basePath: "/admin",
     
     plugins: [structureTool()],
-    schema: { types: [event, court, courtBooking, user, topic, interest]}
+    schema: { types: [event, court, courtBooking, user, topic, interest, comment, post]}
 
 })
 

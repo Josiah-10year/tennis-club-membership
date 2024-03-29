@@ -5,7 +5,7 @@ type UserReference = {
     _ref: string;
 }
 
-type CourtReference = {
+type PostReference = {
     _type: 'reference';
     _ref: string;
 }
@@ -15,8 +15,8 @@ type CourtReference = {
 export type CourtBooking = {
     _id: string;
     _createdAt: string;
-    member: UserReference;
-    court: CourtReference;
-    location: string;
+    user: UserReference;
+    post: PostReference;
+    text: Text;
     content: PortableTextBlock[];
 }
