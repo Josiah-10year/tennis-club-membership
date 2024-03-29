@@ -15,8 +15,11 @@ type CourtReference = {
 export type CourtBooking = {
     _id: string;
     _createdAt: string;
-    member: UserReference;
+    user: UserReference;
     court: CourtReference;
-    location: string;
+    start: string;
+    end: string;
+    type: string;
+    numPeople: number;
     content: PortableTextBlock[];
 }

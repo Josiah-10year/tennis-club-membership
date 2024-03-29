@@ -22,8 +22,8 @@ export type User = {
     password: string;
     image: Image;
     bio: Text;
-    subscriptions: TopicReference;
-    interests: InterestReference;
+    subscriptions: Array<TopicReference>;
+    interests: Array<InterestReference>;
     role: string;
     content: PortableTextBlock[];
 }

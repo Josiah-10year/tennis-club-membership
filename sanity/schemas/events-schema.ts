@@ -4,24 +4,71 @@ const event = {
     type: 'document',
     fields: [
       {
-        name: 'name',
-        title: 'Name',
+        name: 'title',
+        title: 'Title',
         type: 'string',
+        validation: (Rule: { required: () => any }) => Rule.required(),
         description: 'The name of the event',
       },
       {
         name: 'slug',
         title: 'Slug',
         type: 'slug',
-        options: { source: 'name' },
+        options: { source: 'title' },
         description: 'The slug for the event URL',
       },
       {
-        name: 'date',
-        title: 'Date',
-        type: 'datetime',
-        description: 'The date and time of the event',
+        name: 'description',
+        title: 'Description',
+        type: 'text',
+        validation: (Rule: { required: () => any }) => Rule.required(),
+        description: 'Description of the event',
       },
+      {
+        name: 'start',
+        title: 'Start',
+        type: 'datetime',
+        initialValue: (new Date()).toISOString(),
+        validation: (Rule: { required: () => any }) => Rule.required()
+    },
+    {
+        name: 'end',
+        title: 'End',
+        type: 'datetime',
+        initialValue: (new Date()).toISOString(),
+        validation: (Rule: { required: () => any }) => Rule.required()
+    },
+    {
+      name: 'topic',
+      title: 'Topic',
+      description: 'The topic the event falls under',
+      type: 'reference',
+      to: [{type: 'topic'}],
+        options: {
+          layout: 'tags',
+        },
+      validation: (Rule: { required: () => any }) => Rule.required()
+  },
+  {
+      name: 'images',
+      title: 'Images',
+      type: 'array',
+      of: [
+          {
+              type: 'image',
+              options: {
+                  hotspot: true
+              }
+          }
+      ]
+  },
+  {
+      name: 'host',
+      title: 'Host',
+      type: 'string',
+      description: 'The party organising the event',
+      validation: (Rule: { required: () => any }) => Rule.required()
+  },
       {
         name: 'location',
         title: 'Location',
@@ -29,11 +76,20 @@ const event = {
         description: 'The location of the event',
       },
       {
-        name: 'description',
-        title: 'Description',
-        type: 'text',
-        description: 'Description of the event',
-      },
+        name: 'author',
+        title: 'Author',
+        type: 'array',
+        of: [
+            {
+                type: 'reference',
+                to: [{type: 'user'}],
+            }
+        ],
+        options: {
+            layout: 'tags',
+        },
+        validation: (Rule: { required: () => any }) => Rule.required().length(1)
+    },
     ],
   };
   

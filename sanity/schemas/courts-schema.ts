@@ -7,6 +7,7 @@ const court = {
         name: 'name',
         title: 'Name',
         type: 'string',
+        validation: (Rule: { required: () => any }) => Rule.required(),
         description: 'The name of the court',
       }
     ],

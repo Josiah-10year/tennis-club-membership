@@ -17,9 +17,10 @@ export type Post = {
     _createdAt: string;
     title: string;
     slug: string;
+    description: Text;
     timestamp: string;
     topic: TopicReference;
-    images: Image;
+    images: Array<Image>;
     author: UserReference;
     content: PortableTextBlock[];
 }

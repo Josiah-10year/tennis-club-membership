@@ -7,6 +7,7 @@ const post = {
         name: 'title',
         title: 'Title',
         type: 'string',
+        validation: (Rule: { required: () => any }) => Rule.required(),
         description: 'The title of the post',
         },
     {
@@ -20,12 +21,15 @@ const post = {
         name: 'description',
         title: 'Description',
         type: 'text',
+        validation: (Rule: { required: () => any }) => Rule.required(),
         description: 'The main text of the post',
         },
     {
         name: 'timestamp',
         title: 'Timestamp',
         type: 'datetime',
+        initialValue: (new Date()).toISOString(),
+        validation: (Rule: { required: () => any }) => Rule.required(),
         description: 'The date and time of the post',
         },
     {
@@ -33,19 +37,32 @@ const post = {
         title: 'Topic',
         type: 'reference',
         to: [{type: 'topic'}],
+        options: {
+          layout: 'tags',
+        },
+        validation: (Rule: { required: () => any }) => Rule.required(),
         description: 'The topic the post will be under',
         },
     {
         name: 'images',
         title: 'Images',
-        type: 'image',
+        type: 'array',
+        of: [
+            {
+                type: 'image',
+                options: {
+                    hotspot: true
+                }
+            }
+        ],
         description: 'The topic the post will be under',
-        },
+    },
     {
         name: 'author',
         title: 'Author',
         type: 'reference',
         to: [{type: 'user'}],
+        validation: (Rule: { required: () => any }) => Rule.required(),
         description: 'The topic the post will be under',
         },
     ],
