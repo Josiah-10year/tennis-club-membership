@@ -16,6 +16,8 @@ export default async function CourtBookings(){
             x=x+1
         }
 
+        courts.sort()
+
 
 
     return(

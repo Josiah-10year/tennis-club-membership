@@ -2,6 +2,7 @@ import { createClient, groq } from "next-sanity"
 import { Event } from "../types/Event"
 import { NoticeBoard } from "../types/NoticeBoard"
 import { Court } from "../types/Court"
+import { CourtBooking } from "../types/CourtBooking"
 
 export async function getEvents(): Promise<Event[]> {
     const client = createClient({
@@ -14,11 +15,12 @@ export async function getEvents(): Promise<Event[]> {
         groq`*[_type == "event"]{
             _id,
             _createdAt,
-            name,
+            title,
             "slug": slug.current,
-            date,
+            start,
+            end,
             location,
-            discription
+            description
         }`
     )
 }
@@ -38,7 +40,7 @@ export async function getEvent(slug: string): Promise<Event> {
           "slug": slug.current,
           date,
           location,
-          discription
+          description
       }`
   )
 }
@@ -78,4 +80,33 @@ export async function getCourts(): Promise<Court[]> {
             name
         }`
     )
+}
+
+///////////////////Functions to find if booking is there//////////////////////////
+/////////////////////////////////////////////////////////////////////
+
+export async function getCourtBookingClashes(slunameg: string, ): Promise<Event> {
+    const client = createClient({
+        projectId: "46b4kxer",
+        dataset: "production",
+        apiVersion: "2024-02-27"
+    })
+
+    return client.fetch(
+      groq`*[_type == "event"]{
+          _id,
+          _createdAt,
+          court: CourtReference;
+
+          "slug": slug.current,
+          _id: string;
+        _createdAt: string;
+        user: UserReference;
+        court: CourtReference;
+        start: string;
+        end: string;
+        type: string;
+        numPeople: number;
+      }`
+  )
 }
