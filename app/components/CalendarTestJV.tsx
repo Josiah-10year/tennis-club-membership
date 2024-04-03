@@ -6,6 +6,7 @@ import './CalendarTestJV.css'
 import {add, format} from 'date-fns'
 import { INTERVAL, STORE_CLOSING_TIME, STORE_OPENING_TIME } from '../constants/config'
 import { Court } from "@/types/Court";
+import Link from "next/link";
 
 
 
@@ -14,17 +15,19 @@ interface indexProps {
 }
 
 interface DateType{
-    courtName: String | null
+    courtName: string | null
     justDate: Date | null
     dateTime: Date | null
+    type: string | null
 }
 
-const index: FC<indexProps> =  ({stringArrayProp }) => {
+const index: FC<indexProps> =  ({stringArrayProp}) => {
 
     const [date, setDate] = useState<DateType>({
         courtName: null,
         justDate: null,
-        dateTime: null
+        dateTime: null,
+        type: null
     })
 
 
@@ -47,10 +50,12 @@ const index: FC<indexProps> =  ({stringArrayProp }) => {
     }
 
     const log_console = () =>{
-    console.log("Court: " + date.courtName + " Time: " + date.dateTime) } 
+        console.log("2 Court: " + date.courtName + " date: " + date.dateTime)
+    }
 
     const times = getTimes();
     const courts = stringArrayProp;
+    const choices = ["open","private"]
     
 
     return (
@@ -58,11 +63,31 @@ const index: FC<indexProps> =  ({stringArrayProp }) => {
         {date.courtName ? (
             date.justDate ? (
                 date.dateTime ?(
-
-                    <div>
-                        <p>Selection completed, info should then be sent to Sanity</p>
-                        <button onClick={log_console}>|Click here to log output the console|</button>
+                    date.type ?(
+                        <div>
+                    <Link 
+          
+                    href= {`/court_bookings/${encodeURIComponent(date.courtName)}/${encodeURIComponent(date.dateTime.toString())}/${encodeURIComponent(date.type)}`}
+                    key="test" 
+                    className="border border-grey-500 rounded-lg p-1 hover:scale-105 hover:border-green-500 transition"
+                    >
+                    <div className="text-gray-600 mb-2">
+                      Confirm your booking
+                    
                     </div>
+                    </Link>
+                    </div>
+                    ) : (
+                        <div className='flex gap-4'>
+                    {choices?.map((choice, i) => (
+                        <div key={`choice-${i}`} className= 'rounded-sm bg-gray-100 p-2'>
+                            <button type='button' onClick={() => setDate((prev) => ({...prev, type: choice}))}>
+                            {choice}
+                            </button>
+                        </div>
+                    ))}
+                </div>
+                    )
                     
 
                 ):(

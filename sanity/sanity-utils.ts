@@ -85,7 +85,7 @@ export async function getCourts(): Promise<Court[]> {
 ///////////////////Functions to find if booking is there//////////////////////////
 /////////////////////////////////////////////////////////////////////
 
-export async function getCourtBookingClashes(slunameg: string, ): Promise<Event> {
+export async function getCourtBookingClashes(start: string, court: string): Promise<Event> {
     const client = createClient({
         projectId: "46b4kxer",
         dataset: "production",
@@ -93,20 +93,14 @@ export async function getCourtBookingClashes(slunameg: string, ): Promise<Event>
     })
 
     return client.fetch(
-      groq`*[_type == "event"]{
+      groq`*[_type == "booking"]{
           _id,
           _createdAt,
-          court: CourtReference;
-
-          "slug": slug.current,
-          _id: string;
-        _createdAt: string;
-        user: UserReference;
-        court: CourtReference;
-        start: string;
-        end: string;
-        type: string;
-        numPeople: number;
+          court: this.court,
+          start,
+          end,
+          type,
+          numPeople
       }`
   )
 }
