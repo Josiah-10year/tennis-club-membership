@@ -19,7 +19,8 @@ export default async function CourtBookings({params}: Props){ // in () put
     const formattedDatetime = dateObj.toISOString();
     const formattedEndDatetime = endDatetime.toISOString();
     const decodedType = decodeURIComponent(params.type)
-    const decodedNumPersons = params.numPersons
+    const decodedNumPersons = parseInt(params.numPersons.toString(), 10); // Parse as integer
+
 
     //prep courtname to get id to use in booking query
     const courtlist : Court[] = await getCourtID(decodedCourtName.toString());
@@ -32,7 +33,8 @@ export default async function CourtBookings({params}: Props){ // in () put
 
     //we also need to pull the user id but for now
     const userID = "68028cac-7cde-4489-be2c-a601df250af0"
-    
+    console.log("hi")
+    console.log("Bookings:", bookings);
     if(bookings.length > 0){
 
         //firstly we only want to go here if the person wants an open booking
@@ -47,11 +49,14 @@ export default async function CourtBookings({params}: Props){ // in () put
                 //traverse and tally up
                 let sum = 0
                 for (const booking of bookings) {
-                    sum = sum + booking.numPeople
+                    sum += booking.numPeople
                 }
-
+                console.log("Sum after existing bookings:", sum);console.log("Sum after existing bookings:", sum);
+                
+                sum += decodedNumPersons
+                console.log("Sum after adding new booking:", sum);
                 //now this sum must be compatible with number of people we are trying to let in the booking i.e. open is max 4
-                if((sum + decodedNumPersons) <= 4){
+                if(sum <= 4){
                     // we can join the open booking
                     const done = await addCourtBookings(courtID, formattedDatetime, formattedEndDatetime, decodedType, decodedNumPersons, userID )
 
@@ -60,9 +65,7 @@ export default async function CourtBookings({params}: Props){ // in () put
                     }else{
                         output = "Error creating booking. The booking could not be made at this time. Check the console for more details"
                     }
-
-                }
-                else{
+                }else{
                     //there are too many people in the open booking
                     output = "Error, Cannot Book. An open booking is available but you have too many persons to join this session"
                 }

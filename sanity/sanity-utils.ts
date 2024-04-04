@@ -6,6 +6,10 @@ import { CourtBooking } from "../types/CourtBooking"
 import { Topic } from "../types/Topic"
 import { User } from "@/types/User"
 
+
+const token = "skc7uoGs1D3dTG4DlvaLaTnZZGEGDerzo0hc9qo1R53iiE6gYsG5XMX4RR1fNLCvS9gx8qOXTzsIGgfHgqMO0LEOpw150EBQEXaKRb04V8pj1D6TSXfi2x98LZL3Ls0qybA5qguOU0hm4zv4sTZfHo0L6OF6fgI6PKAIzFlFuwEDE8QVkvc9"
+
+
 const client = createClient({
     projectId: "46b4kxer",
     dataset: "production",
@@ -78,7 +82,7 @@ export async function getCourtBookings(datetime:string, courtID:string): Promise
     })
 
     return client.fetch(
-      groq`*[_type == "booking" && start == $datetime && court._ref == $courtID]{
+      groq`*[_type == "booking" && start >= $datetime && court._ref == $courtID]{
           _id,
           _createdAt,
           court,
@@ -110,7 +114,8 @@ export async function addCourtBookings(courtID: string, startDatetime: string, e
     const client = createClient({
         projectId: "46b4kxer",
         dataset: "production",
-        apiVersion: "2024-02-27"
+        apiVersion: "2024-02-27",
+        token: token
     })
 
     try {
