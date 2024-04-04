@@ -1,5 +1,30 @@
-
+import { getAllTopics, getAllInterests, getUser } from "../../sanity/sanity-utils";
+import Topics from "../components/TopicsSH"
+import Interests from "../components/InterestsSH"
 export default async function Register() {
+  // const admin = await getUser();
+  // console.log(admin[0].subscriptions[0]);
+  const topics = await getAllTopics();
+
+  const topicsArray : string[] = []
+  let x = 0;
+
+  for (const item of topics) {
+    topicsArray[x]=(item.name);
+    // console.log(item._id)
+    x=x+1
+  }
+
+  const interests = await getAllInterests();
+
+  const interestsArray : string[] = []
+  x = 0;
+
+  for (const item of interests) {
+    interestsArray[x]=(item.name);
+    x=x+1
+  }
+
   return (
     <div className="relative">
       <div className="w-full h-[400px] relative">
@@ -11,7 +36,7 @@ export default async function Register() {
           <h3 className="font-site text-lg my-3">Account Details</h3>
             <div className="flex flex-col sm:flex-row sm:gap-12">
               <div className="basis-1/2">
-                <label className="text-xs" htmlFor="name">
+                <label className="text-xs" htmlFor="first">
                   First Name *
                 </label>
                 <input
@@ -31,19 +56,19 @@ export default async function Register() {
                   id="email"
                   required={true}
                 />
-                <label className="text-xs" htmlFor="password">
-                  Password *
+                <label className="text-xs" htmlFor="username">
+                  Username *
                 </label>
-                <input
-                  className="input"
-                  type="password"
-                  name="password"
-                  id="password"
+                <input 
+                  className="input" 
+                  type="text" 
+                  name="username" 
+                  id="username"
                   required={true}
                 />
               </div>
               <div className="basis-1/2">
-                <label className="text-xs" htmlFor="name">
+                <label className="text-xs" htmlFor="last">
                   Last Name *
                 </label>
                 <input 
@@ -63,19 +88,18 @@ export default async function Register() {
                   id="phone"
                   required={true} 
                 />
+                <label className="text-xs" htmlFor="password">
+                  Password *
+                </label>
+                <input
+                  className="input"
+                  type="password"
+                  name="password"
+                  id="password"
+                  required={true}
+                />
               </div>
             </div>
-            {/* <label className="text-xs" htmlFor="address">
-              Address
-            </label>
-            <input 
-              className="input" 
-              type="text" 
-              name="address" 
-              id="address" /> */}
-            {/* <button className="btn-main w-full mt-6 text-xl" type="submit">
-              Apply
-            </button> */}
             <h3 className="font-site text-lg my-3">Profile Setup</h3>
             <div className="flex flex-col sm:flex-row sm:gap-12">
               <div className="basis-1/2">
@@ -104,32 +128,9 @@ export default async function Register() {
                   style={{resize: 'none', borderWidth: '1px'}}
                 />
               </div>
-              <div className="basis-1/2">
-                <label className="text-xs" htmlFor="subscriptions">
-                  Topic Subscriptions
-                </label>
-                <br></br>
-                <input
-                  // className="input"
-                  type="checkbox"
-                  name="subscription"
-                  id="subscription"
-                  multiple
-                />
-                <label htmlFor="subscription">Sample Topic</label>
-                <br></br>
-                Fetch topics from Sanity and display as checkbox options
-              </div>
+              <Topics topicsArrayProp={topicsArray}/>
             </div>
-            <div className="flex flex-col sm:flex-row sm:gap-12">
-            <label className="text-xs" htmlFor="interests">
-                  Interests
-                </label>
-                <br></br>
-                <span className="tag-cloud">Sample Interest</span>
-                <br></br>
-                Fetch interests from Sanity and display as selectable tags
-            </div>
+            <Interests interestsArrayProp={interestsArray}/>
             <div className="flex flex-col sm:flex-row sm:gap-12">
               <div className="basis-1/2">
                 <button className="btn-sec w-full mt-6 text-xl" type="reset">
