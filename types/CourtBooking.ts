@@ -1,4 +1,5 @@
 import { PortableTextBlock } from "sanity";
+import { User } from "./User";
 
 type UserReference = {
     _type: 'reference';
