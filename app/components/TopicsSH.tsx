@@ -1,8 +1,13 @@
 "use client"
 import { FC } from 'react'
 
+type Topic = {
+    name: string,
+    _id: string
+}
+
 interface indexProps {
-    topicsArrayProp: string[];
+    topicsArrayProp: Topic[];
 }
 
 const index: FC<indexProps> =  ({ topicsArrayProp }) => {
@@ -14,9 +19,9 @@ const index: FC<indexProps> =  ({ topicsArrayProp }) => {
                   Topic Subscriptions
             </label>
             {topics?.map((topic, i) => (
-                <div key={`topic-${i}`}>
-                    <input className="input" type="checkbox" key={`topic-${i}`}/>
-                    <label htmlFor={`topic-${i}`}>{topic}</label>
+                <div key={`topic._id-${i}`}>
+                    <input className="text-xs topic" value={topic._id} type="checkbox" key={`topic._id-${i}`}/>
+                    <label className="text-xs" htmlFor={`topic._id-${i}`}> {topic.name}</label>
                 </div>
             ))}
         </div>
