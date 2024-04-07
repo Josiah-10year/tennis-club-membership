@@ -1,3 +1,12 @@
+*:disabled {
+  background-color: dimgrey;
+  /* background-color: red; */
+  /* color: linen; */
+  color: linen;
+  /* color: red; */
+  opacity: 1;
+}
+
 .react-calendar {
     width: 450px;
     max-width: 100%;

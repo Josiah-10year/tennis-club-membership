@@ -74,15 +74,42 @@ export async function getCourts(): Promise<Court[]> {
 ///////////////////Functions to find if booking is there//////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
 
+export async function getCourtBookingsAfterToday(): Promise<CourtBooking[]> {
+    const client = createClient({
+        projectId: "46b4kxer",
+        dataset: "production",
+        apiVersion: "2024-02-27",
+        useCdn: false
+    });
+
+    // Get today's date at 12 am
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    return client.fetch(
+        groq`*[_type == "booking" && start >= $datetime]{
+            _id,
+            _createdAt,
+            court,
+            start,
+            end,
+            type,
+            numPeople
+        }`,
+        { datetime: today.toISOString() }
+    );
+}
+
 export async function getCourtBookings(datetime:string, courtID:string): Promise<CourtBooking[]> { //, type: string, numPersons: number, courtName:string
     const client = createClient({
         projectId: "46b4kxer",
         dataset: "production",
-        apiVersion: "2024-02-27"
+        apiVersion: "2024-02-27",
+        useCdn: false
     })
 
     return client.fetch(
-      groq`*[_type == "booking" && start >= $datetime && court._ref == $courtID]{
+      groq`*[_type == "booking" && start == $datetime && court._ref == $courtID]{
           _id,
           _createdAt,
           court,
@@ -115,7 +142,8 @@ export async function addCourtBookings(courtID: string, startDatetime: string, e
         projectId: "46b4kxer",
         dataset: "production",
         apiVersion: "2024-02-27",
-        token: token
+        token: token,
+        useCdn: false
     })
 
     try {

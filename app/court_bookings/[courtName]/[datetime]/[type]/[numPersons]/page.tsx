@@ -29,12 +29,9 @@ export default async function CourtBookings({params}: Props){ // in () put
 
     //now pull bookings that match the timeslot and court
     const bookings = await getCourtBookings(formattedDatetime.toString(), courtID.toString()); //, decodedType.toString(), decodedNumPersons, decodedCourtName.toString()
-    console.log(bookings)
 
     //we also need to pull the user id but for now
     const userID = "68028cac-7cde-4489-be2c-a601df250af0"
-    console.log("hi")
-    console.log("Bookings:", bookings);
     if(bookings.length > 0){
 
         //firstly we only want to go here if the person wants an open booking
@@ -48,13 +45,15 @@ export default async function CourtBookings({params}: Props){ // in () put
                 //this means that there is an open booking for us in that time slot, we just need to verify the number of persons
                 //traverse and tally up
                 let sum = 0
+                console.log("Sum: " + sum)
                 for (const booking of bookings) {
+                    console.log("Booking num persons: " + booking.numPeople)
                     sum += booking.numPeople
+
                 }
-                console.log("Sum after existing bookings:", sum);console.log("Sum after existing bookings:", sum);
-                
+                console.log("Sum + bookings: " + sum)
                 sum += decodedNumPersons
-                console.log("Sum after adding new booking:", sum);
+                console.log("Sum + this number of persons: " + sum)
                 //now this sum must be compatible with number of people we are trying to let in the booking i.e. open is max 4
                 if(sum <= 4){
                     // we can join the open booking
