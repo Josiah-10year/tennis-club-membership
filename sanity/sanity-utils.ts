@@ -182,9 +182,9 @@ export async function getAllInterests(): Promise<Interest[]> {
     )
 }
 
-export async function getAllUsers(): Promise<User[]> {
+export async function getAllUsersUsernameAndEmail(): Promise<User[]> {
     return client.fetch(
-        groq`*[_type == "user"]`
+        groq`*[_type == "user"]{username, email}`
     )
 }
 

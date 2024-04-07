@@ -5,9 +5,6 @@ import { FC } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Topics from "../components/TopicsSH"
 import Interests from "../components/InterestsSH"
-import { URL } from "url";
-import { InputType } from "zlib";
-import { File } from "buffer";
 
 type Topic = {
     name: string,
@@ -19,14 +16,21 @@ type Interest = {
     _id: string
 }
 
+type User = {
+    username: {_type: string, current: string},
+    email: string
+}
+
 interface indexProps {
     topicsArrayProp: Topic[];
     interestsArrayProp: Interest[];
+    userArrayProp: User[]
 }
 
-const index: FC<indexProps> =  ({ topicsArrayProp, interestsArrayProp }) => {
+const index: FC<indexProps> =  ({ topicsArrayProp, interestsArrayProp, userArrayProp }) => {
     const topics = topicsArrayProp;
     const interests = interestsArrayProp;
+    const userInfo = userArrayProp;
     const [FormInput, setFormData] = useState() 
     
     interface FormInput{
@@ -51,8 +55,7 @@ const index: FC<indexProps> =  ({ topicsArrayProp, interestsArrayProp }) => {
         handleSubmit, 
         watch,
         formState: {errors}
-    } = useForm<FormInput>(
-        {
+    } = useForm<FormInput>({
         defaultValues: {
             firstname: "",
             lastname: "",
@@ -63,34 +66,48 @@ const index: FC<indexProps> =  ({ topicsArrayProp, interestsArrayProp }) => {
             bio: "",
             interests: []
         }
-        }
-    );
+    });
 
     // Function for handling the form submission
     const onSubmit: SubmitHandler<FormInput> = (data) => {
-        const selectedTopics: string[] = [];
-        const topics = document.querySelectorAll('input.topic[type="checkbox"]:checked') as unknown as HTMLInputElement[];
-        topics.forEach((subscription) => {
-            selectedTopics.push(subscription.value);
-        });
+        let error: boolean = false
+        userInfo.forEach((user) => {
+            if (user.username.current === data.username){
+                error = true
+                return (window.alert("SUBMISSION ERROR\nThe username you have entered is already taken.\nPlease enter another username."))
+            }
+            else if (user.email === data.email){
+                error = true
+                return (window.alert("SUBMISSION ERROR\nAn account with this email already exists\nPlease use another email."))
+            }
+        })
+        if(!error){
+            const selectedTopics: string[] = [];
+            const topics = document.querySelectorAll('input.topic[type="checkbox"]:checked') as unknown as HTMLInputElement[];
+            topics.forEach((subscription) => {
+                selectedTopics.push(subscription.value);
+            });
 
-        const selectedInterests: string[] = [];
-        const interests = document.querySelectorAll('input.interest[type="checkbox"]:checked') as unknown as HTMLInputElement[];
-        interests.forEach((interest) => {
-            selectedInterests.push(interest.value);
-        });
-        registerUser(
-            data.firstname, 
-            data.lastname, 
-            data.email, 
-            data.phone, 
-            data.username, 
-            data.password, 
-            data.image, 
-            data.bio,
-            selectedTopics,
-            selectedInterests
-        )
+            const selectedInterests: string[] = [];
+            const interests = document.querySelectorAll('input.interest[type="checkbox"]:checked') as unknown as HTMLInputElement[];
+            interests.forEach((interest) => {
+                selectedInterests.push(interest.value);
+            });
+
+            registerUser(
+                data.firstname, 
+                data.lastname, 
+                data.email, 
+                data.phone, 
+                data.username, 
+                data.password, 
+                data.image, 
+                data.bio,
+                selectedTopics,
+                selectedInterests
+            )
+            return (window.alert("CONGRATULATIONS!\nYou have been registered successfully.\nYou are now a member of the St. Augustine Recreational Club!"))
+        }
     }
 
     if (isSubmitting) {
