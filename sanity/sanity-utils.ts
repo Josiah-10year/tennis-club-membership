@@ -4,7 +4,11 @@ import { NoticeBoard } from "../types/NoticeBoard"
 import { Court } from "../types/Court"
 import { CourtBooking } from "../types/CourtBooking"
 import { Topic } from "../types/Topic"
+import { Interest } from "../types/Interest"
 import { User } from "@/types/User"
+import { Result } from "postcss"
+import {basename} from 'path'
+import {createReadStream} from 'fs'
 
 
 const token = "skc7uoGs1D3dTG4DlvaLaTnZZGEGDerzo0hc9qo1R53iiE6gYsG5XMX4RR1fNLCvS9gx8qOXTzsIGgfHgqMO0LEOpw150EBQEXaKRb04V8pj1D6TSXfi2x98LZL3Ls0qybA5qguOU0hm4zv4sTZfHo0L6OF6fgI6PKAIzFlFuwEDE8QVkvc9"
@@ -13,7 +17,8 @@ const token = "skc7uoGs1D3dTG4DlvaLaTnZZGEGDerzo0hc9qo1R53iiE6gYsG5XMX4RR1fNLCvS
 const client = createClient({
     projectId: "46b4kxer",
     dataset: "production",
-    apiVersion: "2024-02-27"
+    apiVersion: "2024-02-27",
+    token: token
 })
 
 //FETCH
@@ -123,12 +128,6 @@ export async function getCourtBookings(datetime:string, courtID:string): Promise
 }
 
 export async function getCourtID(courtName:string): Promise<Court[]> { 
-    const client = createClient({
-        projectId: "46b4kxer",
-        dataset: "production",
-        apiVersion: "2024-02-27"
-    })
-
     return client.fetch(
       groq`*[_type == "court" && name == $courtName]{
           _id
@@ -177,32 +176,81 @@ export async function getAllTopics(): Promise<Topic[]> {
     )
 }
 
-export async function getAllInterests(): Promise<Topic[]> {
+export async function getAllInterests(): Promise<Interest[]> {
     return client.fetch(
         groq`*[_type == "interest"]{name, _id}`
     )
 }
 
-export async function getUser(): Promise<User[]> {
+export async function getAllUsers(): Promise<User[]> {
     return client.fetch(
         groq`*[_type == "user"]`
     )
 }
 
-import {randomKey} from '@sanity/util/content'
 // POST
-export async function createUser(){
-    client.create({
-        _type: 'user',
-        title: 'Some book title',
-        interests: [
-            {
-                _type: 'reference',
-                _ref: 'id-of-author-document'
-            }
-        ]
-      })
-      .then(result => {
-        console.log(`Created book with id: ${result._id}`)
-      })
+import { randomKey } from '@sanity/util/content'
+export async function registerUser(first: string, last: string, email: string, phone: string, username: string, password: string, assetList: FileList, bio: string, topicIds: string[], interestIds: string[]): Promise<boolean> {
+    const subscriptions: Object[] = []
+    let x = 0
+    for (const id of topicIds){
+        subscriptions[x]= {_type: "reference", _ref: id, _key: randomKey(12)}
+        x=x+1
+    }
+    
+    const interests: Object[] = []
+    x = 0
+    for (const id of interestIds){
+        interests[x]= {_type: "reference", _ref: id, _key: randomKey(12)}
+        x=x+1
+    }
+    
+    try {
+        if (assetList.length != 0){
+            client.assets.upload('image', assetList[0])
+            .then(async (assetDocument) => {
+                const res = await client.create({
+                    _type: 'user',
+                    firstName: first,
+                    lastName: last,
+                    email: email,
+                    phone: phone,
+                    username: {_type: 'slug', current: username},
+                    password: password,
+                    image: {
+                        _type: "image",
+                        asset:{
+                        _ref: assetDocument._id,
+                        _type:"reference"
+                        }
+                    },
+                    bio: bio,
+                    role: "user",
+                    subscriptions: subscriptions,
+                    interests: interests
+                })
+            })
+        }
+        else{
+            const res = await client.create({
+                _type: 'user',
+                firstName: first,
+                lastName: last,
+                email: email,
+                phone: phone,
+                username: {_type: 'slug', current: username},
+                password: password,
+                bio: bio,
+                role: "user",
+                subscriptions: subscriptions,
+                interests: interests
+            })
+        }
+    }
+    
+    catch (error) {
+        console.error('Error creating user:', error);
+        return false;
+    }
+    return false
 }
