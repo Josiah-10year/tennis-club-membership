@@ -1,11 +1,12 @@
 import { createClient, groq } from "next-sanity"
 import { Event } from "../types/Event"
-import { NoticeBoard } from "../types/NoticeBoard"
+import { Comment } from "../types/Comment"
 import { Court } from "../types/Court"
 import { CourtBooking } from "../types/CourtBooking"
 import { Topic } from "../types/Topic"
 import { Interest } from "../types/Interest"
 import { User } from "@/types/User"
+import {Post} from '../types/Post'
 import { Result } from "postcss"
 import {basename} from 'path'
 import {createReadStream} from 'fs'
@@ -49,18 +50,6 @@ export async function getEvent(slug: string): Promise<Event> {
           description
       }`
   )
-}
-
-export async function getNoticeBoards(): Promise<NoticeBoard[]> {
-    return client.fetch(
-        groq`*[_type == "noticeBoard"]{
-            _id,
-            _createdAt,
-            name,
-            "slug": slug.current,
-            
-        }`
-    )
 }
 
 ///////////////////Functions to pull courts//////////////////////////
@@ -254,3 +243,42 @@ export async function registerUser(first: string, last: string, email: string, p
     }
     return false
 }
+
+export async function getPosts(): Promise<Post[]> {
+        return client.fetch(
+            groq`*[_type == "post"]{
+                _id,
+                _createdAt,
+                title,
+                "slug": slug.current,
+                description,
+                "topic": topic->{_id, title, "slug": slug.current},
+                images,
+                "author": author->name
+            }`
+        );
+    }
+
+    export async function getComments(): Promise<Comment[]> {
+        return client.fetch(
+            `
+            *[_type == "comment"]{
+                _id,
+                _createdAt,
+                user->{
+                    _id,
+                    name,
+                    // Add other user fields as needed
+                },
+                post->{
+                    _id,
+                    title,
+                    // Add other post fields as needed
+                },
+                text
+            }
+            `
+        );
+    }
+
+    import { useRouter } from 'next/router';
