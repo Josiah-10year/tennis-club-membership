@@ -1,3 +1,4 @@
+//JV & JT - events 
 import { Image, PortableTextBlock } from "sanity";
 
 type TopicReference = {
