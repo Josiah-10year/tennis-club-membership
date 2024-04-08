@@ -252,7 +252,6 @@ export async function getPosts(): Promise<Post[]> {
                 title,
                 "slug": slug.current,
                 description,
-                "topic": topic->{_id, title, "slug": slug.current},
                 images,
                 "author": author->name
             }`
