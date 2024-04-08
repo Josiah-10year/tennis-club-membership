@@ -1,4 +1,3 @@
-"use client"
 import { use } from "react";
 import { getPosts } from "../../sanity/sanity-utils";
 import Link from "next/link";
@@ -14,7 +13,6 @@ export default async function Posts() {
                     <div key={post._id} className="border p-4 rounded">
                         <h2 className="text-xl font-bold">{post.title}</h2>
                         <p className="text-gray-500">{post.description}</p>
-                        <p className="text-sm text-gray-400 mt-2">Topic: {post.topic}</p>
                         <p className="text-sm text-gray-400 mt-2">Author: {post.author}</p>
                         {/* You can display images here if needed */}
                     </div>
