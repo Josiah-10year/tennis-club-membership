@@ -3,8 +3,8 @@ import { registerUser } from "../../sanity/sanity-utils";
 import { useState } from "react";
 import { FC } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import Topics from "../components/TopicsSH"
-import Interests from "../components/InterestsSH"
+import Topics from "../components/TopicsSH";
+import Interests from "../components/InterestsSH";
 import { URL } from "url";
 import { InputType } from "zlib";
 import { File } from "buffer";
@@ -24,11 +24,10 @@ interface indexProps {
     interestsArrayProp: Interest[];
 }
 
-const Index: FC<indexProps> =  ({ topicsArrayProp, interestsArrayProp }) => {
+const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp }) => {
     const topics = topicsArrayProp;
     const interests = interestsArrayProp;
     const [FormInput, setFormData] = useState<FormInput | undefined>(undefined);
-    
     interface FormInput{
         firstname: string,
         lastname: string,
