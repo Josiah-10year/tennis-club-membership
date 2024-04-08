@@ -1,33 +1,20 @@
-/* @tailwind components;
+footer {
+  background-color: #007bff;
+  color: #fff;
+}
 
-@layer components {
-  .footer-form-field {
-    @apply my-1;
-  }
+footer a {
+  color: #fff;
+  text-decoration: none;
+}
 
-  .footer-form-label {
-    @apply text-sm;
-    @apply mb-3;
-    @apply inline-block;
-  }
+footer a:hover {
+  color: #004985;
+}
 
-  .footer-form-label[aria-required]::after {
-    content: ' *';
+/* Additional styles for responsiveness */
+@media (max-width: 640px) {
+  .footer-nav-wrap {
+    justify-content: center;
   }
-
-  .footer-form-input {
-    @apply block;
-    @apply w-full;
-    @apply px-3;
-    @apply py-1;
-    @apply text-black;
-    @apply border;
-    @apply border-2;
-    @apply border-black;
-    @apply rounded-none;
-    @apply bg-transparent;
-    @apply focus:border-black;
-    @apply focus:ring-black text-xs;
-    @apply leading-5;
-  }
-} */
+}
