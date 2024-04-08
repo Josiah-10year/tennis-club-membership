@@ -24,10 +24,10 @@ interface indexProps {
     interestsArrayProp: Interest[];
 }
 
-const index: FC<indexProps> =  ({ topicsArrayProp, interestsArrayProp }) => {
+const Index: FC<indexProps> =  ({ topicsArrayProp, interestsArrayProp }) => {
     const topics = topicsArrayProp;
     const interests = interestsArrayProp;
-    const [FormInput, setFormData] = useState() 
+    const [FormInput, setFormData] = useState<FormInput | undefined>(undefined);
     
     interface FormInput{
         firstname: string,
@@ -51,7 +51,7 @@ const index: FC<indexProps> =  ({ topicsArrayProp, interestsArrayProp }) => {
         handleSubmit, 
         watch,
         formState: {errors}
-    } = useForm<FormInput>(
+    } = useForm< FormInput>(
         {
         defaultValues: {
             firstname: "",
@@ -67,7 +67,7 @@ const index: FC<indexProps> =  ({ topicsArrayProp, interestsArrayProp }) => {
     );
 
     // Function for handling the form submission
-    const onSubmit: SubmitHandler<FormInput> = (data) => {
+    const onSubmit: SubmitHandler< FormInput> = (data) => {
         const selectedTopics: string[] = [];
         const topics = document.querySelectorAll('input.topic[type="checkbox"]:checked') as unknown as HTMLInputElement[];
         topics.forEach((subscription) => {
@@ -238,4 +238,4 @@ const index: FC<indexProps> =  ({ topicsArrayProp, interestsArrayProp }) => {
     );
 }
 
-export default index
+export default Index
