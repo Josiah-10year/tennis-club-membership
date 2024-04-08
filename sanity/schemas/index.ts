@@ -1,11 +1,18 @@
+//bookings
 import booking from './court-booking-schema'
-import comment from './comment-schema'
 import court from './courts-schema'
+//events calender
 import event from './events-schema'
-import interest from './interest-schema'
+//Post Board
 import post from './post-schema'
-import topic from './topic-schema'
+import comment from './comment-schema'
+//user
 import user from './user-schema'
+//??
+import interest from './interest-schema'
+import topic from './topic-schema'
+
+
 
 const schemas = [booking, comment, court, event, interest, post, topic, user];
 
