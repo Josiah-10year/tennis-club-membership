@@ -1,5 +1,4 @@
 import { Image, PortableTextBlock } from "sanity";
-
 type TopicReference = {
     _type: 'reference';
     _ref: string;
@@ -17,10 +16,8 @@ export type Post = {
     _createdAt: string;
     title: string;
     slug: string;
-    description: Text;
-    timestamp: string;
-    topic: TopicReference;
-    images: Array<Image>;
-    author: UserReference;
-    content: PortableTextBlock[];
-}
+    description: string;
+    topic: string;
+    images: Array<{ asset: { _ref: string } }>;
+    author: string;
+};

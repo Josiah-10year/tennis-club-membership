@@ -25,14 +25,6 @@ const post = {
         description: 'The main text of the post',
         },
     {
-        name: 'timestamp',
-        title: 'Timestamp',
-        type: 'datetime',
-        initialValue: (new Date()).toISOString(),
-        validation: (Rule: { required: () => any }) => Rule.required(),
-        description: 'The date and time of the post',
-        },
-    {
         name: 'topic',
         title: 'Topic',
         type: 'reference',

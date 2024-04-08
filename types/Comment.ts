@@ -13,11 +13,18 @@ type PostReference = {
 
 //then fetch user based on reference value
 
-export type CourtBooking = {
+export interface Comment {
     _id: string;
     _createdAt: string;
-    user: UserReference;
-    post: PostReference;
-    text: Text;
-    content: PortableTextBlock[];
+    user: {
+        _id: string;
+        name: string;
+        // Add other user fields as needed
+    };
+    post: {
+        _id: string;
+        title: string;
+        // Add other post fields as needed
+    };
+    text: string;
 }
