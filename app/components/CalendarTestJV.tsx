@@ -25,7 +25,7 @@ interface DateType{
     numPersons: number | null
 }
 
-const index: FC<indexProps> =  ({stringArrayProp, fullyBookedDates, courtBookingsArray}) => {
+const Index: FC<indexProps> =  ({stringArrayProp, fullyBookedDates, courtBookingsArray}) => {
 
     console.log(courtBookingsArray)
 
@@ -257,4 +257,4 @@ const isDisabledNumber = (num: number, dateTime: Date | null): boolean => {
     )
 }
 
-export default index
+export default Index
