@@ -1,3 +1,4 @@
+//comment for post Board
 const comment = {
     name: 'comment',
     title: 'Comment',
