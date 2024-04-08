@@ -4,6 +4,7 @@ import { useState } from "react";
 import { FC } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Topics from "../components/TopicsSH";
+import { User } from "../../types/User";
 import Interests from "../components/InterestsSH";
 import { URL } from "url";
 import { InputType } from "zlib";
@@ -22,6 +23,7 @@ type Interest = {
 interface indexProps {
     topicsArrayProp: Topic[];
     interestsArrayProp: Interest[];
+    userArrayProp: User[];
 }
 
 const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp }) => {
