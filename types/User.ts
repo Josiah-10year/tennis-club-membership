@@ -9,7 +9,10 @@ type InterestReference = {
     _type: 'reference';
     _ref: string;
 }
-
+ type Slug = {
+    _type: 'slug',
+    current: string
+ }
 //then fetch user based on reference value
 
 export type User = {
@@ -17,7 +20,7 @@ export type User = {
     _createdAt: string;
     firstName: string;
     lastName: string;
-    username: string;
+    username: Slug;
     email: string;
     phone: string;
     password: string;

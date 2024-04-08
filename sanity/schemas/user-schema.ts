@@ -32,6 +32,13 @@ const user = {
         description: 'The phone number of the user',
       },
       {
+        name: 'username',
+        title: 'Username',
+        type: 'slug',
+        validation: (Rule: { required: () => any }) => Rule.required(),
+        description: 'The username of the user',
+      },
+      {
         name: 'password',
         title: 'Password',
         type: 'string',
