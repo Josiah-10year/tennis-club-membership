@@ -4,7 +4,7 @@ import { PortableTextBlock } from "sanity";
 type UserReference = {
     _type: 'reference';
     _ref: string;
-}
+}  
 
 type PostReference = {
     _type: 'reference';
