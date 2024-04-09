@@ -2,7 +2,7 @@
 import { getEvents } from "../../sanity/sanity-utils";
 import Link from "next/link";
 
-export default async function About() {
+export default async function Event() {
   const events = await getEvents();
   console.log(events)
 
