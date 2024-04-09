@@ -25,9 +25,9 @@ interface DateType{
     numPersons: number | null
 }
 
-const Index: FC<indexProps> =  ({stringArrayProp, fullyBookedDates, courtBookingsArray}) => {
+const index: FC<indexProps> =  ({stringArrayProp, fullyBookedDates, courtBookingsArray}) => {
 
-    console.log(courtBookingsArray)
+    //console.log(courtBookingsArray)
 
     const [date, setDate] = useState<DateType>({
         courtName: null,
@@ -68,47 +68,48 @@ const Index: FC<indexProps> =  ({stringArrayProp, fullyBookedDates, courtBooking
     const numPersonsArray = [1,2,3,4,5,6,7,8,9,10]
 
     const isDisabled = (time: Date, selectedDate: Date | null): boolean => {
-        if (!selectedDate) return false; // If no date selected, all slots are enabled
-        const courtBookingsArray2 = [...courtBookingsArray];
-        const dateTime = new Date(selectedDate);
-        dateTime.setHours(time.getHours(), time.getMinutes(), 0, 0); // Merge date and time
-        const formattedDateTime = dateTime.toISOString(); // Convert to ISO format
-
+        // If no date selected, all slots are enabled
+        if (!selectedDate) return false;
+    
+        // Merge date and time to create the target date-time for comparison
+        const targetDateTime = new Date(selectedDate);
+        targetDateTime.setHours(time.getHours(), time.getMinutes(), 0, 0);
+    
+        // Convert target date-time to ISO string for comparison
+        const formattedDateTime = targetDateTime.toISOString();
+    
         // Filter bookings for the selected date and time slot
-        const bookingsForSelectedDateTime = courtBookingsArray2.filter(
+        const bookingsForSelectedDateTime = courtBookingsArray.filter(
             booking => {
+                // Convert booking start time to Date object for comparison
                 const bookingDateTime = new Date(booking.start);
-                // Compare year, month, day, hour, and minute
-                return (
-                    dateTime.getFullYear() === bookingDateTime.getFullYear() &&
-                    dateTime.getMonth() === bookingDateTime.getMonth() &&
-                    dateTime.getDate() === bookingDateTime.getDate() &&
-                    dateTime.getHours() === bookingDateTime.getHours() &&
-                    dateTime.getMinutes() === bookingDateTime.getMinutes()
-                );
+    
+                // Check if booking start time matches the target date-time
+                return bookingDateTime.toISOString() === formattedDateTime;
             }
         );
-
-        // Check if there are any bookings for the selected date and time slot
+    
+        // If there are no bookings, slot is available
         if (bookingsForSelectedDateTime.length === 0) {
-            return false; // No bookings, slot is available
+            return false;
         }
-
-        // Check if there is any private booking for the selected date and time slot
+    
+        // Check if there is any private booking, if yes, slot is disabled
         const hasPrivateBooking = bookingsForSelectedDateTime.some(booking => booking.type === 'private');
         if (hasPrivateBooking) {
-            return true; // Private booking exists, slot is disabled
+            return true;
         }
-
-        // Check if there is any open booking for the selected date and time slot
-        const totalPersonsForSelectedTime = bookingsForSelectedDateTime.reduce(
+    
+        // Calculate total number of people for open bookings
+        const totalPersonsForOpenBookings = bookingsForSelectedDateTime.reduce(
             (total, booking) => total + booking.numPeople,
             0
         );
-        const isOpenBookingAllowed = totalPersonsForSelectedTime < 4;
-        return !isOpenBookingAllowed; // Open booking not allowed, slot is disabled
+    
+        // If total number of people for open bookings exceeds 4, slot is disabled
+        return totalPersonsForOpenBookings >= 4;
     };
-
+    
 
 const isDisabledType = (choice: string, dateTime: Date | null): boolean => {
     if (!dateTime) return true; // If no date selected, all types are disabled
@@ -139,8 +140,13 @@ const isDisabledType = (choice: string, dateTime: Date | null): boolean => {
     return false;
 };
 
-const isDisabledNumber = (num: number, dateTime: Date | null): boolean => {
+const isDisabledNumber = (num: number, dateTime: Date | null, type: string | null): boolean => {
     if (!dateTime) return true; // If no date selected, disable all numbers
+    if(!type) return true
+
+
+    if (type === "private") return false;
+    
     const courtBookingsArray2 = [...courtBookingsArray];
     const bookingDateTime = new Date(dateTime);
 
@@ -196,7 +202,7 @@ const isDisabledNumber = (num: number, dateTime: Date | null): boolean => {
                                 Select Number of Persons: <br></br>
                         {numPersonsArray?.map((choice, i) => (
                         <div key={`choice-${i}`} className= 'rounded-sm bg-gray-100 p-2'>
-                            <button type='button' disabled={isDisabledNumber(choice, date.dateTime)} onClick={() => setDate((prev) => ({...prev, numPersons: choice}))}>
+                            <button type='button' disabled={isDisabledNumber(choice, date.dateTime, date.type)} onClick={() => setDate((prev) => ({...prev, numPersons: choice}))}>
                             {choice.toString()}
                             </button>
                         </div>
@@ -257,4 +263,4 @@ const isDisabledNumber = (num: number, dateTime: Date | null): boolean => {
     )
 }
 
-export default Index
+export default index

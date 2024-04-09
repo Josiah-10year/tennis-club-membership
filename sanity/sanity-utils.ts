@@ -13,14 +13,21 @@ import {createReadStream} from 'fs'
 
 
 const token = "skc7uoGs1D3dTG4DlvaLaTnZZGEGDerzo0hc9qo1R53iiE6gYsG5XMX4RR1fNLCvS9gx8qOXTzsIGgfHgqMO0LEOpw150EBQEXaKRb04V8pj1D6TSXfi2x98LZL3Ls0qybA5qguOU0hm4zv4sTZfHo0L6OF6fgI6PKAIzFlFuwEDE8QVkvc9"
+const token2 = "skGzsq7QBzxzA4t26ggMQNyJs0fRxV6sh70Vv1pDooSXM0LOp9K1NMVE18G5cFklqkCt0ubEyTl4K8Vr1HByZtDcvPhkvUG2WwpWOL5A1q2zx7vGSuvbqpokl5bMDqm4H6rprFSkG8zxBRGnaFqj7qUrfkflAyfRPzIyt3OnNsC3kfWSaoY9"
 
+const delay = async (ms: number) => new Promise((res) => setTimeout(res, ms));
 
+// const getClient = () => {
+
+// }
 const client = createClient({
     projectId: "46b4kxer",
     dataset: "production",
     apiVersion: "2024-02-27",
-    token: token
+    token: token,
+    useCdn: false
 })
+
 
 //FETCH
 export async function getEvents(): Promise<Event[]> {
@@ -69,13 +76,12 @@ export async function getCourts(): Promise<Court[]> {
 //////////////////////////////////////////////////////////////////////////////////
 
 export async function getCourtBookingsAfterToday(): Promise<CourtBooking[]> {
-    const client = createClient({
-        projectId: "46b4kxer",
-        dataset: "production",
-        apiVersion: "2024-02-27",
-        useCdn: false
-    });
-
+    // const client = createClient({
+    //     projectId: "46b4kxer",
+    //     dataset: "production",
+    //     apiVersion: "2024-02-27",
+    //     useCdn: false
+    // });
     // Get today's date at 12 am
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -90,17 +96,18 @@ export async function getCourtBookingsAfterToday(): Promise<CourtBooking[]> {
             type,
             numPeople
         }`,
-        { datetime: today.toISOString() }
+        { datetime: today.toISOString() },
+        {cache: 'no-store'},
     );
 }
 
 export async function getCourtBookings(datetime:string, courtID:string): Promise<CourtBooking[]> { //, type: string, numPersons: number, courtName:string
-    const client = createClient({
-        projectId: "46b4kxer",
-        dataset: "production",
-        apiVersion: "2024-02-27",
-        useCdn: false
-    })
+    // const client = createClient({
+    //     projectId: "46b4kxer",
+    //     dataset: "production",
+    //     apiVersion: "2024-02-27",
+    //     useCdn: false
+    // })
 
     return client.fetch(
       groq`*[_type == "booking" && start == $datetime && court._ref == $courtID]{
@@ -112,8 +119,9 @@ export async function getCourtBookings(datetime:string, courtID:string): Promise
           type,
           numPeople
       }`,
-      { datetime, courtID} //, type, numPersons, courtName           && type == $type && numPeople == $numPersons && court.name == $courtName
-  );
+      { datetime, courtID}, //, type, numPersons, courtName           && type == $type && numPeople == $numPersons && court.name == $courtName
+      {cache: 'no-store'},
+      );
 }
 
 export async function getCourtID(courtName:string): Promise<Court[]> { 
@@ -154,6 +162,34 @@ export async function addCourtBookings(courtID: string, startDatetime: string, e
         return false;
     }
 
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+////////////////////////////NEW BOOKINGS TEST/////////////////////////////////////
+
+export async function fetchData(link: string) : Promise<any>{
+    try {
+        // Make a GET request to the API endpoint
+        const response = await fetch(link,{
+    cache:"no-cache"
+  });
+
+        // Check if the request was successful (status code 200)
+        if (response.ok) {
+            // Parse the JSON response
+            const data = await response.json();
+            // console.log('Data:', data); 
+
+            let results = data.result
+            console.log('Data:', results); 
+            return results
+        } else {
+            // If the response status is not OK, throw an error
+            throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
+        }
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -279,5 +315,8 @@ export async function getPosts(): Promise<Post[]> {
             `
         );
     }
+
+
+
 
     import { useRouter } from 'next/router';

@@ -1,6 +1,6 @@
 import { add, format } from "date-fns";
 import { INTERVAL, STORE_CLOSING_TIME, STORE_OPENING_TIME } from '../constants/config'
-import { getCourtBookings, getCourtBookingsAfterToday, getCourts } from "../../sanity/sanity-utils";
+import { getCourtBookings, getCourtBookingsAfterToday, getCourts, fetchData } from "../../sanity/sanity-utils";
 import Calendar from "../components/CalendarTestJV"
 import { CourtBooking } from "@/types/CourtBooking";
 export default async function CourtBookings(){
@@ -10,6 +10,13 @@ export default async function CourtBookings(){
     //array of all bookings >= today used to check the time slots given court ID
 
     const courtBookingsArray : CourtBooking[] = await getCourtBookingsAfterToday();
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const url = 'https://46b4kxer.api.sanity.io/v2021-06-07/data/query/production?query=*[_type =="booking"][start >= "' + today.toISOString() + '"]'
+    // const testArray1 : CourtBooking[] = await fetchData(url);
+    // //const testArray : CourtBooking[] = testArray1.
+    // console.log("Test: " + testArray1)
 
     const getFullyBookedDates = (courtBookings: CourtBooking[]) => {
         const fullyBookedDatesSet = new Set<string>();

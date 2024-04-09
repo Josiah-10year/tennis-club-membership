@@ -88,6 +88,12 @@ export function NavBar() {
               <span className="absolute -bottom-5 md:hidden border-b-2 w-48 left-[calc(50%_-_theme(space.24))]" />
             </li>
           ))}
+          <li className='relative'>
+            <a href='/court_bookings'>
+                fresh data ?
+            </a>
+
+          </li>
           <li className="order-first md:order-last justify-end">
             <div className="flex flex-nowrap text-turquoise-200 gap-2 justify-center items-center">
               {/* <Login onActionClick={() => setIsMenuShown(false)} /> */}
