@@ -293,6 +293,21 @@ export async function getPosts(): Promise<Post[]> {
             }`
         );
     }
+    
+export async function getPost(slug: string): Promise<Post> {
+    return client.fetch(
+        groq`*[_type == "post" && slug.current == $slug]{
+            _id,
+            _createdAt,
+            title,
+            "slug": slug.current,
+            description,
+            images,
+            "author": author->name
+        }`,
+        { slug }
+    );
+}    
 
     export async function getComments(): Promise<Comment[]> {
         return client.fetch(
