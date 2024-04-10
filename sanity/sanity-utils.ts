@@ -167,31 +167,42 @@ export async function addCourtBookings(courtID: string, startDatetime: string, e
 //////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////NEW BOOKINGS TEST/////////////////////////////////////
 
-export async function fetchData(link: string) : Promise<any>{
-    try {
-        // Make a GET request to the API endpoint
-        const response = await fetch(link,{
-    cache:"no-cache"
-  });
+// export async function fetchData(link: string) : Promise<any>{
+//     try {
+//         // Make a GET request to the API endpoint
+//         const response = await fetch(link,{
+//     cache:"no-cache"
+//   });
 
-        // Check if the request was successful (status code 200)
-        if (response.ok) {
-            // Parse the JSON response
-            const data = await response.json();
-            // console.log('Data:', data); 
+//         // Check if the request was successful (status code 200)
+//         if (response.ok) {
+//             // Parse the JSON response
+//             const data = await response.json();
+//             // console.log('Data:', data); 
 
-            let results = data.result
-            console.log('Data:', results); 
-            return results
-        } else {
-            // If the response status is not OK, throw an error
-            throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
-        }
-    } catch (error) {
-        console.error('Error fetching data:', error);
-    }
+//             let results = data.result
+//             console.log('Data:', results); 
+//             return results
+//         } else {
+//             // If the response status is not OK, throw an error
+//             throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
+//         }
+//     } catch (error) {
+//         console.error('Error fetching data:', error);
+//     }
+// }
+
+//works but not needed for now
+
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+export async function getUser(username: string): Promise<User[]> {
+    return client.fetch(
+        groq`*[_type == "user" && username.current == $username]`,
+        { username },
+        {cache: 'no-store'},
+    );
 }
-
 //////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
 

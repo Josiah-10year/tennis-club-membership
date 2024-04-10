@@ -15,6 +15,7 @@ interface indexProps {
     stringArrayProp: string[];
     fullyBookedDates: string[];
     courtBookingsArray: CourtBooking[];
+    userID: string;
 }
 
 interface DateType{
@@ -25,7 +26,7 @@ interface DateType{
     numPersons: number | null
 }
 
-const index: FC<indexProps> =  ({stringArrayProp, fullyBookedDates, courtBookingsArray}) => {
+const index: FC<indexProps> =  ({stringArrayProp, fullyBookedDates, courtBookingsArray, userID}) => {
 
     //console.log(courtBookingsArray)
 
@@ -36,6 +37,9 @@ const index: FC<indexProps> =  ({stringArrayProp, fullyBookedDates, courtBooking
         type: null,
         numPersons: null
     })
+
+
+    
 
     const tileDisabled = ({ date }: { date: Date }) => {
         const formattedDate = format(date, 'yyyy-MM-dd');
@@ -183,8 +187,8 @@ const isDisabledNumber = (num: number, dateTime: Date | null, type: string | nul
                     date.type ?(
                         date.numPersons ?(
                             <div>
-                                <Link 
-                                    href= {`/court_bookings/${encodeURIComponent(date.courtName)}/${encodeURIComponent(date.dateTime.toString())}/${encodeURIComponent(date.type)}/${encodeURIComponent(date.numPersons)}`}
+                                <a 
+                                    href= {`/court_bookings/${encodeURIComponent(date.courtName)}/${encodeURIComponent(date.dateTime.toString())}/${encodeURIComponent(date.type)}/${encodeURIComponent(date.numPersons)}/${encodeURIComponent(userID)}`}
                                     key="test" 
                                     className="border border-grey-500 rounded-lg p-1 hover:scale-105 hover:border-green-500 transition"
                                     >
@@ -195,7 +199,8 @@ const isDisabledNumber = (num: number, dateTime: Date | null, type: string | nul
                                         Type: {date.type} <br></br>
                                         Number of People: {date.numPersons}
                                         </div>
-                                </Link>
+                                </a>
+                                
                             </div>
                         ) : (
                             <div className='flex gap-4'>
