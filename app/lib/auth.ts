@@ -17,7 +17,7 @@ export const authConfig: NextAuthOptions = {
         CredentialsProvider({
             name: "Sign in",
             credentials: {
-                username: {
+                email: {
                     label: "Username",
                     type: "string",
                     placeholder: "enter username here",
@@ -25,20 +25,20 @@ export const authConfig: NextAuthOptions = {
                 password: { label: "Password", type: "password"},
             },
             async authorize(credentials) {
-                if(!credentials || !credentials.username || !credentials.password)
+                if(!credentials || !credentials.email || !credentials.password)
                 return null;
                 
-                const dbUsers = await getUser(credentials.username);
+                const dbUsers = await getUser(credentials.email);
                 const dbUser = dbUsers[0]
 
                 if (dbUser && dbUser.password == credentials.password) {
 
                     const name = dbUser.firstName + " " + dbUser.lastName
-                    //const username = dbUser.username.current
+                    const username = dbUser.username.current
                     const {password, _createdAt, _id, email, phone, image, bio, subscriptions, interests, role, content, firstName, lastName, ...dbUserWithoutPassword } = dbUser
                     const userWithoutPassword: unknown = { ...dbUserWithoutPassword, name: name };
-                    //const test = {name: name, email: username}
-                    return userWithoutPassword as User;
+                    const test = {name: name, email: username}
+                    return test as User;
                 }
 
                 return null //not found

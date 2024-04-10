@@ -17,7 +17,7 @@ export function CredentialsForm(props: CredentialsFormProps) {
     const data = new FormData(e.currentTarget);
 
     const signInResponse = await signIn("credentials", {
-      username: data.get("username"),
+      email: data.get("email"),
       password: data.get("password"),
       redirect: false,
     });
@@ -43,7 +43,7 @@ export function CredentialsForm(props: CredentialsFormProps) {
       )}
       <input
         type="text"
-        name="username"
+        name="email"
         placeholder="Username"
         required
         className="w-full px-4 py-4 mb-4 border border-gray-300 rounded-md"
@@ -63,6 +63,11 @@ export function CredentialsForm(props: CredentialsFormProps) {
       >
         Log in
       </button>
+
+      <div className="text-xs tracking-widest">
+      <br></br>
+      <p>Don't have an account?<a href="/register"> <u>Register here</u></a></p>
+      </div>
     </form>
   );
 }
