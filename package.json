@@ -25,6 +25,7 @@
     "sanity": "^3.30.0"
   },
   "devDependencies": {
+    "@types/babel__generator": "^7.6.8",
     "@types/firebase": "^3.2.1",
     "@types/node": "^20.12.3",
     "@types/react": "^18",
