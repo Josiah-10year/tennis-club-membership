@@ -11,6 +11,8 @@ import { InputType } from "zlib";
 import { File } from "buffer";
 import { CourtBooking } from "@/types/CourtBooking";
 import Link from "next/link";
+import { revalidatePath } from 'next/cache'
+import { redirect } from 'next/navigation'
 
 type Topic = {
     name: string,
@@ -95,6 +97,13 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp, userProp }
             selectedTopics,
             selectedInterests
         )
+
+        setTimeout(() => {
+            //needs a delay to show correct stuff
+        }, 1000);
+
+        //revalidatePath('/account') // Update cached posts
+        //redirect(`/home`) // Navigate to the new post page
     }
 
     if (isSubmitting) {
