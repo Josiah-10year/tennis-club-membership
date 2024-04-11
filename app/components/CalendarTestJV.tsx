@@ -10,7 +10,6 @@ import Link from "next/link";
 import { CourtBooking } from "@/types/CourtBooking";
 
 
-
 interface indexProps {
     stringArrayProp: string[];
     fullyBookedDates: string[];
