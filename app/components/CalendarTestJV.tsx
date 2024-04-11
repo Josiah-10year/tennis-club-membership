@@ -176,6 +176,7 @@ const isDisabledNumber = (num: number, dateTime: Date | null, type: string | nul
     const remainingCapacity = 4 - sumNumPersons;
 
     // If the selected number is greater than the remaining capacity, disable it
+    //test
     return num > remainingCapacity;
 };
 
