@@ -232,6 +232,11 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp }) => {
                     </button>
                 </div>
                 </div>
+
+                <div className="text-xs tracking-widest">
+                <br></br>
+                <p>Already have an account?<a href="/"> <u>Sign in here</u></a></p>
+                </div>
             </form>
             </div>
         </div>
