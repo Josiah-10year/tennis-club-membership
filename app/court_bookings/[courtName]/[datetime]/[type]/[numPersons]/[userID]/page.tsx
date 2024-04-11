@@ -100,25 +100,9 @@ export default async function CourtBookings({params}: Props){ // in () put
         }
     }
 
-
-    // useEffect(() => {
-    //     // Define the showAlert function inside useEffect to ensure it has access to window
-    //     function showAlert() {
-    //         // Display an alert dialog with a message
-    //         window.alert(output);
-    //     }
-
-    //     // Call showAlert after the component has mounted
-    //     showAlert();
-
-    //     revalidatePath('/court_bookings') // Update cached posts
-    // redirect(`/court_bookings`) // Navigate to the new post page
-    // }, []); // Empty dependency array ensures that this effect runs only once after the component mounts
-
-        
-        // function redirectionally() {
         revalidatePath('/court_bookings') // Update cached posts
-        redirect(`/court_bookings`) // Navigate to the new post page
+        revalidatePath('/account') // Update cached posts
+        redirect(`/account`) // Navigate to the new post page
         
         //window.alert(output);
         

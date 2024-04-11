@@ -9,10 +9,10 @@ import { getUser } from "../../sanity/sanity-utils";
 
 export const authConfig: NextAuthOptions = {
     // secret: process.env.NEXTAUTH_SECRET as string,
-    // session: {
-    //     strategy: "jwt",
-    //     maxAge: 3000,
-    //  },
+    session: {
+        strategy: "jwt",
+        maxAge: 60 * 60//1 hr in seconds
+     },
     providers: [
         CredentialsProvider({
             name: "Sign in",

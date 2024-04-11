@@ -204,8 +204,50 @@ export async function getUser(username: string): Promise<User[]> {
     );
 }
 //////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////
+////////////////My account page///////////////////////////////////////////
 
+export async function getBookingsByUserID(userID: string): Promise<CourtBooking[]> { //, type: string, numPersons: number, courtName:string
+    
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    return client.fetch(
+      groq`*[_type == "booking" && start >= $datetime && user._ref == $userID]{
+          _id,
+          _createdAt,
+          court,
+          start,
+          end,
+          type,
+          numPeople
+      }`,
+      { datetime: today.toISOString(), userID}, //, type, numPersons, courtName           && type == $type && numPeople == $numPersons && court.name == $courtName
+      {cache: 'no-store'},
+      );
+}
+
+export async function getCourtName(courtID:string): Promise<Court[]> { 
+    return client.fetch(
+      groq`*[_type == "court" && _id == $courtID]{
+          name
+      }`,
+      { courtID }
+  );
+}
+
+export async function deleteBooking(bookingID: string): Promise<void> {
+    try {
+        // Execute the delete operation directly using the document ID
+        await client.delete(bookingID);
+
+        console.log(`Booking with ID ${bookingID} deleted successfully.`);
+    } catch (error) {
+        console.error(`Error deleting booking with ID ${bookingID}:`, error);
+        throw error; // Rethrow the error to handle it elsewhere if needed
+    }
+}
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
 export async function getAllTopics(): Promise<Topic[]> {
     return client.fetch(
         groq`*[_type == "topic"]{name, _id}`
