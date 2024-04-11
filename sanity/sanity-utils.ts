@@ -246,6 +246,81 @@ export async function deleteBooking(bookingID: string): Promise<void> {
         throw error; // Rethrow the error to handle it elsewhere if needed
     }
 }
+
+export async function updateUser(
+    userID: string,
+    first: string,
+    last: string,
+    email: string,
+    phone: string,
+    username: string,
+    password: string,
+    assetList: FileList,
+    bio: string,
+    topicIds: string[],
+    interestIds: string[]
+  ): Promise<boolean> {
+
+    console.log("updating user")
+    const subscriptions: Object[] = [];
+    for (const id of topicIds) {
+      subscriptions.push({ _type: "reference", _ref: id, _key: randomKey(12) });
+    }
+    
+    const interests: Object[] = [];
+    for (const id of interestIds) {
+      interests.push({ _type: "reference", _ref: id, _key: randomKey(12) });
+    }
+    
+    try {
+      if (assetList.length !== 0) {
+        const assetDocument = await client.assets.upload('image', assetList[0]);
+        const image = {
+          _type: "image",
+          asset: {
+            _ref: assetDocument._id,
+            _type: "reference"
+          }
+        };
+        
+        const patchData = {
+            firstName: first,
+            lastName: last,
+            email: email,
+            phone: phone,
+            username: { _type: 'slug', current: username },
+            password: password,
+            bio: bio,
+            subscriptions: subscriptions,
+            interests: interests,
+            image: image
+        };
+        
+        await client.patch(userID).set(patchData).commit();
+        console.log('User updated successfully');
+        return true;
+      } else {
+        const patchData = {
+            firstName: first,
+            lastName: last,
+            email: email,
+            phone: phone,
+            username: { _type: 'slug', current: username },
+            password: password,
+            bio: bio,
+            subscriptions: subscriptions,
+            interests: interests
+        };
+        
+        await client.patch(userID).set(patchData).commit();
+        console.log('User updated successfully');
+        return true;
+      }
+    } catch (error) {
+      console.error('Error updating user:', error);
+      return false;
+    }
+  }
 //////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
 export async function getAllTopics(): Promise<Topic[]> {

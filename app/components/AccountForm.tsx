@@ -1,15 +1,16 @@
 "use client"
-import { registerUser } from "../../sanity/sanity-utils";
+import { registerUser, updateUser } from "../../sanity/sanity-utils";
 import { useState } from "react";
 import { FC } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import Topics from "../components/TopicsSH";
+import Topics from "../components/TopicsAccountForm";
 import { User } from "../../types/User";
-import Interests from "../components/InterestsSH";
+import Interests from "../components/InterestsAccountForm";
 import { URL } from "url";
 import { InputType } from "zlib";
 import { File } from "buffer";
 import { CourtBooking } from "@/types/CourtBooking";
+import Link from "next/link";
 
 type Topic = {
     name: string,
@@ -81,7 +82,8 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp, userProp }
         interests.forEach((interest) => {
             selectedInterests.push(interest.value);
         });
-        registerUser(
+        updateUser(
+            userProp._id,
             data.firstname, 
             data.lastname, 
             data.email, 
@@ -195,7 +197,7 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp, userProp }
                 <div className="flex flex-col sm:flex-row sm:gap-12">
                 <div className="basis-1/2">
                     <label className="text-xs" htmlFor="avatar">
-                    Change Your Avatar
+                    Update Your Avatar
                     </label>
                     <input
                     className="input"
@@ -219,18 +221,20 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp, userProp }
                     {...register("bio")}
                     />
                 </div>
-                <Topics topicsArrayProp={topics}/>
+                <Topics topicsArrayProp={topics} userTopicsArrayProp={userProp.subscriptions}/>
                 </div>
-                <Interests interestsArrayProp={interests}/>
+                <Interests interestsArrayProp={interests} userInterestsArrayProp = {userProp.interests}/>
                 <div className="flex flex-col sm:flex-row sm:gap-12">
                 <div className="basis-1/2">
-                    <button className="btn-sec w-full mt-6 text-xl" type="reset">
-                    Reset Form
-                    </button>
+                    <Link href="/home">
+                        <button className="btn-sec w-full mt-6 text-xl" >
+                        Go Back
+                        </button>
+                    </Link>
                 </div>
                 <div className="basis-1/2">
                     <button className="btn-main w-full mt-6 text-xl" type="submit">
-                    Submit Form
+                    Save Changes
                     </button>
                 </div>
                 </div>
