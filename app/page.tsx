@@ -1,47 +1,23 @@
-import { getEvents } from "../sanity/sanity-utils";
-import Link from "next/link";
+import { redirect } from "next/navigation";
+import { CredentialsForm } from "./components/CredentialsForm";
+import { getCsrfToken } from "next-auth/react"
+import { getServerSession } from "next-auth";
+import { authConfig } from "./lib/auth";
 
-export default async function About() {
-  const events = await getEvents();
-  console.log(events)
+export default async function SignInPage() {
+  const session = await getServerSession(authConfig);
+
+  console.log("Session: ", session);
+
+  if (session) return redirect("/home");
 
   return (
-    <div className="max-w-5xl mx-auto py-20">
-      {/* Start here */}
-      <h1>About Page</h1>
-      <h1>January</h1>
-      <div className="mt-5 grid grid-cols-3 gap-8">
-        {events.map((event) => (
-          <Link 
-          
-            href="/events/${event.slug}" 
-            key={event._id} 
-            className="border border-grey-500 rounded-lg p-1 hover:scale-105 hover:border-green-500 transition">
-            
-            <div 
-              className="font-extrabold text-xl mb-2 bg-gradient-to-r from-red-500 to-green-500 text-transparent bg-clip-text">
-              {event.title}
-            </div>
-            <div 
-              className="text-gray-600 mb-2">
-              Start Date: {new Date(event.start).toLocaleDateString()} 
-            </div>
-            <div 
-              className="text-gray-600 mb-2">
-              Time: {new Date(event.start).toLocaleTimeString()}
-            </div>
-
-            <div 
-              className="text-gray-600 mb-2">
-              End Date: {new Date(event.end).toLocaleDateString()} 
-            </div>
-            <div 
-              className="text-gray-600 mb-2">
-              Time: {new Date(event.end).toLocaleTimeString()}
-            </div>
-            </Link>
-        ))}
+    <div className="w-full flex flex-col items-center justify-center min-h-screen py-2">
+      <div className="flex flex-col items-center mt-10 p-10 shadow-md">
+        <h1 className="mt-10 mb-4 text-4xl font-bold">Sign In</h1>
+        {/* <CredentialsSignInButton /> */}
+        <CredentialsForm />
       </div>
     </div>
-   );
+  );
 }

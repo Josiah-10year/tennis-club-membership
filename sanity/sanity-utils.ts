@@ -167,34 +167,162 @@ export async function addCourtBookings(courtID: string, startDatetime: string, e
 //////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////NEW BOOKINGS TEST/////////////////////////////////////
 
-export async function fetchData(link: string) : Promise<any>{
+// export async function fetchData(link: string) : Promise<any>{
+//     try {
+//         // Make a GET request to the API endpoint
+//         const response = await fetch(link,{
+//     cache:"no-cache"
+//   });
+
+//         // Check if the request was successful (status code 200)
+//         if (response.ok) {
+//             // Parse the JSON response
+//             const data = await response.json();
+//             // console.log('Data:', data); 
+
+//             let results = data.result
+//             console.log('Data:', results); 
+//             return results
+//         } else {
+//             // If the response status is not OK, throw an error
+//             throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
+//         }
+//     } catch (error) {
+//         console.error('Error fetching data:', error);
+//     }
+// }
+
+//works but not needed for now
+
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+export async function getUser(username: string): Promise<User[]> {
+    return client.fetch(
+        groq`*[_type == "user" && username.current == $username]`,
+        { username },
+        {cache: 'no-store'},
+    );
+}
+//////////////////////////////////////////////////////////////////////////////////
+////////////////My account page///////////////////////////////////////////
+
+export async function getBookingsByUserID(userID: string): Promise<CourtBooking[]> { //, type: string, numPersons: number, courtName:string
+    
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    return client.fetch(
+      groq`*[_type == "booking" && start >= $datetime && user._ref == $userID]{
+          _id,
+          _createdAt,
+          court,
+          start,
+          end,
+          type,
+          numPeople
+      }`,
+      { datetime: today.toISOString(), userID}, //, type, numPersons, courtName           && type == $type && numPeople == $numPersons && court.name == $courtName
+      {cache: 'no-store'},
+      );
+}
+
+export async function getCourtName(courtID:string): Promise<Court[]> { 
+    return client.fetch(
+      groq`*[_type == "court" && _id == $courtID]{
+          name
+      }`,
+      { courtID }
+  );
+}
+
+export async function deleteBooking(bookingID: string): Promise<void> {
     try {
-        // Make a GET request to the API endpoint
-        const response = await fetch(link,{
-    cache:"no-cache"
-  });
+        // Execute the delete operation directly using the document ID
+        await client.delete(bookingID);
 
-        // Check if the request was successful (status code 200)
-        if (response.ok) {
-            // Parse the JSON response
-            const data = await response.json();
-            // console.log('Data:', data); 
-
-            let results = data.result
-            console.log('Data:', results); 
-            return results
-        } else {
-            // If the response status is not OK, throw an error
-            throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
-        }
+        console.log(`Booking with ID ${bookingID} deleted successfully.`);
     } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error(`Error deleting booking with ID ${bookingID}:`, error);
+        throw error; // Rethrow the error to handle it elsewhere if needed
     }
 }
 
-//////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////
+export async function updateUser(
+    userID: string,
+    first: string,
+    last: string,
+    email: string,
+    phone: string,
+    username: string,
+    password: string,
+    assetList: FileList,
+    bio: string,
+    topicIds: string[],
+    interestIds: string[]
+  ): Promise<boolean> {
 
+    console.log("updating user")
+    const subscriptions: Object[] = [];
+    for (const id of topicIds) {
+      subscriptions.push({ _type: "reference", _ref: id, _key: randomKey(12) });
+    }
+    
+    const interests: Object[] = [];
+    for (const id of interestIds) {
+      interests.push({ _type: "reference", _ref: id, _key: randomKey(12) });
+    }
+    
+    try {
+      if (assetList.length !== 0) {
+        const assetDocument = await client.assets.upload('image', assetList[0]);
+        const image = {
+          _type: "image",
+          asset: {
+            _ref: assetDocument._id,
+            _type: "reference"
+          }
+        };
+        
+        const patchData = {
+            firstName: first,
+            lastName: last,
+            email: email,
+            phone: phone,
+            username: { _type: 'slug', current: username },
+            password: password,
+            bio: bio,
+            subscriptions: subscriptions,
+            interests: interests,
+            image: image
+        };
+        
+        await client.patch(userID).set(patchData).commit();
+        console.log('User updated successfully');
+        return true;
+      } else {
+        const patchData = {
+            firstName: first,
+            lastName: last,
+            email: email,
+            phone: phone,
+            username: { _type: 'slug', current: username },
+            password: password,
+            bio: bio,
+            subscriptions: subscriptions,
+            interests: interests
+        };
+        
+        await client.patch(userID).set(patchData).commit();
+        console.log('User updated successfully');
+        return true;
+      }
+    } catch (error) {
+      console.error('Error updating user:', error);
+      return false;
+    }
+  }
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
 export async function getAllTopics(): Promise<Topic[]> {
     return client.fetch(
         groq`*[_type == "topic"]{name, _id}`

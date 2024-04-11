@@ -1,9 +1,12 @@
 import { add, format } from "date-fns";
 import { INTERVAL, STORE_CLOSING_TIME, STORE_OPENING_TIME } from '../constants/config'
-import { getCourtBookings, getCourtBookingsAfterToday, getCourts, fetchData } from "../../sanity/sanity-utils";
+import { getCourtBookings, getCourtBookingsAfterToday, getCourts, getUser } from "../../sanity/sanity-utils";
 import Calendar from "../components/CalendarTestJV"
 import { CourtBooking } from "@/types/CourtBooking";
+import { authConfig, loginIsRequiredServer } from "@/app/lib/auth";
+import { getServerSession } from "next-auth";
 export default async function CourtBookings(){
+    await loginIsRequiredServer();
 
     const courtsArray = await getCourts();
     //organize array of days that are booked up, and also pass array of all bookings >= today; array of filled days used for calendar, and
@@ -68,6 +71,18 @@ export default async function CourtBookings(){
 
         courts.sort()
 
+        //we also need to pull the user id but for now
+        const session = await getServerSession(authConfig);
+        const username = session?.user?.email
+        let userID = ""
+        if (username){
+            const userID2 = await getUser(username);
+            userID = userID2[0]._id
+        }else{
+        //something wrong defaulted to john
+        userID = "68028cac-7cde-4489-be2c-a601df250af0"
+        }
+
 
 
     return(
@@ -76,7 +91,7 @@ export default async function CourtBookings(){
             <h3>Court Bookings Page</h3>
             <h3>The calendar and booking details</h3>
             <h3>The content is being hidden by the nav bar but its here</h3>
-            <div><Calendar stringArrayProp={courts} fullyBookedDates={fullyBookedDates} courtBookingsArray={courtBookingsArray} /></div>
+            <div><Calendar stringArrayProp={courts} fullyBookedDates={fullyBookedDates} courtBookingsArray={courtBookingsArray} userID= {userID}/></div>
         </div>
 
     );

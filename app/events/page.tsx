@@ -4,7 +4,6 @@ import Link from "next/link";
 
 export default async function Event() {
   const events = await getEvents();
-  console.log(events)
 
   return (
     <div className="max-w-5xl mx-auto py-20">
