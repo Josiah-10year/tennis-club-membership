@@ -88,9 +88,6 @@ export default async function CourtBookings(){
     return(
 
         <div>
-            <h3>Court Bookings Page</h3>
-            <h3>The calendar and booking details</h3>
-            <h3>The content is being hidden by the nav bar but its here</h3>
             <div><Calendar stringArrayProp={courts} fullyBookedDates={fullyBookedDates} courtBookingsArray={courtBookingsArray} userID= {userID}/></div>
         </div>
 

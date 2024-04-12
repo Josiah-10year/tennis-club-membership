@@ -203,8 +203,9 @@ const isDisabledNumber = (num: number, dateTime: Date | null, type: string | nul
                                 
                             </div>
                         ) : (
+                            <div>
+                <h1>Select the number of people:</h1><br></br>
                             <div className='flex gap-4'>
-                                Select Number of Persons: <br></br>
                         {numPersonsArray?.map((choice, i) => (
                         <div key={`choice-${i}`} className= 'rounded-sm bg-gray-100 p-2'>
                             <button type='button' disabled={isDisabledNumber(choice, date.dateTime, date.type)} onClick={() => setDate((prev) => ({...prev, numPersons: choice}))}>
@@ -213,12 +214,14 @@ const isDisabledNumber = (num: number, dateTime: Date | null, type: string | nul
                         </div>
                         ))}
                         </div>
+                        </div>
 
                         )
                         
                     ) : (
+                        <div>
+                <h1>Select a booking type:</h1><br></br>
                         <div className='flex gap-4'>
-                            Select Booking Type: <br></br>
                     {choices?.map((choice, i) => (
                         <div key={`choice-${i}`} className= 'rounded-sm bg-gray-100 p-2'>
                             <button type='button' disabled={isDisabledType(choice, date.dateTime)} onClick={() => setDate((prev) => ({...prev, type: choice}))}>
@@ -227,10 +230,13 @@ const isDisabledNumber = (num: number, dateTime: Date | null, type: string | nul
                         </div>
                     ))}
                 </div>
+                </div>
                     )
                     
 
                 ):(
+                    <div>
+                <h1>Select a timeslot:</h1><br></br>
                     <div className='flex gap-4'>
                     {times?.map((time, i) => (
                         <div key={`time-${i}`} className= 'rounded-sm bg-gray-100 p-2'>
@@ -240,20 +246,26 @@ const isDisabledNumber = (num: number, dateTime: Date | null, type: string | nul
                         </div>
                     ))}
                 </div>
+                </div>
                 )
                 
                 ) : (
+
+                    <div>
+                <h1>Select a date:</h1><br></br>
                 <ReactCalendar 
                 minDate={new Date()}
                 className='REACT-CALENDAR p-s' 
                 view='month' 
                 onClickDay={(date) => setDate((prev) => ({ ...prev, justDate: date}))}
                 tileDisabled={tileDisabled}
-                />)
+                />
+                </div>)
 
         ) : (
+            <div>
+                <h1>Select a court:</h1><br></br>
             <div className='flex gap-4'>
-
                     {courts?.map((court, i) => (
                         <div key={`court-${i}`} className= 'rounded-sm bg-gray-100 p-2'>
                             <button type='button' onClick={() => setDate((prev) => ({...prev, courtName: court})) }>
@@ -263,6 +275,7 @@ const isDisabledNumber = (num: number, dateTime: Date | null, type: string | nul
                         </div>
                     ))}
                 </div>
+            </div>
         )}
     </div>
     )
