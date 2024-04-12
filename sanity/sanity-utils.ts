@@ -59,6 +59,13 @@ export async function getEvent(slug: string): Promise<Event> {
   )
 }
 
+export async function getEventDetails(title: string, start: string, end: string): Promise<Event[]> {
+    return client.fetch(
+      groq`*[_type == "event" && title == $title && start == $start && end == $end]`,
+      { title, start, end},
+  )
+}
+
 ///////////////////Functions to pull courts//////////////////////////
 /////////////////////////////////////////////////////////////////////
 
@@ -201,6 +208,12 @@ export async function getUser(username: string): Promise<User[]> {
         groq`*[_type == "user" && username.current == $username]`,
         { username },
         {cache: 'no-store'},
+    );
+}
+
+export async function getAdminUsers(): Promise<User[]> {
+    return client.fetch(
+        groq`*[_type == "user" && role == admin]`,
     );
 }
 //////////////////////////////////////////////////////////////////////////////////
