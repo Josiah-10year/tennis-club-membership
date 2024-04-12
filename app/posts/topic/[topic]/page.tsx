@@ -1,13 +1,25 @@
 "use client"
 import { use } from "react";
-import { getAllTopics, getPosts } from "../../sanity/sanity-utils";
+import { getAllTopics, getPostsByTopic, getTopicbyName } from "../../../../sanity/sanity-utils";
 import Link from "next/link";
 import { useRouter } from 'next/router';
 import { FaArrowCircleUp } from 'react-icons/fa';
 
-export default async function Posts() {
-    const posts = await getPosts();
-    
+
+
+type Props = {
+    params: { topic: string}
+}
+
+export default async function EventDetails({params}: Props){  
+
+    //properly format info
+    const formattedTopic = decodeURIComponent(params.topic)
+
+    //Now pull by topic
+    const topicList = await getTopicbyName(formattedTopic);
+    const topic = topicList[0]
+    const posts = await getPostsByTopic(topic._id);
     const topics = await getAllTopics()
 
     return (
