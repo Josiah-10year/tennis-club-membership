@@ -8,7 +8,7 @@ import Link from 'next/link';
 // import Login from '@app/components/Login/Login';
 
 const navbarItems = [
-  { ref: '/home', label: 'Home' },
+  { ref: '/', label: 'Home' },
   { ref: '/events', label: 'Events' },
   { ref: '/posts', label: 'Posts' },
   { ref: '/court_bookings', label: 'Court Bookings', prefetch: false },

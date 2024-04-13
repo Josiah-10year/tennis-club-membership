@@ -1,23 +1,12 @@
-import { redirect } from "next/navigation";
-import { CredentialsForm } from "./components/CredentialsForm";
-import { getCsrfToken } from "next-auth/react"
-import { getServerSession } from "next-auth";
-import { authConfig } from "./lib/auth";
-
-export default async function SignInPage() {
-  const session = await getServerSession(authConfig);
-
-  console.log("Session: ", session);
-
-  if (session) return redirect("/home");
-
+export default async function Home() {
   return (
-    <div className="w-full flex flex-col items-center justify-center min-h-screen py-2">
-      <div className="flex flex-col items-center mt-10 p-10 shadow-md">
-        <h1 className="mt-10 mb-4 text-4xl font-bold">Sign In</h1>
-        {/* <CredentialsSignInButton /> */}
-        <CredentialsForm />
+    <div className="max-w-5xl mx-auto py-20">
+      <h1 className="text-left py-8">About</h1>
+      <a href="/login">Member Login</a>
+      <p className="text-center">This is a recreational club which naturally beckons with its excellent location and easy access to all. Be it an intense workout on one of the four tennis courts or a relaxing evening at the restaurant.</p>
+      <div className="mt-5 grid grid-cols-3 gap-8">
+        
       </div>
     </div>
-  );
+   );
 }
