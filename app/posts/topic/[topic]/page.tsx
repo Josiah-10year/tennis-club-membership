@@ -1,33 +1,42 @@
 "use client"
 import { use } from "react";
-import { getAllTopics, getPosts } from "../../sanity/sanity-utils";
+import { getAllTopics, getPostsByTopic, getTopicbyName } from "../../../../sanity/sanity-utils";
 import Link from "next/link";
 import { useRouter } from 'next/router';
 import { FaArrowCircleUp } from 'react-icons/fa';
+import { authConfig, loginIsRequiredClient } from "@/app/lib/auth";
 import { getServerSession } from "next-auth";
-import { authConfig, loginIsRequiredClient, loginIsRequiredServer } from "../lib/auth";
-import { useSession } from "next-auth/react";
 
 
 
-export default async function Posts() {
+type Props = {
+    params: { topic: string}
+}
 
-    //await loginIsRequiredServer()
+export default async function EventDetails({params}: Props){  
+
+    // const session = await getServerSession(authConfig);
 
     // let username: string | null | undefined = null
     // if(session){
     //     username = session?.user?.email
     //     if(typeof username == "undefined" || !username)
-    //         username = ""
+    //         username = "-1"
     // }
 
     // console.log(username)
     
-    const posts = await getPosts();
-    
-    const topics = await getAllTopics()
+    // const users = await getUser(username);
+    // user = users[0]
 
-    
+    //properly format info
+    const formattedTopic = decodeURIComponent(params.topic)
+
+    //Now pull by topic
+    const topicList = await getTopicbyName(formattedTopic);
+    const topic = topicList[0]
+    const posts = await getPostsByTopic(topic._id);
+    const topics = await getAllTopics()
 
     return (
         <div className="max-w-5xl mx-auto py-20">

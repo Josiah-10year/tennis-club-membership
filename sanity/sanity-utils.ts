@@ -211,6 +211,14 @@ export async function getUser(username: string): Promise<User[]> {
     );
 }
 
+export async function getUserByID(userID: string): Promise<User[]> {
+    return client.fetch(
+        groq`*[_type == "user" && _id == $userID]`,
+        { userID },
+        {cache: 'no-store'},
+    );
+}
+
 export async function getAdminUsers(): Promise<User[]> {
     return client.fetch(
         groq`*[_type == "user" && role == admin]`,
@@ -434,6 +442,28 @@ export async function getPosts(): Promise<Post[]> {
             }`
         );
     }
+
+export async function getTopicbyName(name: string): Promise<Topic[]> {
+    return client.fetch(
+        groq`*[_type == "topic" && name == $name]`,
+        {name}
+    );
+}
+
+export async function getPostsByTopic(topicID: string): Promise<Post[]> {
+    return client.fetch(
+        groq`*[_type == "post" && topic._ref == $topicID ]{
+            _id,
+            _createdAt,
+            title,
+            "slug": slug.current,
+            description,
+            images,
+            "author": author->name
+        }`,
+        {topicID}
+    );
+}
     
 export async function getPost(slug: string): Promise<Post[]> {
     return client.fetch(
@@ -450,26 +480,37 @@ export async function getPost(slug: string): Promise<Post[]> {
     );
 }    
 
-    export async function getComments(): Promise<Comment[]> {
+    export async function getComments(postID: string): Promise<Comment[]> {
         return client.fetch(
-            `
-            *[_type == "comment"]{
-                _id,
-                _createdAt,
-                user->{
-                    _id,
-                    name,
-                    // Add other user fields as needed
-                },
-                post->{
-                    _id,
-                    title,
-                    // Add other post fields as needed
-                },
-                text
-            }
-            `
+            `*[_type == "comment" && post._ref == $postID]`,
+            {postID},
+            {cache: 'no-store'},
         );
+    }
+
+    //testtt
+    import { getServerSession } from "next-auth";
+    import { authConfig, loginIsRequiredServer } from "@/app/lib/auth";
+    import { useSession } from 'next-auth/react';
+
+    export async function addComment(text: string, userID: string, postID: string): Promise<boolean> {
+        
+        try {
+            const transactionResult = await client.transaction()
+            .create({
+                _type: 'comment',
+                user: { _type: 'reference', _ref: userID },
+                post: { _type: 'reference', _ref: postID },
+                text: text
+            })
+            .commit();
+        
+            return true;
+            
+            }catch (error) {
+                console.error('Error adding comment:', error);
+                return false;
+            }
     }
 
 

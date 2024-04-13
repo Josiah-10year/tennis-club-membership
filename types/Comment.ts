@@ -1,5 +1,6 @@
 //JV - courts
 import { PortableTextBlock } from "sanity";
+import { Post } from "./Post";
 
 type UserReference = {
     _type: 'reference';
@@ -13,18 +14,10 @@ type PostReference = {
 
 //then fetch user based on reference value
 
-export interface Comment {
+export type Comment = {
     _id: string;
     _createdAt: string;
-    user: {
-        _id: string;
-        name: string;
-        // Add other user fields as needed
-    };
-    post: {
-        _id: string;
-        title: string;
-        // Add other post fields as needed
-    };
-    text: string;
+    user: UserReference;
+    post: PostReference;
+    text: Text;
 }
