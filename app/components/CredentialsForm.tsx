@@ -23,8 +23,8 @@ export function CredentialsForm(props: CredentialsFormProps) {
     });
 
     if (signInResponse && !signInResponse.error) {
-      //Redirect to homepage (/about)
-      router.push("/home");
+      //Redirect to homepage
+      router.push("/");
     } else {
       console.log("Error: ", signInResponse);
       setError("Your Username or Password is wrong!");

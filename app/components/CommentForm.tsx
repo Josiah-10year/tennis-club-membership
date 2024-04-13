@@ -40,7 +40,7 @@ const Index: FC<indexProps> = ({userProp, postID}) => {
                     Submit
                 </button>
         </form>
-        <u><a href='/' className='text-sm'>Click here to sign in</a></u>
+        <u><a href='/login' className='text-sm'>Click here to sign in</a></u>
         <br></br>
         </div>
         );

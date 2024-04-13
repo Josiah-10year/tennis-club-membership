@@ -116,7 +116,7 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp }) => {
 
     return (
         <div className="relative">
-        <div className="w-full h-[400px] relative">
+        <div className="w-full h-[200px] relative">
         </div>
         <div className="max-w-7xl mx-auto mt-[-120px] relative bg-white px-8 sm:px-20">
             <h1 className="text-center py-8 font-site">Register</h1>
