@@ -5,6 +5,7 @@ import Calendar from "../components/CalendarTestJV"
 import { CourtBooking } from "@/types/CourtBooking";
 import { authConfig, loginIsRequiredServer } from "@/app/lib/auth";
 import { getServerSession } from "next-auth";
+
 export default async function CourtBookings(){
     await loginIsRequiredServer();
 

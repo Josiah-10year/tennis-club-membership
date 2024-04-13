@@ -1,6 +1,6 @@
 import { NextAuthOptions, User, getServerSession } from "next-auth"
 import { useSession } from "next-auth/react"
-import { redirect, useRouter } from "next/navigation"
+import { redirect } from "next/navigation" //useRouter
 //import GithubProvider from "next-auth/providers/github"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { getUser } from "../../sanity/sanity-utils";
@@ -54,8 +54,9 @@ export async function loginIsRequiredServer() {
 export async function loginIsRequiredClient() {
     if (typeof window !== "undefined"){
         const session = useSession();
-        const router = useRouter();
-        if (!session) router.push("/");
+        // const router = useRouter();
+        // if (!session) router.push("/");
+        if (!session) return redirect("/");
     }
 }
 
