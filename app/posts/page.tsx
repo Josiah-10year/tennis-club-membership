@@ -30,32 +30,40 @@ export default async function Posts() {
 
     return (
         <div className="max-w-5xl mx-auto py-20">
-
-            {/* Horizontal list of links */}
-            <nav className="flex justify-between items-center mb-8">
-
-            <a key={0} href={`/posts`} className="text-blue-600 hover:text-blue-900 transition text-xs">All</a>
-
-                {topics.map((topic, index) => (
-                <a key={index+1} href={`/posts/topic/${topic.name}`} className="text-blue-600 hover:text-blue-900 transition text-xs">{topic.name}</a>
-                ))}
-
-            </nav>
-
-            <div className="mt-5 grid grid-cols-3 gap-8">
-                {posts.map((post) => (
-                    <Link href={`/posts/${post.slug}`} 
-                    key={post._id} className="border p-4 rounded hover:scale-105 hover:border-blue-500 transition">
-                        <h2 className="text-xl font-bold">{post.title}</h2>
-                        <p className="text-gray-500">{post.description}</p>
-                        {/* <p className="text-sm text-gray-400 mt-2">Author: {post.author}</p> */}
-                        {/* You can display images here if needed */}
-                    </Link>
-                ))}
+            <h1 className="text-left py-8">Posts</h1>
+            <div className="grid space-y-12 md:gap-8 lg:grid-cols-12 lg:gap-16 lg:space-y-0 xl:gap-16">
+                <div className="lg:col-span-4 xl:col-span-3">
+                    <div className="lg:block">
+                        <h1 className="text-xl">Categories</h1>
+                        <ul>
+                            <li>
+                                <a key={0} href={`/posts`} className="text-blue-600 hover:text-blue-900 transition text-foreground-light block text-base">All</a>
+                            </li>
+                            {topics.map((topic, index) => (
+                                <li>
+                                    <a key={index+1} href={`/posts/topic/${topic.name}`} className="text-blue-600 hover:text-blue-900 transition text-foreground-light block text-base">{topic.name}</a>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+                <div className="lg:col-span-8 xl:col-span-9">
+                    <h1 className="text-2xl">All Posts</h1>
+                    <div className="grid grid-cols-1 gap-5 lg:max-w-none lg:grid-cols-2 xl:grid-cols-3">
+                        {posts.map((post) => (
+                            <Link href={`/posts/${post.slug}`} 
+                            key={post._id} className="border p-4 rounded hover:scale-105 hover:border-blue-500 transition">
+                                <h2 className="text-xl font-semibold text-gray-800">{post.title}</h2>
+                                <p className="text-sm text-gray-600">{post.description}</p>
+                                {/* <p className="text-sm text-gray-400 mt-2">Author: {post.author}</p> */}
+                                {/* You can display images here if needed */}
+                            </Link>
+                        ))}
+                    </div>
+                </div>
             </div>
             {/* Back to top button */}
             <BackToTopButton />
-           
         </div>
     );
 }

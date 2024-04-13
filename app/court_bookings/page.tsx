@@ -87,10 +87,11 @@ export default async function CourtBookings(){
 
 
     return(
-
-        <div>
-            <div><Calendar stringArrayProp={courts} fullyBookedDates={fullyBookedDates} courtBookingsArray={courtBookingsArray} userID= {userID}/></div>
+        <div className="relative">
+            <div className="max-w-5xl mx-auto py-20">
+                <h1 className="text-left py-8">Court Booking</h1>
+                <Calendar stringArrayProp={courts} fullyBookedDates={fullyBookedDates} courtBookingsArray={courtBookingsArray} userID= {userID}/>
+            </div>
         </div>
-
     );
 }
