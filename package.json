@@ -23,7 +23,8 @@
     "react-dom": "^18",
     "react-firebase-hooks": "^5.1.1",
     "react-hook-form": "^7.51.2",
-    "sanity": "^3.30.0"
+    "sanity": "^3.30.0",
+    "styled-components": "^6.1.8"
   },
   "devDependencies": {
     "@types/babel__generator": "^7.6.8",
