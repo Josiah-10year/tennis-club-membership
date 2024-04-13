@@ -1,4 +1,3 @@
-"use client"
 import { use } from "react";
 import { getAllTopics, getPosts } from "../../sanity/sanity-utils";
 import Link from "next/link";
@@ -7,7 +6,7 @@ import { FaArrowCircleUp } from 'react-icons/fa';
 import { getServerSession } from "next-auth";
 import { authConfig, loginIsRequiredClient, loginIsRequiredServer } from "../lib/auth";
 import { useSession } from "next-auth/react";
-
+import BackToTopButton from '../components/BackToTopButton';
 
 
 export default async function Posts() {
@@ -55,9 +54,8 @@ export default async function Posts() {
                 ))}
             </div>
             {/* Back to top button */}
-    <a href="" className="fixed bottom-4 right-4 z-50 rounded-full bg-white p-2 shadow-md" onClick={() => window.scrollTo(0, 0)}>
-      <FaArrowCircleUp className="text-blue-500 text-3xl" />
-    </a>
+            <BackToTopButton />
+           
         </div>
     );
 }
