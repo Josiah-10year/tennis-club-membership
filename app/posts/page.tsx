@@ -4,11 +4,30 @@ import { getAllTopics, getPosts } from "../../sanity/sanity-utils";
 import Link from "next/link";
 import { useRouter } from 'next/router';
 import { FaArrowCircleUp } from 'react-icons/fa';
+import { getServerSession } from "next-auth";
+import { authConfig, loginIsRequiredClient, loginIsRequiredServer } from "../lib/auth";
+import { useSession } from "next-auth/react";
+
+
 
 export default async function Posts() {
+
+    //await loginIsRequiredServer()
+
+    // let username: string | null | undefined = null
+    // if(session){
+    //     username = session?.user?.email
+    //     if(typeof username == "undefined" || !username)
+    //         username = ""
+    // }
+
+    // console.log(username)
+    
     const posts = await getPosts();
     
     const topics = await getAllTopics()
+
+    
 
     return (
         <div className="max-w-5xl mx-auto py-20">

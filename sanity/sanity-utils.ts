@@ -483,8 +483,34 @@ export async function getPost(slug: string): Promise<Post[]> {
     export async function getComments(postID: string): Promise<Comment[]> {
         return client.fetch(
             `*[_type == "comment" && post._ref == $postID]`,
-            {postID}
+            {postID},
+            {cache: 'no-store'},
         );
+    }
+
+    //testtt
+    import { getServerSession } from "next-auth";
+    import { authConfig, loginIsRequiredServer } from "@/app/lib/auth";
+    import { useSession } from 'next-auth/react';
+
+    export async function addComment(text: string, userID: string, postID: string): Promise<boolean> {
+        
+        try {
+            const transactionResult = await client.transaction()
+            .create({
+                _type: 'comment',
+                user: { _type: 'reference', _ref: userID },
+                post: { _type: 'reference', _ref: postID },
+                text: text
+            })
+            .commit();
+        
+            return true;
+            
+            }catch (error) {
+                console.error('Error adding comment:', error);
+                return false;
+            }
     }
 
 

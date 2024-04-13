@@ -1,13 +1,18 @@
 "use client"
-import { getUserByID } from "../../sanity/sanity-utils";
+import { getUserByID, deleteBooking } from "../../sanity/sanity-utils";
 import { FC, useState } from 'react'
 import {add, format} from 'date-fns'
 import Link from "next/link";
 import { Comment } from "@/types/Comment";
+import { User } from "@/types/User";
+import { usePathname, useRouter } from "next/navigation";
+
 
 
 interface indexProps {
     comment: Comment;
+    commenterID: string;
+    userID: User | undefined | null;
 }
 
 // interface DateType{
@@ -18,10 +23,10 @@ interface indexProps {
 //     numPersons: number | null
 // }
 
-const index: FC<indexProps> =  async ({comment}) => {
+const index: FC<indexProps> =  async ({comment, commenterID, userID}) => {
     
-    //console.log(courtBookingsArray)
-
+    const router = useRouter()
+    const pathname = usePathname()
     // const [date, setDate] = useState<DateType>({
     //     courtName: null,
     //     justDate: null,
@@ -61,6 +66,26 @@ const index: FC<indexProps> =  async ({comment}) => {
         return date.toLocaleDateString(undefined, options);
       };
 
+      let deletebutton = false
+
+      if(userID){
+
+        if(userID._id === commenterID){
+            deletebutton = true
+        }
+      }
+
+    function handleDelete(id: string): void {
+        deleteBooking(id)
+        // router.push(pathname)
+        // router.refresh()
+        setTimeout(() => {
+            // Code to execute after the delay
+            location.reload();
+        }, 1000);
+        
+        
+    }
 
     return(
         <div key={comment._id} className="border rounded p-4 my-4 flex items-start relative">
@@ -76,8 +101,16 @@ const index: FC<indexProps> =  async ({comment}) => {
             )}
             <p className="font-bold">@{user.username.current}</p>
             <p className="ml-1">{comment.text.toString()}</p>
+
+            {deletebutton && (
+            <button className= "absolute top-0 right-0 text-xs text-red-500 font-bold mr-2 border border-red-500 px-2 py-1 rounded" onClick={() => handleDelete(comment._id)}>
+                X
+            </button>
+        )}
+        
             <p className="absolute bottom-0 right-0 text-xs text-gray-500">{formatDate(comment._createdAt)}</p>
         </div>
+        
     );
 }
 

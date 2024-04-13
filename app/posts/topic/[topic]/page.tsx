@@ -4,6 +4,8 @@ import { getAllTopics, getPostsByTopic, getTopicbyName } from "../../../../sanit
 import Link from "next/link";
 import { useRouter } from 'next/router';
 import { FaArrowCircleUp } from 'react-icons/fa';
+import { authConfig, loginIsRequiredClient } from "@/app/lib/auth";
+import { getServerSession } from "next-auth";
 
 
 
@@ -12,6 +14,20 @@ type Props = {
 }
 
 export default async function EventDetails({params}: Props){  
+
+    // const session = await getServerSession(authConfig);
+
+    // let username: string | null | undefined = null
+    // if(session){
+    //     username = session?.user?.email
+    //     if(typeof username == "undefined" || !username)
+    //         username = "-1"
+    // }
+
+    // console.log(username)
+    
+    // const users = await getUser(username);
+    // user = users[0]
 
     //properly format info
     const formattedTopic = decodeURIComponent(params.topic)
