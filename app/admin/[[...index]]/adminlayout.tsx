@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "SA Tennis Club",
-  description: "St Agustine Tennis Club",
+  title: "St. Augustine Recreational Club",
+  description: "St. Augustine Recreational Club",
 };
 
 export default function RootLayout({

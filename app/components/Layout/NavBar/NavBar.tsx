@@ -12,7 +12,7 @@ const navbarItems = [
   { ref: '/events', label: 'Events' },
   { ref: '/posts', label: 'Posts' },
   { ref: '/court_bookings', label: 'Court Bookings', prefetch: false },
-  //{ ref: '/register', label: 'Register/Login', prefetch: false },
+  { ref: '/contact', label: 'Contact', prefetch: false },
   { ref: '/account', label: 'My Account', prefetch: false }, ///my-account
 ];
 
