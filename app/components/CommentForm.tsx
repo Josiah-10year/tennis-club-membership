@@ -35,7 +35,7 @@ const Index: FC<indexProps> = ({userProp, postID}) => {
                 disabled/>
                 <button
                     className="bg-blue-500 text-white px-4 py-2 rounded-md text-sm"
-                    onClick={() => router.push('/')}
+                    onClick={() => router.push('/login')}
                     disabled>
                     Submit
                 </button>
