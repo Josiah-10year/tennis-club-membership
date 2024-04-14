@@ -83,27 +83,31 @@ export default async function EventDetails({params}: Props){ // in () put
 
     //i am doing it like this because it thows issue if the particular event isnt defined; dont worry, only one event will come up anyways
     return (
-        <div className="container mx-auto px-12">
-            <br></br>
-            {events.map((event, index) => (
-                <div key={index} className="my-8 bg-white rounded-lg shadow-lg p-8">
-                    <h1 className="text-3xl font-bold mb-4">Event: {event.title}</h1>
-                    {event.images && event.images.map((image, imageIndex) => (
-                        <img 
-                            key={imageIndex} 
-                            src={image.asset && image.asset._ref ? formatImageLink(image.asset._ref) : ''} 
-                            alt={`Image ${imageIndex}`} 
-                            className="w-full h-auto max-w-[600px] rounded-lg shadow-md mb-4"
-                        />
+        <div className="relative">
+            <div className="max-w-5xl mx-auto py-20">
+                <div className="container mx-auto px-12">
+                <a className="text-blue-600 underline text-sm" href="/events"> Back to Events </a>
+                    {events.map((event, index) => (
+                        <div key={index} className="my-8 bg-white rounded-lg shadow-xl p-8">
+                            <h1 className="text-3xl font-bold mb-4">{event.title}</h1>
+                            {event.images && event.images.map((image, imageIndex) => (
+                                    <img 
+                                        key={imageIndex} 
+                                        src={image.asset && image.asset._ref ? formatImageLink(image.asset._ref) : ''} 
+                                        alt={`Image ${imageIndex}`} 
+                            className="w-auto h-auto max-w-[600px] rounded-lg shadow-md mb-4"
+                                    />
+                            ))}
+                            <p className="text-gray-800 text-sm mb-4"><span className="font-semibold">Hosted by:</span> {event.host}</p>
+                            <p className="text-gray-800 text-sm mb-4"><span className="font-semibold">Description:</span> {event.description.toString()}</p>
+                            <p className="text-gray-800 text-sm mb-4"><span className="font-semibold">Start:</span> {formatDate(event.start)}</p>
+                            <p className="text-gray-800 text-sm mb-4"><span className="font-semibold">End:</span> {formatDate(event.end)}</p>
+                            <p className="text-gray-800 text-sm mb-4"><span className="font-semibold">Venue:</span> {event.location}</p>
+                            {/* published by: {getAdminName(event.author)} */}
+                        </div>
                     ))}
-                    <p className="text-gray-700 text-lg mb-4"><span className="font-bold">Hosted by:</span> {event.host}</p>
-                    <p className="text-gray-700 text-lg mb-4"><span className="font-bold">Description:</span> {event.description.toString()}</p>
-                    <p className="text-gray-700 text-lg mb-4"><span className="font-bold">Start:</span> {formatDate(event.start)}</p>
-                    <p className="text-gray-700 text-lg mb-4"><span className="font-bold">End:</span> {formatDate(event.end)}</p>
-                    <p className="text-gray-700 text-lg mb-4"><span className="font-bold">Venue:</span> {event.location}</p>
-                    {/* published by: {getAdminName(event.author)} */}
                 </div>
-            ))}
+            </div>
         </div>
     );
     // return(
