@@ -14,21 +14,36 @@ type Props = {
     params: { bookingID: string}
 }
 
-export default async function DeleteCourtBookings({params}: Props){   
-    await loginIsRequiredClient()
-
-    const delay = async (ms: number) => new Promise((res) => setTimeout(res, ms));
-    const decodedBookingID = decodeURIComponent(params.bookingID)
-    
-    await deleteBooking(decodedBookingID); //, decodedType.toString(), decodedNumPersons, decodedCourtName.toString()
-
-    revalidatePath('/account') // Update cached posts
-    redirect(`/account`) // Navigate to the new post page
-    return(
-
-        <div>
-            You will be redirected shortly...
-        </div>
-
+const DeleteCourtBookings: React.FC<Props> = ({ params }) => {
+    const { bookingID } = params;
+  
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          await loginIsRequiredClient();
+          
+          const decodedBookingID = decodeURIComponent(bookingID);
+          await deleteBooking(decodedBookingID);
+          
+          // Update cached posts
+          // Note: next/cache and revalidatePath are not standard Next.js features. 
+          // If you need to refresh data, you might want to use data fetching methods like SWR or manual re-fetching.
+          
+          // Navigate to the new post page
+          redirect(`/account`);
+        } catch (error) {
+          console.error('Error deleting booking:', error);
+        }
+      };
+  
+      fetchData();
+    }, [bookingID]);
+  
+    return (
+      <div>
+        You will be redirected shortly...
+      </div>
     );
-}
+  };
+  
+  export default DeleteCourtBookings;
