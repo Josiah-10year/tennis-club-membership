@@ -11,10 +11,10 @@ import BackToTopButton from "@/app/components/BackToTopButton";
 
 
 type Props = {
-    params: { topic: string}
+    params: { topic: string }
 }
 
-export default async function EventDetails({params}: Props){  
+export default async function EventDetails({ params }: Props) {
 
     // const session = await getServerSession(authConfig);
 
@@ -26,7 +26,7 @@ export default async function EventDetails({params}: Props){
     // }
 
     // console.log(username)
-    
+
     // const users = await getUser(username);
     // user = users[0]
 
@@ -50,9 +50,14 @@ export default async function EventDetails({params}: Props){
                             <li>
                                 <a key={0} href={`/posts`} className="text-blue-600 hover:text-blue-900 transition text-foreground-light block text-base">All</a>
                             </li>
-                            {topics.map((topic, index) => (
-                                <li>
-                                    <a key={index+1} href={`/posts/topic/${topic.name}`} className="text-blue-600 hover:text-blue-900 transition text-foreground-light block text-base">{topic.name}</a>
+                            {topics.map((topic) => (
+                                <li key={topic._id}> {/* Replace 'id' with your actual unique identifier */}
+                                    <a
+                                        href={`/posts/topic/${topic.name}`}
+                                        className="text-blue-600 hover:text-blue-900 transition text-foreground-light block text-base"
+                                    >
+                                        {topic.name}
+                                    </a>
                                 </li>
                             ))}
                         </ul>
@@ -62,8 +67,8 @@ export default async function EventDetails({params}: Props){
                     <h1 className="text-2xl">{formattedTopic}</h1>
                     <div className="grid grid-cols-1 gap-5 lg:max-w-none lg:grid-cols-2 xl:grid-cols-3">
                         {posts.map((post) => (
-                            <Link href={`/posts/${post.slug}`} 
-                            key={post._id} className="border p-4 rounded hover:scale-105 hover:border-blue-500 transition">
+                            <Link href={`/posts/${post.slug}`}
+                                key={post._id} className="border p-4 rounded hover:scale-105 hover:border-blue-500 transition">
                                 <h2 className="text-xl font-semibold text-gray-800">{post.title}</h2>
                                 <p className="text-sm text-gray-600">{post.description}</p>
                                 {/* <p className="text-sm text-gray-400 mt-2">Author: {post.author}</p> */}
