@@ -23,10 +23,8 @@ interface indexProps {
 //     numPersons: number | null
 // }
 
-const index: FC<indexProps> =  async ({comment, commenterID, userID}) => {
+const Index: FC<indexProps> =  async ({comment, commenterID, userID}) => {
     
-    const router = useRouter()
-    const pathname = usePathname()
     // const [date, setDate] = useState<DateType>({
     //     courtName: null,
     //     justDate: null,
@@ -114,4 +112,4 @@ const index: FC<indexProps> =  async ({comment, commenterID, userID}) => {
     );
 }
 
-export default index
+export default Index
