@@ -65,9 +65,9 @@ export function CredentialsForm(props: CredentialsFormProps) {
       </button>
 
       <div className="text-xs tracking-widest">
-        <br></br>
-        <p>Do not have an account?<a href="/register"> <u>Register here</u></a></p>
-      </div>
+    <br></br>
+    <p>Do not have an account?<a href="/register"> <u>Register here</u></a></p>
+  </div>
     </form>
   );
 }
