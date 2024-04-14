@@ -88,7 +88,7 @@ export default async function MyAccount() {
         <h1 className="py-8 font-site sm:px-20">Upcoming Bookings</h1><br></br>
         <div className="sm:px-20">
         {bookings.map((booking) => (
-          <div>
+          <div key={booking._id}>
             Court: {getCourtNameOnly(booking.court._ref)} <br></br>
             Start: {formatDate(booking.start)} <br></br>
             End: {formatDate(booking.end)} <br></br>
