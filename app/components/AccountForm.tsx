@@ -1,13 +1,18 @@
 "use client"
-import { registerUser } from "../../sanity/sanity-utils";
+import { registerUser, updateUser } from "../../sanity/sanity-utils";
 import { useState } from "react";
 import { FC } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import Topics from "../components/TopicsSH";
-import Interests from "../components/InterestsSH";
+import Topics from "../components/TopicsAccountForm";
+import { User } from "../../types/User";
+import Interests from "../components/InterestsAccountForm";
 import { URL } from "url";
 import { InputType } from "zlib";
 import { File } from "buffer";
+import { CourtBooking } from "@/types/CourtBooking";
+import Link from "next/link";
+import { revalidatePath } from 'next/cache'
+import { redirect } from 'next/navigation'
 
 type Topic = {
     name: string,
@@ -19,21 +24,15 @@ type Interest = {
     _id: string
 }
 
-type User = {
-    username: {_type: string, current: string},
-    email: string
-}
-
 interface indexProps {
     topicsArrayProp: Topic[];
     interestsArrayProp: Interest[];
-    userArrayProp: User[];
+    userProp: User;
 }
 
-const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp, userArrayProp }) => {
+const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp, userProp }) => {
     const topics = topicsArrayProp;
     const interests = interestsArrayProp;
-    const userInfo = userArrayProp;
     const [FormInput, setFormData] = useState<FormInput | undefined>(undefined);
     interface FormInput{
         firstname: string,
@@ -60,13 +59,13 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp, userArrayP
     } = useForm< FormInput>(
         {
         defaultValues: {
-            firstname: "",
-            lastname: "",
-            email: "",
-            phone: "",
-            username: "",
-            password: "",
-            bio: "",
+            firstname: userProp.firstName,
+            lastname: userProp.lastName,
+            email: userProp.email,
+            phone: userProp.phone,
+            username: userProp.username.current,
+            password: userProp.password,
+            bio: userProp.bio.toString(),
             interests: []
         }
         }
@@ -74,44 +73,37 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp, userArrayP
 
     // Function for handling the form submission
     const onSubmit: SubmitHandler< FormInput> = (data) => {
-        let error: boolean = false
-        userInfo.forEach((user) => {
-            if (user.username.current === data.username){
-                error = true
-                return (window.alert("SUBMISSION ERROR\nThe username you have entered is already taken.\nPlease enter another username."))
-            }
-            else if (user.email === data.email){
-                error = true
-                return (window.alert("SUBMISSION ERROR\nAn account with this email already exists\nPlease use another email."))
-            }
-        })
-        if(!error){
-            const selectedTopics: string[] = [];
-            const topics = document.querySelectorAll('input.topic[type="checkbox"]:checked') as unknown as HTMLInputElement[];
-            topics.forEach((subscription) => {
-                selectedTopics.push(subscription.value);
-            });
+        const selectedTopics: string[] = [];
+        const topics = document.querySelectorAll('input.topic[type="checkbox"]:checked') as unknown as HTMLInputElement[];
+        topics.forEach((subscription) => {
+            selectedTopics.push(subscription.value);
+        });
 
-            const selectedInterests: string[] = [];
-            const interests = document.querySelectorAll('input.interest[type="checkbox"]:checked') as unknown as HTMLInputElement[];
-            interests.forEach((interest) => {
-                selectedInterests.push(interest.value);
-            });
+        const selectedInterests: string[] = [];
+        const interests = document.querySelectorAll('input.interest[type="checkbox"]:checked') as unknown as HTMLInputElement[];
+        interests.forEach((interest) => {
+            selectedInterests.push(interest.value);
+        });
+        updateUser(
+            userProp._id,
+            data.firstname, 
+            data.lastname, 
+            data.email, 
+            data.phone, 
+            data.username, 
+            data.password, 
+            data.image, 
+            data.bio,
+            selectedTopics,
+            selectedInterests
+        )
 
-            registerUser(
-                data.firstname, 
-                data.lastname, 
-                data.email, 
-                data.phone, 
-                data.username, 
-                data.password, 
-                data.image, 
-                data.bio,
-                selectedTopics,
-                selectedInterests
-            )
-            return (window.alert("CONGRATULATIONS!\nYou have been registered successfully.\nYou are now a member of the St. Augustine Recreational Club!"))
-        }
+        setTimeout(() => {
+            //needs a delay to show correct stuff
+        }, 1000);
+
+        //revalidatePath('/account') // Update cached posts
+        //redirect(`/home`) // Navigate to the new post page
     }
 
     if (isSubmitting) {
@@ -136,16 +128,16 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp, userArrayP
 
     return (
         <div className="relative">
-        <div className="w-full h-[200px] relative">
+        <div className="w-full h-[100px] relative">
         </div>
         <div className="max-w-7xl mx-auto mt-[-120px] relative bg-white px-8 sm:px-20">
-            <h1 className="text-center py-8">Register</h1>
+            <br></br>
             <div className="max-w-4xl mx-auto">
             <form onSubmit={handleSubmit(onSubmit)} className="border-2 border-blue-site p-8">
-            <h3 className="font-semibold text-gray-800 text-lg my-3">Account Details</h3>
+            <h3 className="font-site text-lg my-3">Account Details</h3>
                 <div className="flex flex-col sm:flex-row sm:gap-12">
                 <div className="basis-1/2">
-                    <label className="text-gray-800 font-semibold text-sm" htmlFor="first">
+                    <label className="text-xs" htmlFor="first">
                     First Name *
                     </label>
                     <input
@@ -155,7 +147,7 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp, userArrayP
                     required={true}
                     {...register("firstname")}
                     />
-                    <label className="text-gray-800 font-semibold text-sm" htmlFor="email">
+                    <label className="text-xs" htmlFor="email">
                     Email Address*
                     </label>
                     <input
@@ -165,7 +157,7 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp, userArrayP
                     required={true}
                     {...register("email")}
                     />
-                    <label className="text-gray-800 font-semibold text-sm" htmlFor="username">
+                    <label className="text-xs" htmlFor="username">
                     Username *
                     </label>
                     <input 
@@ -173,11 +165,12 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp, userArrayP
                     type="text" 
                     id="username"
                     required={true}
+                    readOnly
                     {...register("username")}
                     />
                 </div>
                 <div className="basis-1/2">
-                    <label className="text-gray-800 font-semibold text-sm" htmlFor="last">
+                    <label className="text-xs" htmlFor="last">
                     Last Name *
                     </label>
                     <input 
@@ -187,7 +180,7 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp, userArrayP
                     required={true}
                     {...register("lastname")}
                     />
-                    <label className="text-gray-800 font-semibold text-sm" htmlFor="phone">
+                    <label className="text-xs" htmlFor="phone">
                     Phone Number*
                     </label>
                     <input 
@@ -197,7 +190,7 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp, userArrayP
                     required={true} 
                     {...register("phone")}
                     />
-                    <label className="text-gray-800 font-semibold text-sm" htmlFor="password">
+                    <label className="text-xs" htmlFor="password">
                     Password *
                     </label>
                     <input
@@ -209,14 +202,14 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp, userArrayP
                     />
                 </div>
                 </div>
-                <h3 className="font-semibold text-gray-800 text-lg my-3">Profile Setup</h3>
+                <h3 className="font-site text-lg my-3">Profile Details</h3>
                 <div className="flex flex-col sm:flex-row sm:gap-12">
                 <div className="basis-1/2">
-                    <label className="text-gray-800 font-semibold text-sm" htmlFor="avatar">
-                    Avatar
+                    <label className="text-xs" htmlFor="avatar">
+                    Update Your Avatar
                     </label>
                     <input
-                    className="input text-xs"
+                    className="input"
                     type="file"
                     id="avatar"
                     accept="image/*"
@@ -224,7 +217,7 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp, userArrayP
                     placeholder="Image"
                     {...register("image")}
                     />
-                    <label className="text-gray-800 font-semibold text-sm" htmlFor="bio">
+                    <label className="text-xs" htmlFor="bio">
                     Bio
                     </label>
                     <textarea
@@ -237,25 +230,22 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp, userArrayP
                     {...register("bio")}
                     />
                 </div>
-                <Topics topicsArrayProp={topics}/>
+                <Topics topicsArrayProp={topics} userTopicsArrayProp={userProp.subscriptions}/>
                 </div>
-                <Interests interestsArrayProp={interests}/>
+                <Interests interestsArrayProp={interests} userInterestsArrayProp = {userProp.interests}/>
                 <div className="flex flex-col sm:flex-row sm:gap-12">
                 <div className="basis-1/2">
-                    <button className="w-full h-12 px-6 mt-4 text-lg text-white transition-colors duration-150 bg-gray-500 rounded-lg focus:shadow-outline hover:bg-gray-600" type="reset">
-                    Reset Form
-                    </button>
+                    <Link href="/home">
+                        <button className="btn-sec w-full mt-6 text-xl" >
+                        Go Back
+                        </button>
+                    </Link>
                 </div>
                 <div className="basis-1/2">
-                    <button className="w-full h-12 px-6 mt-4 text-lg text-white transition-colors duration-150 bg-blue-600 rounded-lg focus:shadow-outline hover:bg-blue-700" type="submit">
-                    Submit Form
+                    <button className="btn-main w-full mt-6 text-xl" type="submit">
+                    Save Changes
                     </button>
                 </div>
-                </div>
-
-                <div className="text-xs tracking-widest">
-                <br></br>
-                <p className="text-xs">Already have an account?<a href="/"> <u className="text-blue-600 underline">Sign in here</u></a></p>
                 </div>
             </form>
             </div>

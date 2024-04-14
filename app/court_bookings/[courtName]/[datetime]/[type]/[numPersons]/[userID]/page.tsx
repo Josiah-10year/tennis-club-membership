@@ -1,14 +1,24 @@
+"use client"
 import { Court } from "@/types/Court";
-import { getCourtBookings, getCourtID, addCourtBookings } from "../../../../../../sanity/sanity-utils";
-import Calendar from "../../../../../components/CalendarTestJV"
+import { getCourtBookings, getCourtID, addCourtBookings, getUser } from "../../../../../../../sanity/sanity-utils";
+import Calendar from "../../../../../../components/CalendarTestJV"
 import {add, format} from 'date-fns'
+// import { redirect } from "next/dist/server/api-utils";
+import { redirect } from 'next/navigation'
+import { revalidatePath } from 'next/cache'
+import { useEffect } from 'react';
+import { authConfig, loginIsRequiredClient } from "@/app/lib/auth";//loginIsRequiredClient
+import { getServerSession } from "next-auth";
+
 
 type Props = {
-    params: { courtName: string, datetime: string, type: string, numPersons: number}
+    params: { courtName: string, datetime: string, type: string, numPersons: number, userID:string}
 }
 
 export default async function CourtBookings({params}: Props){ // in () put  
+    await loginIsRequiredClient()
 
+    const delay = async (ms: number) => new Promise((res) => setTimeout(res, ms));
     //output string
     let output = ""
     //properly format booking information
@@ -20,6 +30,7 @@ export default async function CourtBookings({params}: Props){ // in () put
     const formattedEndDatetime = endDatetime.toISOString();
     const decodedType = decodeURIComponent(params.type)
     const decodedNumPersons = parseInt(params.numPersons.toString(), 10); // Parse as integer
+    const decodedUserID = decodeURIComponent(params.userID)
 
 
     //prep courtname to get id to use in booking query
@@ -30,8 +41,10 @@ export default async function CourtBookings({params}: Props){ // in () put
     //now pull bookings that match the timeslot and court
     const bookings = await getCourtBookings(formattedDatetime.toString(), courtID.toString()); //, decodedType.toString(), decodedNumPersons, decodedCourtName.toString()
 
-    //we also need to pull the user id but for now
+
     const userID = "68028cac-7cde-4489-be2c-a601df250af0"
+    
+    //"68028cac-7cde-4489-be2c-a601df250af0"
     if(bookings.length > 0){
 
         //firstly we only want to go here if the person wants an open booking
@@ -57,7 +70,7 @@ export default async function CourtBookings({params}: Props){ // in () put
                 //now this sum must be compatible with number of people we are trying to let in the booking i.e. open is max 4
                 if(sum <= 4){
                     // we can join the open booking
-                    const done = await addCourtBookings(courtID, formattedDatetime, formattedEndDatetime, decodedType, decodedNumPersons, userID )
+                    const done = await addCourtBookings(courtID, formattedDatetime, formattedEndDatetime, decodedType, decodedNumPersons, decodedUserID )
 
                     if(done){
                         output = "Your booking has successfully been made"
@@ -78,7 +91,7 @@ export default async function CourtBookings({params}: Props){ // in () put
 
     }else{
         //We can book freely
-        const done = await addCourtBookings(courtID, formattedDatetime, formattedEndDatetime, decodedType, decodedNumPersons, userID )
+        const done = await addCourtBookings(courtID, formattedDatetime, formattedEndDatetime, decodedType, decodedNumPersons, decodedUserID )
 
         if(done){
             output = "Your booking has successfully been made"
@@ -86,6 +99,15 @@ export default async function CourtBookings({params}: Props){ // in () put
             output = "Error creating booking. The booking could not be made at this time. Check the console for more details"
         }
     }
+
+        revalidatePath('/court_bookings') // Update cached posts
+        revalidatePath('/account') // Update cached posts
+        redirect(`/account`) // Navigate to the new post page
+        
+        //window.alert(output);
+        
+        //}
+    // }
 
     return(
 
@@ -98,11 +120,12 @@ export default async function CourtBookings({params}: Props){ // in () put
             {formattedDatetime} <br></br>
             {decodedType} <br></br>
             {decodedNumPersons} <br></br><br></br>
-            Outcome: {output}
-
+            Outcome: {output}<br></br><br></br>
+            You will be redirected shortly...
         </div>
 
     );
+    
 
     //params.courtName
     //test

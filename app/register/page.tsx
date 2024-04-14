@@ -1,6 +1,5 @@
 import { getAllTopics, getAllInterests, getAllUsersUsernameAndEmail } from "../../sanity/sanity-utils";
 import { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
 import Form from "../components/RegisterSH"
 import { URL } from "url";
 

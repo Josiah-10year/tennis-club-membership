@@ -1,15 +1,27 @@
 import { add, format } from "date-fns";
 import { INTERVAL, STORE_CLOSING_TIME, STORE_OPENING_TIME } from '../constants/config'
-import { getCourtBookings, getCourtBookingsAfterToday, getCourts } from "../../sanity/sanity-utils";
+import { getCourtBookings, getCourtBookingsAfterToday, getCourts, getUser } from "../../sanity/sanity-utils";
 import Calendar from "../components/CalendarTestJV"
 import { CourtBooking } from "@/types/CourtBooking";
+import { authConfig, useloginIsRequiredServer } from "@/app/lib/auth";
+import { getServerSession } from "next-auth";
+import { Court } from "@/types/Court";
+
 export default async function CourtBookings(){
+    await useloginIsRequiredServer();
 
     const courtsArray = await getCourts();
     //organize array of days that are booked up, and also pass array of all bookings >= today; array of filled days used for calendar, and
     //array of all bookings >= today used to check the time slots given court ID
 
     const courtBookingsArray : CourtBooking[] = await getCourtBookingsAfterToday();
+
+    // const today = new Date();
+    // today.setHours(0, 0, 0, 0);
+    // const url = 'https://46b4kxer.api.sanity.io/v2021-06-07/data/query/production?query=*[_type =="booking"][start >= "' + today.toISOString() + '"]'
+    // // const testArray1 : CourtBooking[] = await fetchData(url);
+    // //const testArray : CourtBooking[] = testArray1.
+    // console.log("Test: " + testArray1)
 
     const getFullyBookedDates = (courtBookings: CourtBooking[]) => {
         const fullyBookedDatesSet = new Set<string>();
@@ -51,26 +63,33 @@ export default async function CourtBookings(){
     
     const fullyBookedDates = getFullyBookedDates(courtBookingsArray);
 
-    const courts : string[] = []
-        let x = 0;
+    
+    function sortCourtsByName(courts: Court[]): Court[] {
 
-        for (const item of courtsArray) {
-            courts[x]=(item.name);
-            x=x+1
+        return courts.slice().sort((a, b) => a.name.localeCompare(b.name));
+    }
+        const courts = sortCourtsByName(courtsArray);
+
+        //we also need to pull the user id but for now
+        const session = await getServerSession(authConfig);
+        const username = session?.user?.email
+        let userID = ""
+        if (username){
+            const userID2 = await getUser(username);
+            userID = userID2[0]._id
+        }else{
+        //something wrong defaulted to john
+        userID = "68028cac-7cde-4489-be2c-a601df250af0"
         }
-
-        courts.sort()
 
 
 
     return(
-
-        <div>
-            <h3>Court Bookings Page</h3>
-            <h3>The calendar and booking details</h3>
-            <h3>The content is being hidden by the nav bar but its here</h3>
-            <div><Calendar stringArrayProp={courts} fullyBookedDates={fullyBookedDates} courtBookingsArray={courtBookingsArray} /></div>
+        <div className="relative">
+            <div className="max-w-5xl mx-auto py-20">
+                <h1 className="text-left py-8">Court Booking</h1>
+                <Calendar courtArrayProp={courts} fullyBookedDates={fullyBookedDates} courtBookingsArray={courtBookingsArray} userID= {userID}/>
+            </div>
         </div>
-
     );
 }

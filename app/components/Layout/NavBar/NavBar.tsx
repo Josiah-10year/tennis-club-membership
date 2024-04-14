@@ -3,15 +3,17 @@ import { NavLink } from './NavLink';
 import { useCallback, useState } from 'react';
 import type { LinkProps } from 'next/link';
 import { usePathname } from 'next/navigation';
+import { signOut} from 'next-auth/react'
+import Link from 'next/link';
 // import Login from '@app/components/Login/Login';
 
 const navbarItems = [
-  { ref: '/', label: 'About' },
+  { ref: '/', label: 'Home' },
   { ref: '/events', label: 'Events' },
   { ref: '/posts', label: 'Posts' },
-  { ref: '/court_bookings', label: 'Court Bookings' },
-  { ref: '/register', label: 'Register/Login', prefetch: false },
-  // { ref: '/account/my-account', label: 'Account', prefetch: false },
+  { ref: '/court_bookings', label: 'Court Bookings', prefetch: false },
+  { ref: '/contact', label: 'Contact', prefetch: false },
+  { ref: '/account', label: 'My Account', prefetch: false }, ///my-account
 ];
 
 export const StyledNavLink = ({
@@ -88,11 +90,25 @@ export function NavBar() {
               <span className="absolute -bottom-5 md:hidden border-b-2 w-48 left-[calc(50%_-_theme(space.24))]" />
             </li>
           ))}
-          <li className="order-first md:order-last justify-end">
-            <div className="flex flex-nowrap text-turquoise-200 gap-2 justify-center items-center">
-              {/* <Login onActionClick={() => setIsMenuShown(false)} /> */}
-            </div>
-          </li>
+          <li key={"/api/route/signout"} className="relative">
+              <Link 
+                legacyBehavior
+                href={"/api/route/signout"}
+                prefetch={true}
+              >
+                <a
+                  onClick={(e) => {
+                    e.preventDefault();
+                    signOut();
+                    window.alert("You have logged out successfully")
+                  }}
+                >
+                  Sign Out
+                </a>
+
+              </Link>
+              <span className="absolute -bottom-5 md:hidden border-b-2 w-48 left-[calc(50%_-_theme(space.24))]" />
+            </li>
         </ul>
       </nav>
     </>

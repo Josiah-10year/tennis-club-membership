@@ -1,9 +1,9 @@
-//JV - courts
-import { PortableTextBlock } from "sanity";
+import { Image, PortableTextBlock } from "sanity";
 
 export type Court = {
     _id: string;
     _createdAt: string;
     name: string;
     content: PortableTextBlock[];
+    image: Image;
 }

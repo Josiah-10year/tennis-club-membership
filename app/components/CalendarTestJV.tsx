@@ -10,11 +10,11 @@ import Link from "next/link";
 import { CourtBooking } from "@/types/CourtBooking";
 
 
-
-interface indexProps {
-    stringArrayProp: string[];
+interface IndexProps {
+    courtArrayProp: Court[];
     fullyBookedDates: string[];
     courtBookingsArray: CourtBooking[];
+    userID: string;
 }
 
 interface DateType{
@@ -25,9 +25,9 @@ interface DateType{
     numPersons: number | null
 }
 
-const Index: FC<indexProps> =  ({stringArrayProp, fullyBookedDates, courtBookingsArray}) => {
+const Index: FC<IndexProps> =  ({courtArrayProp, fullyBookedDates, courtBookingsArray, userID}) => {
 
-    console.log(courtBookingsArray)
+    //console.log(courtBookingsArray)
 
     const [date, setDate] = useState<DateType>({
         courtName: null,
@@ -36,6 +36,20 @@ const Index: FC<indexProps> =  ({stringArrayProp, fullyBookedDates, courtBooking
         type: null,
         numPersons: null
     })
+
+
+    const formatImageLink = (imageURL: string): string => {
+        // First, remove "image-"
+        imageURL = imageURL.replace("image-", "");
+        // Then, swap "-jpg" to ".jpg" and "-png" to ".png"
+        imageURL = imageURL.replace("-jpg", ".jpg");
+        imageURL = imageURL.replace("-png", ".png");
+
+        //finally put it in the right format
+        imageURL = "https://cdn.sanity.io/images/46b4kxer/production/" + imageURL
+
+        return imageURL
+    }
 
     const tileDisabled = ({ date }: { date: Date }) => {
         const formattedDate = format(date, 'yyyy-MM-dd');
@@ -63,52 +77,53 @@ const Index: FC<indexProps> =  ({stringArrayProp, fullyBookedDates, courtBooking
     }
 
     const times = getTimes();
-    const courts = stringArrayProp;
+    // const courts = stringArrayProp;
     const choices = ["open","private"]
     const numPersonsArray = [1,2,3,4,5,6,7,8,9,10]
 
     const isDisabled = (time: Date, selectedDate: Date | null): boolean => {
-        if (!selectedDate) return false; // If no date selected, all slots are enabled
-        const courtBookingsArray2 = [...courtBookingsArray];
-        const dateTime = new Date(selectedDate);
-        dateTime.setHours(time.getHours(), time.getMinutes(), 0, 0); // Merge date and time
-        const formattedDateTime = dateTime.toISOString(); // Convert to ISO format
-
+        // If no date selected, all slots are enabled
+        if (!selectedDate) return false;
+    
+        // Merge date and time to create the target date-time for comparison
+        const targetDateTime = new Date(selectedDate);
+        targetDateTime.setHours(time.getHours(), time.getMinutes(), 0, 0);
+    
+        // Convert target date-time to ISO string for comparison
+        const formattedDateTime = targetDateTime.toISOString();
+    
         // Filter bookings for the selected date and time slot
-        const bookingsForSelectedDateTime = courtBookingsArray2.filter(
+        const bookingsForSelectedDateTime = courtBookingsArray.filter(
             booking => {
+                // Convert booking start time to Date object for comparison
                 const bookingDateTime = new Date(booking.start);
-                // Compare year, month, day, hour, and minute
-                return (
-                    dateTime.getFullYear() === bookingDateTime.getFullYear() &&
-                    dateTime.getMonth() === bookingDateTime.getMonth() &&
-                    dateTime.getDate() === bookingDateTime.getDate() &&
-                    dateTime.getHours() === bookingDateTime.getHours() &&
-                    dateTime.getMinutes() === bookingDateTime.getMinutes()
-                );
+    
+                // Check if booking start time matches the target date-time
+                return bookingDateTime.toISOString() === formattedDateTime;
             }
         );
-
-        // Check if there are any bookings for the selected date and time slot
+    
+        // If there are no bookings, slot is available
         if (bookingsForSelectedDateTime.length === 0) {
-            return false; // No bookings, slot is available
+            return false;
         }
-
-        // Check if there is any private booking for the selected date and time slot
+    
+        // Check if there is any private booking, if yes, slot is disabled
         const hasPrivateBooking = bookingsForSelectedDateTime.some(booking => booking.type === 'private');
         if (hasPrivateBooking) {
-            return true; // Private booking exists, slot is disabled
+            return true;
         }
-
-        // Check if there is any open booking for the selected date and time slot
-        const totalPersonsForSelectedTime = bookingsForSelectedDateTime.reduce(
+    
+        // Calculate total number of people for open bookings
+        const totalPersonsForOpenBookings = bookingsForSelectedDateTime.reduce(
             (total, booking) => total + booking.numPeople,
             0
         );
-        const isOpenBookingAllowed = totalPersonsForSelectedTime < 4;
-        return !isOpenBookingAllowed; // Open booking not allowed, slot is disabled
+    
+        // If total number of people for open bookings exceeds 4, slot is disabled
+        return totalPersonsForOpenBookings >= 4;
     };
-
+    
 
 const isDisabledType = (choice: string, dateTime: Date | null): boolean => {
     if (!dateTime) return true; // If no date selected, all types are disabled
@@ -139,8 +154,13 @@ const isDisabledType = (choice: string, dateTime: Date | null): boolean => {
     return false;
 };
 
-const isDisabledNumber = (num: number, dateTime: Date | null): boolean => {
+const isDisabledNumber = (num: number, dateTime: Date | null, type: string | null): boolean => {
     if (!dateTime) return true; // If no date selected, disable all numbers
+    if(!type) return true
+
+
+    if (type === "private") return false;
+    
     const courtBookingsArray2 = [...courtBookingsArray];
     const bookingDateTime = new Date(dateTime);
 
@@ -166,6 +186,7 @@ const isDisabledNumber = (num: number, dateTime: Date | null): boolean => {
     const remainingCapacity = 4 - sumNumPersons;
 
     // If the selected number is greater than the remaining capacity, disable it
+    //test
     return num > remainingCapacity;
 };
 
@@ -177,8 +198,8 @@ const isDisabledNumber = (num: number, dateTime: Date | null): boolean => {
                     date.type ?(
                         date.numPersons ?(
                             <div>
-                                <Link 
-                                    href= {`/court_bookings/${encodeURIComponent(date.courtName)}/${encodeURIComponent(date.dateTime.toString())}/${encodeURIComponent(date.type)}/${encodeURIComponent(date.numPersons)}`}
+                                <a 
+                                    href= {`/court_bookings/${encodeURIComponent(date.courtName)}/${encodeURIComponent(date.dateTime.toString())}/${encodeURIComponent(date.type)}/${encodeURIComponent(date.numPersons)}/${encodeURIComponent(userID)}`}
                                     key="test" 
                                     className="border border-grey-500 rounded-lg p-1 hover:scale-105 hover:border-green-500 transition"
                                     >
@@ -189,25 +210,29 @@ const isDisabledNumber = (num: number, dateTime: Date | null): boolean => {
                                         Type: {date.type} <br></br>
                                         Number of People: {date.numPersons}
                                         </div>
-                                </Link>
+                                </a>
+                                
                             </div>
                         ) : (
+                            <div>
+                <h1>Select the number of people:</h1><br></br>
                             <div className='flex gap-4'>
-                                Select Number of Persons: <br></br>
                         {numPersonsArray?.map((choice, i) => (
                         <div key={`choice-${i}`} className= 'rounded-sm bg-gray-100 p-2'>
-                            <button type='button' disabled={isDisabledNumber(choice, date.dateTime)} onClick={() => setDate((prev) => ({...prev, numPersons: choice}))}>
+                            <button type='button' disabled={isDisabledNumber(choice, date.dateTime, date.type)} onClick={() => setDate((prev) => ({...prev, numPersons: choice}))}>
                             {choice.toString()}
                             </button>
                         </div>
                         ))}
                         </div>
+                        </div>
 
                         )
                         
                     ) : (
+                        <div>
+                <h1>Select a booking type:</h1><br></br>
                         <div className='flex gap-4'>
-                            Select Booking Type: <br></br>
                     {choices?.map((choice, i) => (
                         <div key={`choice-${i}`} className= 'rounded-sm bg-gray-100 p-2'>
                             <button type='button' disabled={isDisabledType(choice, date.dateTime)} onClick={() => setDate((prev) => ({...prev, type: choice}))}>
@@ -216,10 +241,13 @@ const isDisabledNumber = (num: number, dateTime: Date | null): boolean => {
                         </div>
                     ))}
                 </div>
+                </div>
                     )
                     
 
                 ):(
+                    <div>
+                <h1>Select a timeslot:</h1><br></br>
                     <div className='flex gap-4'>
                     {times?.map((time, i) => (
                         <div key={`time-${i}`} className= 'rounded-sm bg-gray-100 p-2'>
@@ -229,29 +257,52 @@ const isDisabledNumber = (num: number, dateTime: Date | null): boolean => {
                         </div>
                     ))}
                 </div>
+                </div>
                 )
                 
                 ) : (
+
+                    <div>
+                <h1>Select a date:</h1><br></br>
                 <ReactCalendar 
                 minDate={new Date()}
                 className='REACT-CALENDAR p-s' 
                 view='month' 
                 onClickDay={(date) => setDate((prev) => ({ ...prev, justDate: date}))}
                 tileDisabled={tileDisabled}
-                />)
+                />
+                </div>)
 
         ) : (
+            <div>
+                <h1>Select a court:</h1><br></br>
             <div className='flex gap-4'>
-
-                    {courts?.map((court, i) => (
+                    {courtArrayProp?.map((court, i) => (
                         <div key={`court-${i}`} className= 'rounded-sm bg-gray-100 p-2'>
-                            <button type='button' onClick={() => setDate((prev) => ({...prev, courtName: court})) }>
-                               {court}
+
+                                    {court.image?.asset? (
+                                        <div>
+                                         <img 
+                                                 key={court.image.asset._key} 
+                                                 src={formatImageLink(court.image.asset._ref)}
+                                                 onClick={() => setDate((prev) => ({...prev, courtName: court.name})) } 
+                                                 alt={`Image ${court.name}`} 
+                                                 className="w-auto h-auto max-w-[200px] rounded-lg shadow-md mb-4"
+                                             />
+                                        </div>
+                                    ):(
+                                        <div></div>
+                                    )}
+
+
+                            <button type='button' onClick={() => setDate((prev) => ({...prev, courtName: court.name})) }>
+                               {court.name}
                             </button>
                             
                         </div>
                     ))}
                 </div>
+            </div>
         )}
     </div>
     )
