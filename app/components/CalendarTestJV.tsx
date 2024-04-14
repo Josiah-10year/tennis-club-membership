@@ -11,7 +11,7 @@ import { CourtBooking } from "@/types/CourtBooking";
 
 
 interface indexProps {
-    stringArrayProp: string[];
+    courtArrayProp: Court[];
     fullyBookedDates: string[];
     courtBookingsArray: CourtBooking[];
     userID: string;
@@ -25,7 +25,7 @@ interface DateType{
     numPersons: number | null
 }
 
-const index: FC<indexProps> =  ({stringArrayProp, fullyBookedDates, courtBookingsArray, userID}) => {
+const index: FC<indexProps> =  ({courtArrayProp, fullyBookedDates, courtBookingsArray, userID}) => {
 
     //console.log(courtBookingsArray)
 
@@ -38,7 +38,18 @@ const index: FC<indexProps> =  ({stringArrayProp, fullyBookedDates, courtBooking
     })
 
 
-    
+    const formatImageLink = (imageURL: string): string => {
+        // First, remove "image-"
+        imageURL = imageURL.replace("image-", "");
+        // Then, swap "-jpg" to ".jpg" and "-png" to ".png"
+        imageURL = imageURL.replace("-jpg", ".jpg");
+        imageURL = imageURL.replace("-png", ".png");
+
+        //finally put it in the right format
+        imageURL = "https://cdn.sanity.io/images/46b4kxer/production/" + imageURL
+
+        return imageURL
+    }
 
     const tileDisabled = ({ date }: { date: Date }) => {
         const formattedDate = format(date, 'yyyy-MM-dd');
@@ -66,7 +77,7 @@ const index: FC<indexProps> =  ({stringArrayProp, fullyBookedDates, courtBooking
     }
 
     const times = getTimes();
-    const courts = stringArrayProp;
+    // const courts = stringArrayProp;
     const choices = ["open","private"]
     const numPersonsArray = [1,2,3,4,5,6,7,8,9,10]
 
@@ -266,10 +277,26 @@ const isDisabledNumber = (num: number, dateTime: Date | null, type: string | nul
             <div>
                 <h1>Select a court:</h1><br></br>
             <div className='flex gap-4'>
-                    {courts?.map((court, i) => (
+                    {courtArrayProp?.map((court, i) => (
                         <div key={`court-${i}`} className= 'rounded-sm bg-gray-100 p-2'>
-                            <button type='button' onClick={() => setDate((prev) => ({...prev, courtName: court})) }>
-                               {court}
+
+                                    {court.image?.asset? (
+                                        <div>
+                                         <img 
+                                                 key={court.image.asset._key} 
+                                                 src={formatImageLink(court.image.asset._ref)}
+                                                 onClick={() => setDate((prev) => ({...prev, courtName: court.name})) } 
+                                                 alt={`Image ${court.name}`} 
+                                                 className="w-auto h-auto max-w-[200px] rounded-lg shadow-md mb-4"
+                                             />
+                                        </div>
+                                    ):(
+                                        <div></div>
+                                    )}
+
+
+                            <button type='button' onClick={() => setDate((prev) => ({...prev, courtName: court.name})) }>
+                               {court.name}
                             </button>
                             
                         </div>

@@ -5,6 +5,7 @@ import Calendar from "../components/CalendarTestJV"
 import { CourtBooking } from "@/types/CourtBooking";
 import { authConfig, loginIsRequiredServer } from "@/app/lib/auth";
 import { getServerSession } from "next-auth";
+import { Court } from "@/types/Court";
 
 export default async function CourtBookings(){
     await loginIsRequiredServer();
@@ -15,10 +16,10 @@ export default async function CourtBookings(){
 
     const courtBookingsArray : CourtBooking[] = await getCourtBookingsAfterToday();
 
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const url = 'https://46b4kxer.api.sanity.io/v2021-06-07/data/query/production?query=*[_type =="booking"][start >= "' + today.toISOString() + '"]'
-    // const testArray1 : CourtBooking[] = await fetchData(url);
+    // const today = new Date();
+    // today.setHours(0, 0, 0, 0);
+    // const url = 'https://46b4kxer.api.sanity.io/v2021-06-07/data/query/production?query=*[_type =="booking"][start >= "' + today.toISOString() + '"]'
+    // // const testArray1 : CourtBooking[] = await fetchData(url);
     // //const testArray : CourtBooking[] = testArray1.
     // console.log("Test: " + testArray1)
 
@@ -62,15 +63,12 @@ export default async function CourtBookings(){
     
     const fullyBookedDates = getFullyBookedDates(courtBookingsArray);
 
-    const courts : string[] = []
-        let x = 0;
+    
+    function sortCourtsByName(courts: Court[]): Court[] {
 
-        for (const item of courtsArray) {
-            courts[x]=(item.name);
-            x=x+1
-        }
-
-        courts.sort()
+        return courts.slice().sort((a, b) => a.name.localeCompare(b.name));
+    }
+        const courts = sortCourtsByName(courtsArray);
 
         //we also need to pull the user id but for now
         const session = await getServerSession(authConfig);
@@ -90,7 +88,7 @@ export default async function CourtBookings(){
         <div className="relative">
             <div className="max-w-5xl mx-auto py-20">
                 <h1 className="text-left py-8">Court Booking</h1>
-                <Calendar stringArrayProp={courts} fullyBookedDates={fullyBookedDates} courtBookingsArray={courtBookingsArray} userID= {userID}/>
+                <Calendar courtArrayProp={courts} fullyBookedDates={fullyBookedDates} courtBookingsArray={courtBookingsArray} userID= {userID}/>
             </div>
         </div>
     );
