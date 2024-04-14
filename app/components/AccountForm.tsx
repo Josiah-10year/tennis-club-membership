@@ -13,6 +13,7 @@ import { CourtBooking } from "@/types/CourtBooking";
 import Link from "next/link";
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
+import Image from "next/image";
 
 type Topic = {
     name: string,
@@ -28,9 +29,10 @@ interface indexProps {
     topicsArrayProp: Topic[];
     interestsArrayProp: Interest[];
     userProp: User;
+    imageURL: string;
 }
 
-const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp, userProp }) => {
+const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp, userProp, imageURL}) => {
     const topics = topicsArrayProp;
     const interests = interestsArrayProp;
     const [FormInput, setFormData] = useState<FormInput | undefined>(undefined);
@@ -134,6 +136,17 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp, userProp }
             <br></br>
             <div className="max-w-4xl mx-auto">
             <form onSubmit={handleSubmit(onSubmit)} className="border-2 border-blue-site p-8">
+
+            <div className="flex flex-col items-center justify-center">
+            <div className="sm:px-20">
+                {/* <Image src={imageURL} alt={"Profile Pic"} /> */}
+                <img src={imageURL} alt={"Profile Pic"} />
+            </div>
+            <div className="sm:px-20">
+                <h3>@{userProp.username.current}</h3><br></br>
+            </div>
+            </div>
+
             <h3 className="font-site text-lg my-3">Account Details</h3>
                 <div className="flex flex-col sm:flex-row sm:gap-12">
                 <div className="basis-1/2">

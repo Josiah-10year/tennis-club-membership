@@ -77,33 +77,41 @@ export default async function MyAccount() {
   return (
     <div className="max-w-5xl mx-auto py-20">
 
-      <h1 className="py-8 font-site sm:px-20">My Profile</h1><br></br>
-        <div className="sm:px-20">
+      {/* <h1 className="py-8 font-site sm:px-20">My Profile</h1><br></br> */}
+        {/* <div className="sm:px-20">
           <img src={imageURL}></img>
         </div>
         <div className="sm:px-20">
           <h3>@{user.username.current}</h3><br></br>
-        </div>
+        </div> */}
 
-        <h1 className="py-8 font-site sm:px-20">Upcoming Bookings</h1><br></br>
-        <div className="sm:px-20">
+        <Form topicsArrayProp={topics} interestsArrayProp={interests} userProp={user} imageURL={imageURL}/>
+
+        <br></br>
+        <br></br>
+        <center><h1 className="py-4 px-4 font-site text-gray-700">Upcoming Bookings</h1></center>
+        <br></br>
+        <div className="sm:px-20 flex flex-wrap">
         {bookings.map((booking) => (
-          <div key={booking._id}>
-            Court: {getCourtNameOnly(booking.court._ref)} <br></br>
-            Start: {formatDate(booking.start)} <br></br>
-            End: {formatDate(booking.end)} <br></br>
-            Type: {booking.type} <br></br>
-            Number of Persons: {booking.numPeople} <br></br>
-            <div className="border border-gray-300 rounded-md p-1 inline-block">
-              <a href= {`/account/${encodeURIComponent(booking._id)}`} className="hover:text-purple-700" >Cancel Booking</a>
+          <div key={booking._id} className="w-1/2 sm:w-auto p-2">
+            <div className="border border-gray-300 rounded-md shadow-xl p-4">
+              <p>Court: {getCourtNameOnly(booking.court._ref)}</p>
+              <p>Start: {formatDate(booking.start)}</p>
+              <p>End: {formatDate(booking.end)}</p>
+              <p>Type: {booking.type}</p>
+              <p>Number of Persons: {booking.numPeople}</p>
+              <br></br>
+              {/* <div className="border border-gray-300 rounded-md p-1 inline-block mt-2"> */}
+              <Link href={`/account/${encodeURIComponent(booking._id)}`} className="border p-1 rounded hover:scale-105 hover:border-red-500 hover:text-red-500 transition">
+                Cancel Booking
+              </Link>
+                {/* <a href={`/account/${encodeURIComponent(booking._id)}`} className="hover:text-red-500">Cancel Booking</a> */}
+              {/* </div> */}
             </div>
-            <br></br><br></br>
           </div>
         ))}
-        <br></br><br></br>
-        </div>
+      </div>
 
-        <Form topicsArrayProp={topics} interestsArrayProp={interests} userProp={user}/>
     </div>
    );
 }
