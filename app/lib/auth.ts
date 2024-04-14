@@ -5,7 +5,6 @@ import { redirect } from "next/navigation" //useRouter
 import CredentialsProvider from "next-auth/providers/credentials"
 import { getUser } from "../../sanity/sanity-utils";
 
-
 export const authConfig: NextAuthOptions = {
     // secret: process.env.NEXTAUTH_SECRET as string,
     session: {
@@ -52,6 +51,8 @@ export async function loginIsRequiredServer() {
 }
 
 export async function loginIsRequiredClient() {
+    const { data: session, status } = useSession();
+    
     if (typeof window !== "undefined"){
         const session = useSession();
         // const router = useRouter();
