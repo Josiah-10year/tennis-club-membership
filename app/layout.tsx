@@ -29,9 +29,9 @@ export default function Layout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="https://github.com/Josiah-10year/tennis-club-membership/blob/fd7e9089b3668756f74fae9225e85685438fe1ba/app/favicon.ico" />
       </head>
-        <body className="parallax-background">
+        <body>
           <Header />
-          <main className="bg-transparent min-h-[600px]">{children}</main>
+          <main className="bg-transparent" style={{minHeight:'90%'}}>{children}</main>
           <Footer />
         </body>
 
