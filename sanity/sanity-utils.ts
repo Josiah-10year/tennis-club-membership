@@ -71,11 +71,7 @@ export async function getEventDetails(title: string, start: string, end: string)
 
 export async function getCourts(): Promise<Court[]> {
     return client.fetch(
-        groq`*[_type == "court"]{
-            _id,
-            _createdAt,
-            name
-        }`
+        groq`*[_type == "court"]`
     )
 }
 
