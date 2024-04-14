@@ -5,7 +5,7 @@ import { getComments } from "../../../sanity/sanity-utils";
 import CommentComponent from '../../components/Comment';
 import CommentForm from '../../components/CommentForm';
 import { getServerSession } from "next-auth";
-import { authConfig, loginIsRequiredClient, loginIsRequiredServer } from "@/app/lib/auth";
+import { authConfig, loginIsRequiredClient, useloginIsRequiredServer } from "@/app/lib/auth";
 import { User } from "@/types/User";
 import { useSession } from "next-auth/react";
 type Props={

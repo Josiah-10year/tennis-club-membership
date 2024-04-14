@@ -4,7 +4,7 @@ import { getEventDetails, getAdminUsers } from "../../../../../sanity/sanity-uti
 import {add, format} from 'date-fns'
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
-import { authConfig, loginIsRequiredServer } from "@/app/lib/auth";//loginIsRequiredServer
+import { authConfig, useloginIsRequiredServer } from "@/app/lib/auth";//loginIsRequiredServer
 import { getServerSession } from "next-auth";
 
 

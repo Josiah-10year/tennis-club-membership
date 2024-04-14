@@ -1,6 +1,6 @@
 "use client"
 import { useState, ChangeEvent, FormEvent, FC } from 'react';
-import { authConfig, loginIsRequiredClient, loginIsRequiredServer } from "../lib/auth";
+import { authConfig, loginIsRequiredClient, useloginIsRequiredServer } from "../lib/auth";
 import { Session, getServerSession } from 'next-auth';
 import { User } from '@/types/User';
 import { useRouter } from 'next/navigation';

@@ -1,13 +1,13 @@
 import { deleteBooking, getAllInterests, getAllTopics, getAllUsersUsernameAndEmail, getBookingsByUserID, getCourtName, getEvents, getUser } from "../../sanity/sanity-utils";
 import Link from "next/link";
-import { authConfig, loginIsRequiredServer } from "../lib/auth";
+import { authConfig, useloginIsRequiredServer } from "../lib/auth";
 import { getServerSession } from "next-auth";
 import { User } from "@/types/User";
 import Form from "../components/AccountForm"
 
 
 export default async function MyAccount() {
-    await loginIsRequiredServer();
+    await useloginIsRequiredServer();
 
 
     const session = await getServerSession(authConfig);
