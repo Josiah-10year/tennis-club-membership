@@ -197,25 +197,24 @@ const isDisabledNumber = (num: number, dateTime: Date | null, type: string | nul
                 date.dateTime ?(
                     date.type ?(
                         date.numPersons ?(
-                            <div>
+                            <div className="border-2 p-1 border-gray-600 rounded-lg hover:border-blue-600 hover:bg-blue-100 transition">
                                 <a 
                                     href= {`/court_bookings/${encodeURIComponent(date.courtName)}/${encodeURIComponent(date.dateTime.toString())}/${encodeURIComponent(date.type)}/${encodeURIComponent(date.numPersons)}/${encodeURIComponent(userID)}`}
                                     key="test" 
-                                    className="border border-grey-500 rounded-lg p-1 hover:scale-105 hover:border-green-500 transition"
                                     >
-                                        <div className="text-gray-600 mb-2">
-                                        Click to confirm your booking: <br></br>
-                                        Court: {date.courtName} <br></br>
-                                        Date Time: {date.dateTime.toString()} <br></br>
-                                        Type: {date.type} <br></br>
-                                        Number of People: {date.numPersons}
+                                        <div className="text-gray-800 mb-2">
+                                            <h1 className="text-3xl py-6">Click to confirm your booking:</h1>
+                                            <p className="text-gray-800 text-base mb-4"><span className="font-semibold">Court:</span> {date.courtName}</p>
+                                            <p className="text-gray-800 text-base mb-4"><span className="font-semibold">Date Time:</span> {date.dateTime.toString()}</p>
+                                            <p className="text-gray-800 text-base mb-4"><span className="font-semibold">Type:</span> {date.type}</p>
+                                            <p className="text-gray-800 text-base mb-4"><span className="font-semibold">Number of People:</span> {date.numPersons}</p>
                                         </div>
                                 </a>
                                 
                             </div>
                         ) : (
                             <div>
-                <h1>Select the number of people:</h1><br></br>
+                <h1 className="text-3xl">Select the number of people:</h1><br></br>
                             <div className='grid grid-cols-5 gap-5 lg:max-w-none lg:grid-cols-10 xl:grid-cols-10'>
                         {numPersonsArray?.map((choice, i) => (
                             <button type='button' key={`choice-${i}`} className= 'btn-main rounded-sm border p-2' disabled={isDisabledNumber(choice, date.dateTime, date.type)} onClick={() => setDate((prev) => ({...prev, numPersons: choice}))}>
@@ -229,7 +228,7 @@ const isDisabledNumber = (num: number, dateTime: Date | null, type: string | nul
                         
                     ) : (
                         <div>
-                <h1>Select a booking type:</h1><br></br>
+                <h1 className="text-3xl">Select a booking type:</h1><br></br>
                         <div className='grid gap-5 grid-cols-2 lg:max-w-none lg:grid-cols-2 xl:grid-cols-2'>
                     {choices?.map((choice, i) => (
                         <button type='button'  key={`choice-${i}`} className= 'rounded-sm btn-main border p-2' disabled={isDisabledType(choice, date.dateTime)} onClick={() => setDate((prev) => ({...prev, type: choice}))}>
@@ -243,7 +242,7 @@ const isDisabledNumber = (num: number, dateTime: Date | null, type: string | nul
 
                 ):(
                     <div>
-                <h1>Select a timeslot:</h1><br></br>
+                <h1 className="text-3xl">Select a timeslot:</h1><br></br>
                     <div className='grid grid-cols-3 gap-5 lg:max-w-none lg:grid-cols-6 xl:grid-cols-12'>
                     {times?.map((time, i) => (
                         <button key={`time-${i}`} className= 'rounded-sm border btn-main p-2' type='button' disabled={isDisabled(time, date.justDate)} onClick={() => setDate(prev => ({ ...prev, dateTime: time }))} >
@@ -257,7 +256,7 @@ const isDisabledNumber = (num: number, dateTime: Date | null, type: string | nul
                 ) : (
 
                     <div className="grid grid-cols-1 gap-5 lg:max-w-none">
-                <h1>Select a date:</h1><br></br>
+                <h1 className="text-3xl">Select a date:</h1><br></br>
                 <ReactCalendar 
                 minDate={new Date()}
                 className='REACT-CALENDAR p-s' 
@@ -269,7 +268,7 @@ const isDisabledNumber = (num: number, dateTime: Date | null, type: string | nul
 
         ) : (
             <div>
-                <h1>Select a court:</h1><br></br>
+                <h1 className="text-3xl">Select a court:</h1><br></br>
             <div className='grid grid-cols-1 gap-5 lg:max-w-none lg:grid-cols-2 xl:grid-cols-3'>
                     {courtArrayProp?.map((court, i) => (
                         <div key={`court-${i}`} className= 'rounded-sm bg-gray-100 p-2'>
