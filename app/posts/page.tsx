@@ -4,23 +4,12 @@ import Link from "next/link";
 import { useRouter } from 'next/router';
 import { FaArrowCircleUp } from 'react-icons/fa';
 import { getServerSession } from "next-auth";
-import { authConfig, loginIsRequiredClient, loginIsRequiredServer } from "../lib/auth";
+import { authConfig, loginIsRequiredClient, useloginIsRequiredServer } from "../lib/auth";
 import { useSession } from "next-auth/react";
 import BackToTopButton from '../components/BackToTopButton';
 
 
 export default async function Posts() {
-
-    //await loginIsRequiredServer()
-
-    // let username: string | null | undefined = null
-    // if(session){
-    //     username = session?.user?.email
-    //     if(typeof username == "undefined" || !username)
-    //         username = ""
-    // }
-
-    // console.log(username)
 
     const posts = await getPosts();
     const topics = await getAllTopics()

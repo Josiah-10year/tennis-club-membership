@@ -3,12 +3,12 @@ import { INTERVAL, STORE_CLOSING_TIME, STORE_OPENING_TIME } from '../constants/c
 import { getCourtBookings, getCourtBookingsAfterToday, getCourts, getUser } from "../../sanity/sanity-utils";
 import Calendar from "../components/CalendarTestJV"
 import { CourtBooking } from "@/types/CourtBooking";
-import { authConfig, loginIsRequiredServer } from "@/app/lib/auth";
+import { authConfig, useloginIsRequiredServer } from "@/app/lib/auth";
 import { getServerSession } from "next-auth";
 import { Court } from "@/types/Court";
 
 export default async function CourtBookings(){
-    await loginIsRequiredServer();
+    await useloginIsRequiredServer();
 
     const courtsArray = await getCourts();
     //organize array of days that are booked up, and also pass array of all bookings >= today; array of filled days used for calendar, and

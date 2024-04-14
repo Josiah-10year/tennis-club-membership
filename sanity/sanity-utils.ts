@@ -484,12 +484,7 @@ export async function getPost(slug: string): Promise<Post[]> {
         );
     }
 
-    //testtt
-    import { getServerSession } from "next-auth";
-    import { authConfig, loginIsRequiredServer } from "@/app/lib/auth";
-    import { useSession } from 'next-auth/react';
-
-    export async function addComment(text: string, userID: string, postID: string): Promise<boolean> {
+     export async function addComment(text: string, userID: string, postID: string): Promise<boolean> {
         
         try {
             const transactionResult = await client.transaction()

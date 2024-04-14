@@ -10,7 +10,7 @@ import Link from "next/link";
 import { CourtBooking } from "@/types/CourtBooking";
 
 
-interface indexProps {
+interface IndexProps {
     courtArrayProp: Court[];
     fullyBookedDates: string[];
     courtBookingsArray: CourtBooking[];
@@ -25,7 +25,7 @@ interface DateType{
     numPersons: number | null
 }
 
-const index: FC<indexProps> =  ({courtArrayProp, fullyBookedDates, courtBookingsArray, userID}) => {
+const Index: FC<IndexProps> =  ({courtArrayProp, fullyBookedDates, courtBookingsArray, userID}) => {
 
     //console.log(courtBookingsArray)
 
@@ -308,4 +308,4 @@ const isDisabledNumber = (num: number, dateTime: Date | null, type: string | nul
     )
 }
 
-export default index
+export default Index
