@@ -30,13 +30,12 @@
 @layer components {
 
   .btn-main {
-    background-color: #0070f3;
+    @apply bg-blue-600;
     @apply text-white;
     @apply text-sm;
     @apply font-medium;
     /* @apply bg-blue-site; */
-    @apply font-site;
-    @apply hover:bg-purple-800;
+    @apply hover:bg-blue-900;
     @apply focus:outline-none;
     @apply focus:ring-4;
     @apply focus:ring-gray-300;
