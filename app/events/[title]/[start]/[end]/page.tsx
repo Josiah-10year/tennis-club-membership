@@ -110,31 +110,4 @@ export default async function EventDetails({params}: Props){ // in () put
             </div>
         </div>
     );
-    // return(
-    //     <div>
-    //         {events.map((event) => (
-    //             <div>
-    //                 <br></br><br></br><br></br>
-    //                 <h1>Event: {event.title}</h1><br></br>
-    //                 {event.images && event.images.map((image, index) => (
-    //                     <img 
-    //                         key={index} 
-    //                         src={image.asset && image.asset._ref ? formatImageLink(image.asset._ref) : ''} 
-    //                         alt={`Image ${index}`} 
-    //                     />
-    //                 ))}
-    //                 Hosted by: {event.host}<br></br>
-    //                 Description: {event.description.toString()}<br></br>
-    //                 Start: {formatDate(event.start)}<br></br>
-    //                 End: {formatDate(event.end)}<br></br>
-    //                 Venue: {event.location}<br></br>
-    //                 {/* published by: {getAdminName(event.author)} */}
-                    
-    //             </div>
-    //             ))}
-    //         <br></br>
-            
-    //     </div>
-
-    // );
 }

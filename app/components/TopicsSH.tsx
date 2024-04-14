@@ -15,7 +15,7 @@ const index: FC<indexProps> =  ({ topicsArrayProp }) => {
     
     return (
         <div className="basis-1/2">
-            <label className="text-xs" htmlFor="subscriptions">
+            <label className="text-gray-800 text-sm font-semibold" htmlFor="subscriptions">
                   Topic Subscriptions
             </label>
             {topics?.map((topic, i) => (
@@ -24,6 +24,7 @@ const index: FC<indexProps> =  ({ topicsArrayProp }) => {
                     <label className="text-xs" htmlFor={`topic._id-${i}`}> {topic.name}</label>
                 </div>
             ))}
+            <br></br>
         </div>
     )
 }

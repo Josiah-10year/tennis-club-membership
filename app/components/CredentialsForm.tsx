@@ -27,13 +27,13 @@ export function CredentialsForm(props: CredentialsFormProps) {
       router.push("/");
     } else {
       console.log("Error: ", signInResponse);
-      setError("Your Username or Password is wrong!");
+      setError("Incorrect Username or Password");
     }
   };
 
   return (
     <form
-      className="w-full mt-8 text-xl text-black font-semibold flex flex-col"
+      className="w-full mt-8 text-xl text-black flex flex-col"
       onSubmit={handleSubmit}
     >
       {error && (
@@ -61,12 +61,12 @@ export function CredentialsForm(props: CredentialsFormProps) {
         type="submit"
         className="w-full h-12 px-6 mt-4 text-lg text-white transition-colors duration-150 bg-blue-600 rounded-lg focus:shadow-outline hover:bg-blue-700"
       >
-        Log in
+        Login
       </button>
 
       <div className="text-xs tracking-widest">
     <br></br>
-    <p>Do not have an account?<a href="/register"> <u>Register here</u></a></p>
+    <p className="text-xs">Do not have an account?<a href="/register"> <u className="text-blue-600 underline">Register here</u></a></p>
   </div>
     </form>
   );

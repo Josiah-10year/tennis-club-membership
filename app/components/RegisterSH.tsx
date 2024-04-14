@@ -4,7 +4,6 @@ import { useState } from "react";
 import { FC } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Topics from "../components/TopicsSH";
-import { User } from "../../types/User";
 import Interests from "../components/InterestsSH";
 import { URL } from "url";
 import { InputType } from "zlib";
@@ -20,15 +19,21 @@ type Interest = {
     _id: string
 }
 
+type User = {
+    username: {_type: string, current: string},
+    email: string
+}
+
 interface indexProps {
     topicsArrayProp: Topic[];
     interestsArrayProp: Interest[];
     userArrayProp: User[];
 }
 
-const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp }) => {
+const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp, userArrayProp }) => {
     const topics = topicsArrayProp;
     const interests = interestsArrayProp;
+    const userInfo = userArrayProp;
     const [FormInput, setFormData] = useState<FormInput | undefined>(undefined);
     interface FormInput{
         firstname: string,
@@ -69,29 +74,44 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp }) => {
 
     // Function for handling the form submission
     const onSubmit: SubmitHandler< FormInput> = (data) => {
-        const selectedTopics: string[] = [];
-        const topics = document.querySelectorAll('input.topic[type="checkbox"]:checked') as unknown as HTMLInputElement[];
-        topics.forEach((subscription) => {
-            selectedTopics.push(subscription.value);
-        });
+        let error: boolean = false
+        userInfo.forEach((user) => {
+            if (user.username.current === data.username){
+                error = true
+                return (window.alert("SUBMISSION ERROR\nThe username you have entered is already taken.\nPlease enter another username."))
+            }
+            else if (user.email === data.email){
+                error = true
+                return (window.alert("SUBMISSION ERROR\nAn account with this email already exists\nPlease use another email."))
+            }
+        })
+        if(!error){
+            const selectedTopics: string[] = [];
+            const topics = document.querySelectorAll('input.topic[type="checkbox"]:checked') as unknown as HTMLInputElement[];
+            topics.forEach((subscription) => {
+                selectedTopics.push(subscription.value);
+            });
 
-        const selectedInterests: string[] = [];
-        const interests = document.querySelectorAll('input.interest[type="checkbox"]:checked') as unknown as HTMLInputElement[];
-        interests.forEach((interest) => {
-            selectedInterests.push(interest.value);
-        });
-        registerUser(
-            data.firstname, 
-            data.lastname, 
-            data.email, 
-            data.phone, 
-            data.username, 
-            data.password, 
-            data.image, 
-            data.bio,
-            selectedTopics,
-            selectedInterests
-        )
+            const selectedInterests: string[] = [];
+            const interests = document.querySelectorAll('input.interest[type="checkbox"]:checked') as unknown as HTMLInputElement[];
+            interests.forEach((interest) => {
+                selectedInterests.push(interest.value);
+            });
+
+            registerUser(
+                data.firstname, 
+                data.lastname, 
+                data.email, 
+                data.phone, 
+                data.username, 
+                data.password, 
+                data.image, 
+                data.bio,
+                selectedTopics,
+                selectedInterests
+            )
+            return (window.alert("CONGRATULATIONS!\nYou have been registered successfully.\nYou are now a member of the St. Augustine Recreational Club!"))
+        }
     }
 
     if (isSubmitting) {
@@ -119,13 +139,13 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp }) => {
         <div className="w-full h-[200px] relative">
         </div>
         <div className="max-w-7xl mx-auto mt-[-120px] relative bg-white px-8 sm:px-20">
-            <h1 className="text-center py-8 font-site">Register</h1>
+            <h1 className="text-center py-8">Register</h1>
             <div className="max-w-4xl mx-auto">
             <form onSubmit={handleSubmit(onSubmit)} className="border-2 border-blue-site p-8">
-            <h3 className="font-site text-lg my-3">Account Details</h3>
+            <h3 className="font-semibold text-gray-800 text-lg my-3">Account Details</h3>
                 <div className="flex flex-col sm:flex-row sm:gap-12">
                 <div className="basis-1/2">
-                    <label className="text-xs" htmlFor="first">
+                    <label className="text-gray-800 font-semibold text-sm" htmlFor="first">
                     First Name *
                     </label>
                     <input
@@ -135,7 +155,7 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp }) => {
                     required={true}
                     {...register("firstname")}
                     />
-                    <label className="text-xs" htmlFor="email">
+                    <label className="text-gray-800 font-semibold text-sm" htmlFor="email">
                     Email Address*
                     </label>
                     <input
@@ -145,7 +165,7 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp }) => {
                     required={true}
                     {...register("email")}
                     />
-                    <label className="text-xs" htmlFor="username">
+                    <label className="text-gray-800 font-semibold text-sm" htmlFor="username">
                     Username *
                     </label>
                     <input 
@@ -157,7 +177,7 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp }) => {
                     />
                 </div>
                 <div className="basis-1/2">
-                    <label className="text-xs" htmlFor="last">
+                    <label className="text-gray-800 font-semibold text-sm" htmlFor="last">
                     Last Name *
                     </label>
                     <input 
@@ -167,7 +187,7 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp }) => {
                     required={true}
                     {...register("lastname")}
                     />
-                    <label className="text-xs" htmlFor="phone">
+                    <label className="text-gray-800 font-semibold text-sm" htmlFor="phone">
                     Phone Number*
                     </label>
                     <input 
@@ -177,7 +197,7 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp }) => {
                     required={true} 
                     {...register("phone")}
                     />
-                    <label className="text-xs" htmlFor="password">
+                    <label className="text-gray-800 font-semibold text-sm" htmlFor="password">
                     Password *
                     </label>
                     <input
@@ -189,14 +209,14 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp }) => {
                     />
                 </div>
                 </div>
-                <h3 className="font-site text-lg my-3">Profile Setup</h3>
+                <h3 className="font-semibold text-gray-800 text-lg my-3">Profile Setup</h3>
                 <div className="flex flex-col sm:flex-row sm:gap-12">
                 <div className="basis-1/2">
-                    <label className="text-xs" htmlFor="avatar">
+                    <label className="text-gray-800 font-semibold text-sm" htmlFor="avatar">
                     Avatar
                     </label>
                     <input
-                    className="input"
+                    className="input text-xs"
                     type="file"
                     id="avatar"
                     accept="image/*"
@@ -204,7 +224,7 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp }) => {
                     placeholder="Image"
                     {...register("image")}
                     />
-                    <label className="text-xs" htmlFor="bio">
+                    <label className="text-gray-800 font-semibold text-sm" htmlFor="bio">
                     Bio
                     </label>
                     <textarea
@@ -222,12 +242,12 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp }) => {
                 <Interests interestsArrayProp={interests}/>
                 <div className="flex flex-col sm:flex-row sm:gap-12">
                 <div className="basis-1/2">
-                    <button className="btn-sec w-full mt-6 text-xl" type="reset">
+                    <button className="w-full h-12 px-6 mt-4 text-lg text-white transition-colors duration-150 bg-gray-500 rounded-lg focus:shadow-outline hover:bg-gray-600" type="reset">
                     Reset Form
                     </button>
                 </div>
                 <div className="basis-1/2">
-                    <button className="btn-main w-full mt-6 text-xl" type="submit">
+                    <button className="w-full h-12 px-6 mt-4 text-lg text-white transition-colors duration-150 bg-blue-600 rounded-lg focus:shadow-outline hover:bg-blue-700" type="submit">
                     Submit Form
                     </button>
                 </div>
@@ -235,7 +255,7 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp }) => {
 
                 <div className="text-xs tracking-widest">
                 <br></br>
-                <p>Already have an account?<a href="/"> <u>Sign in here</u></a></p>
+                <p className="text-xs">Already have an account?<a href="/"> <u className="text-blue-600 underline">Sign in here</u></a></p>
                 </div>
             </form>
             </div>

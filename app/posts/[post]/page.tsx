@@ -101,17 +101,18 @@ export default async function Project({ params }: Props) {
     }
     return (
         <div className="max-w-5xl mx-auto py-20">
-            <h1>{post.title}</h1><br></br>
+            <a className="text-blue-600 underline text-sm" href="/posts"> Back to Posts </a>
+            <h1 className="py-4">{post.title}</h1>
             {post.images && post.images.map((image, imageIndex) => (
                 <img 
                     key={imageIndex} 
                     src={image.asset && image.asset._ref ? formatImageLink(image.asset._ref) : ''} 
                     alt={`Image ${imageIndex}`} 
-                    className="w-full h-auto max-w-[600px] rounded-lg shadow-md mb-4"
+                    className="w-auto h-auto max-w-[600px] rounded-lg shadow-md mb-4"
                 />
             ))}
             <br></br>
-            <p className="text-gray-500">{post.description}</p>
+            <p className="text-gray-800">{post.description}</p>
             <br></br><br></br>
             <h2 className="text-xl font-bold mt-8 mb-4">Comments</h2>
                 <CommentForm userProp={user} postID={post._id} />  
@@ -124,7 +125,7 @@ export default async function Project({ params }: Props) {
                 
             ):(
                 <div>
-                    <p className="text-xs">no comments to display</p>
+                    <p className="text-xs text-gray-600">no comments to display</p>
                 </div>
             )}
             

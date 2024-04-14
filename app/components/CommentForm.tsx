@@ -30,7 +30,7 @@ const Index: FC<indexProps> = ({userProp, postID}) => {
             <input
                 type="text"
                 value={comment}
-                placeholder="You must be signed in to leave a comment..."
+                placeholder="Sign in to leave a comment..."
                 className="border border-gray-300 rounded-md p-2 mr-2 flex-grow"
                 disabled/>
                 <button
@@ -40,7 +40,7 @@ const Index: FC<indexProps> = ({userProp, postID}) => {
                     Submit
                 </button>
         </form>
-        <u><a href='/login' className='text-sm'>Click here to sign in</a></u>
+        <u><a href='/login' className='text-blue-600 underline text-sm'>Click here to sign in</a></u>
         <br></br>
         </div>
         );
@@ -71,7 +71,7 @@ const Index: FC<indexProps> = ({userProp, postID}) => {
                 type="text"
                 value={comment}
                 onChange={handleChange}
-                placeholder="Share your opinions..."
+                placeholder="Leave a comment..."
                 className="border border-gray-300 rounded-md p-2 mr-2 flex-grow"
             />
             <button

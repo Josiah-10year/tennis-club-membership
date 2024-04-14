@@ -60,17 +60,24 @@ export default async function EventDetails({params}: Props){
                 </div>
                 <div className="lg:col-span-8 xl:col-span-9">
                     <h1 className="text-2xl">{formattedTopic}</h1>
-                    <div className="grid grid-cols-1 gap-5 lg:max-w-none lg:grid-cols-2 xl:grid-cols-3">
-                        {posts.map((post) => (
-                            <Link href={`/posts/${post.slug}`} 
-                            key={post._id} className="border p-4 rounded hover:scale-105 hover:border-blue-500 transition">
-                                <h2 className="text-xl font-semibold text-gray-800">{post.title}</h2>
-                                <p className="text-sm text-gray-600">{post.description}</p>
-                                {/* <p className="text-sm text-gray-400 mt-2">Author: {post.author}</p> */}
-                                {/* You can display images here if needed */}
-                            </Link>
-                        ))}
-                    </div>
+                        {posts[0] ? (
+                            <div className="grid grid-cols-1 gap-5 lg:max-w-none lg:grid-cols-2 xl:grid-cols-3">
+                                {posts?.map((post) => (
+                                    <Link href={`/posts/${post.slug}`} 
+                                    key={post._id} className="border p-4 rounded hover:scale-105 hover:border-blue-500 transition">
+                                        <h2 className="text-xl font-semibold text-gray-800">{post.title}</h2>
+                                        <p className="text-sm text-gray-600">{post.description}</p>
+                                        {/* <p className="text-sm text-gray-400 mt-2">Author: {post.author}</p> */}
+                                        {/* You can display images here if needed */}
+                                    </Link>
+                                ))}
+                            </div>
+                        ) :
+                        (
+                            <div className="grid grid-cols-1 gap-5 lg:max-w-none lg:grid-cols-2 xl:grid-cols-3">
+                                <p className="text-sm text-gray-600 p-4">No posts under this category as yet</p>
+                            </div>
+                        )}
                 </div>
             </div>
             {/* Back to top button */}
