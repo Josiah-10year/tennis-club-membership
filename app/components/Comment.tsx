@@ -36,7 +36,6 @@ const Index: FC<indexProps> =  async ({comment, commenterID, userID}) => {
     //first get the user
     const users = await getUserByID(comment.user._ref)
     const user = users[0]
-
     //format image link function
     const formatImageLink = (imageURL: string): string => {
         // First, remove "image-"
@@ -84,11 +83,11 @@ const Index: FC<indexProps> =  async ({comment, commenterID, userID}) => {
         
         
     }
-
+    
     return(
         <div key={comment._id} className="border rounded p-4 my-4 flex items-start relative">
             {/* You can fetch and display user details based on the comment's user reference */}
-            {user.image.asset ? (
+            {user.image?.asset ? (
                 <div>
                     <img src= {formatImageLink(user.image.asset?._ref)} className="w-8 h-8 rounded-full mr-2"></img>
                 </div>
@@ -102,7 +101,7 @@ const Index: FC<indexProps> =  async ({comment, commenterID, userID}) => {
 
             {deletebutton && (
             <button className= "absolute top-0 right-0 text-xs text-red-500 font-bold mr-2 border border-red-500 px-2 py-1 rounded" onClick={() => handleDelete(comment._id)}>
-                X
+                X Remove Comment
             </button>
         )}
         
