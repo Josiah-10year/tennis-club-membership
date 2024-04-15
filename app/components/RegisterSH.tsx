@@ -8,6 +8,7 @@ import Interests from "../components/InterestsSH";
 import { URL } from "url";
 import { InputType } from "zlib";
 import { File } from "buffer";
+import { useRouter } from "next/navigation";
 
 type Topic = {
     name: string,
@@ -34,6 +35,7 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp, userArrayP
     const topics = topicsArrayProp;
     const interests = interestsArrayProp;
     const userInfo = userArrayProp;
+    const router = useRouter();
     const [FormInput, setFormData] = useState<FormInput | undefined>(undefined);
     interface FormInput{
         firstname: string,
@@ -118,6 +120,7 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp, userArrayP
                 selectedTopics,
                 selectedInterests
             )
+            router.push("/login");
             return (window.alert("CONGRATULATIONS!\nYou have been registered successfully.\nYou are now a member of the St. Augustine Recreational Club!"))
         }
     }
