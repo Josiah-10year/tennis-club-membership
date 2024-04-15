@@ -26,6 +26,9 @@ export function CredentialsForm(props: CredentialsFormProps) {
       
       //Redirect to homepage
       router.push("/");
+      //Then reload to update cache 
+      location.reload()
+      
       return(window.alert("SUCCESS\nYou have been logged in successfully."));
     } else {
       console.log("Error: ", signInResponse);
