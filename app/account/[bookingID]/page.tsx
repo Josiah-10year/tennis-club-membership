@@ -24,9 +24,8 @@ const DeleteCourtBookings: React.FC<Props> = async ({ params }) => {
 
     setTimeout(() => {
       // Code to execute after the delay
-      router.push('/account')
-      //location.assign()
-      //redirect(`/account`);
+      router.push('/account');
+      location.reload();
   }, 1000);
   
           
