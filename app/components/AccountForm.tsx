@@ -88,24 +88,19 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp, userProp, 
         });
         updateUser(
             userProp._id,
-            data.firstname, 
-            data.lastname, 
-            data.email, 
-            data.phone, 
-            data.username.toLowerCase(), 
-            data.password, 
-            data.image, 
+            data.firstname,
+            data.lastname,
+            data.email,
+            data.phone,
+            data.username.toLowerCase(),
+            data.password,
+            data.image,
             data.bio,
             selectedTopics,
             selectedInterests
         )
 
-        setTimeout(() => {
-            //needs a delay to show correct stuff
-        }, 1000);
-
-        //revalidatePath('/account') // Update cached posts
-        //redirect(`/home`) // Navigate to the new post page
+        return (window.alert("Your account has been updated."))
     }
 
     if (isSubmitting) {
