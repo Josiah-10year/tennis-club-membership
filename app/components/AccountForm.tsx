@@ -72,7 +72,7 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp, userProp, 
         }
         }
     );
-
+    
     // Function for handling the form submission
     const onSubmit: SubmitHandler< FormInput> = (data) => {
         const selectedTopics: string[] = [];

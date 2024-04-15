@@ -361,6 +361,12 @@ export async function getAllUsersUsernameAndEmail(): Promise<User[]> {
 // POST
 import { randomKey } from '@sanity/util/content'
 export async function registerUser(first: string, last: string, email: string, phone: string, username: string, password: string, assetList: FileList, bio: string, topicIds: string[], interestIds: string[]): Promise<boolean> {
+    
+    //Now we account for them pasting in white space into the username for some reason. People love to defy rules
+    function removeWhitespace(input: string): string {
+        return input.replace(/\s/g, "");
+    }
+    
     const subscriptions: Object[] = []
     let x = 0
     for (const id of topicIds){
@@ -385,7 +391,7 @@ export async function registerUser(first: string, last: string, email: string, p
                     lastName: last,
                     email: email,
                     phone: phone,
-                    username: {_type: 'slug', current: username},
+                    username: {_type: 'slug', current: removeWhitespace(username)},
                     password: password,
                     image: {
                         _type: "image",
@@ -408,7 +414,7 @@ export async function registerUser(first: string, last: string, email: string, p
                 lastName: last,
                 email: email,
                 phone: phone,
-                username: {_type: 'slug', current: username},
+                username: {_type: 'slug', current: removeWhitespace(username)},
                 password: password,
                 bio: bio,
                 role: "user",

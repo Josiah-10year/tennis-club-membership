@@ -72,6 +72,14 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp, userArrayP
         }
     );
 
+    //function to handle no spaces typed
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        // Check if the pressed key is a space (keyCode 32) and prevent default action
+        if (event.key === " ") {
+          event.preventDefault();
+        }
+      };
+
     // Function for handling the form submission
     const onSubmit: SubmitHandler< FormInput> = (data) => {
         let error: boolean = false
@@ -172,6 +180,7 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp, userArrayP
                     className="input" 
                     type="text" 
                     id="username"
+                    onKeyDown={handleKeyDown}
                     required={true}
                     {...register("username")}
                     />
