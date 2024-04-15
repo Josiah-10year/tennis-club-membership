@@ -44,18 +44,27 @@ export default async function MyAccount() {
     const interests = await getAllInterests();
     const bookings = await getBookingsByUserID(user._id);
     
-    //format date function
     const formatDate = (dateString: string): string => {
-      const date = new Date(dateString);
+      // Create a new Date object from the provided UTC date string
+      const utcDate = new Date(dateString);
+      
+      // Convert UTC to Atlantic Time (AST) by adding 4 hours
+      const atlanticDate = new Date(utcDate.getTime() + (4 * 60 * 60 * 1000));
+  
+      // Define formatting options
       const options: Intl.DateTimeFormatOptions = {
-        day: '2-digit',
-        month: 'long',
-        year: 'numeric',
-        hour: 'numeric',
-        minute: '2-digit'
+          day: '2-digit',
+          month: 'long',
+          year: 'numeric',
+          hour: 'numeric',
+          minute: '2-digit',
+          hour12: true, // Use 12-hour clock format
+          timeZone: 'America/Halifax' // Set the time zone to Atlantic Time (AST)
       };
-      return date.toLocaleDateString(undefined, options);
-    };
+      
+      // Format the Atlantic Time date string
+      return atlanticDate.toLocaleDateString(undefined, options);
+  };
 
     //get court name function
     const getCourtNameOnly = async (courtID: string): Promise<string> => {
