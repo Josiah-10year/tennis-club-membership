@@ -191,7 +191,8 @@ const isDisabledNumber = (num: number, dateTime: Date | null, type: string | nul
 };
 
     return (
-    <div className='h-screen grid justify-center items-start'>
+      
+    <div className='grid justify-center items-start'>
         {date.courtName ? (
             date.justDate ? (
                 date.dateTime ?(
@@ -269,7 +270,7 @@ const isDisabledNumber = (num: number, dateTime: Date | null, type: string | nul
         ) : (
             <div>
                 <h1 className="text-3xl">Select a court:</h1><br></br>
-            <div className='grid grid-cols-1 gap-5 lg:max-w-none lg:grid-cols-2 xl:grid-cols-3'>
+            <div className='grid grid-cols-1 gap-5 lg:max-w-none md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3'>
                     {courtArrayProp?.map((court, i) => (
                         <div key={`court-${i}`} className= 'rounded-sm bg-gray-100 p-2'>
 
