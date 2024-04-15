@@ -73,7 +73,7 @@ const Index: FC<indexProps> =  async ({comment, commenterID, userID}) => {
       }
 
     function handleDelete(id: string): void {
-        deleteBooking(id)
+        const deleted = deleteBooking(id)
         // router.push(pathname)
         // router.refresh()
         setTimeout(() => {
