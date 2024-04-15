@@ -84,7 +84,7 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp, userArrayP
     const onSubmit: SubmitHandler< FormInput> = (data) => {
         let error: boolean = false
         userInfo.forEach((user) => {
-            if (user.username.current === data.username){
+            if (user.username.current === data.username.toLowerCase()){
                 error = true
                 return (window.alert("SUBMISSION ERROR\nThe username you have entered is already taken.\nPlease enter another username."))
             }
@@ -111,7 +111,7 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp, userArrayP
                 data.lastname, 
                 data.email, 
                 data.phone, 
-                data.username, 
+                data.username.toLowerCase(), 
                 data.password, 
                 data.image, 
                 data.bio,
