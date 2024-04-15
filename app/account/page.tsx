@@ -89,27 +89,28 @@ export default async function MyAccount() {
 
         <br></br>
         <br></br>
-        <center><h1 className="py-4 px-4 font-site text-gray-700">Upcoming Bookings</h1></center>
+        <center><h1 className="text-center py-8">My Bookings</h1></center>
         <br></br>
-        <div className="sm:px-20 flex flex-wrap">
-        {bookings.map((booking) => (
-          <div key={booking._id} className="w-1/2 sm:w-auto p-2">
-            <div className="border border-gray-300 rounded-md shadow-xl p-4">
-              <p>Court: {getCourtNameOnly(booking.court._ref)}</p>
-              <p>Start: {formatDate(booking.start)}</p>
-              <p>End: {formatDate(booking.end)}</p>
-              <p>Type: {booking.type}</p>
-              <p>Number of Persons: {booking.numPeople}</p>
-              <br></br>
-              {/* <div className="border border-gray-300 rounded-md p-1 inline-block mt-2"> */}
-              <Link href={`/account/${encodeURIComponent(booking._id)}`} className="border p-1 rounded hover:scale-105 hover:border-red-500 hover:text-red-500 transition">
-                Cancel Booking
-              </Link>
-                {/* <a href={`/account/${encodeURIComponent(booking._id)}`} className="hover:text-red-500">Cancel Booking</a> */}
-              {/* </div> */}
+        <div className="flex justify-center ">
+        <div className="grid grid-cols-1 gap-5 lg:max-w-none md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
+          {bookings.map((booking) => (
+            <div key={booking._id} className="w-max p-2">
+              <div className="border border-gray-300 rounded-md shadow-xl p-4">
+                <p className="text-gray-800 text-base mb-2"><span className="font-semibold">Court:</span> {getCourtNameOnly(booking.court._ref)}</p>
+                <p className="text-gray-800 text-base mb-2"><span className="font-semibold">Start:</span> {formatDate(booking.start)}</p>
+                <p className="text-gray-800 text-base mb-2"><span className="font-semibold">End:</span> {formatDate(booking.end)}</p>
+                <p className="text-gray-800 text-base mb-2"><span className="font-semibold">Type:</span> {booking.type}</p>
+                <p className="text-gray-800 text-base mb-4"><span className="font-semibold">Number of Persons:</span> {booking.numPeople}</p>
+                {/* <div className="border border-gray-300 rounded-md p-1 inline-block mt-2"> */}
+                <Link href={`/account/${encodeURIComponent(booking._id)}`} className="w-full h-12 p-2 mt-4 text-sm text-white transition-colors duration-150 bg-red-500 rounded-lg focus:shadow-outline hover:bg-red-600">
+                  Cancel Booking
+                </Link>
+                  {/* <a href={`/account/${encodeURIComponent(booking._id)}`} className="hover:text-red-500">Cancel Booking</a> */}
+                {/* </div> */}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
     </div>
