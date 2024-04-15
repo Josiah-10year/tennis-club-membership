@@ -48,8 +48,8 @@ export default async function MyAccount() {
       // Create a new Date object from the provided UTC date string
       const utcDate = new Date(dateString);
       
-      // Convert UTC to Atlantic Time (AST) by adding 4 hours
-      const atlanticDate = new Date(utcDate.getTime() + (4 * 60 * 60 * 1000));
+      // Convert UTC to Atlantic Time (AST) (subtract 4 hours)
+      const atlanticDate = new Date(utcDate.getTime() - (4 * 60 * 60 * 1000));
   
       // Extract date components
       const day = atlanticDate.getDate().toString().padStart(2, '0');
