@@ -88,7 +88,7 @@ const Index: FC<indexProps> =  async ({comment, commenterID, userID}) => {
     return(
         <div key={comment._id} className="border rounded p-4 my-4 flex items-start relative">
             {/* You can fetch and display user details based on the comment's user reference */}
-            {user.image.asset ? (
+            {user.image?.asset ? (
                 <div>
                     <img src= {formatImageLink(user.image.asset?._ref)} className="w-8 h-8 rounded-full mr-2"></img>
                 </div>
