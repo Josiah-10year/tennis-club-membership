@@ -51,9 +51,6 @@ export default async function MyAccount() {
       // Convert UTC to Atlantic Time (AST) by adding 4 hours
       const atlanticDate = new Date(utcDate.getTime() + (4 * 60 * 60 * 1000));
   
-      // Set the time zone to Atlantic Time (AST)
-      atlanticDate.setTime(atlanticDate.getTime() - (atlanticDate.getTimezoneOffset() * 60 * 1000));
-  
       // Extract date components
       const day = atlanticDate.getDate().toString().padStart(2, '0');
       const month = atlanticDate.toLocaleString('default', { month: 'long' });
