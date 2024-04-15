@@ -190,6 +190,25 @@ const isDisabledNumber = (num: number, dateTime: Date | null, type: string | nul
     return num > remainingCapacity;
 };
 
+// Function to convert UTC time to Atlantic Time (AST)
+function convertUtcToAst(utcDate: Date): Date {
+    // Get the UTC time components
+    const utcYear = utcDate.getUTCFullYear();
+    const utcMonth = utcDate.getUTCMonth();
+    const utcDay = utcDate.getUTCDate();
+    const utcHours = utcDate.getUTCHours();
+    const utcMinutes = utcDate.getUTCMinutes();
+    const utcSeconds = utcDate.getUTCSeconds();
+
+    // Create a new Date object using UTC components
+    const astDate = new Date(Date.UTC(utcYear, utcMonth, utcDay, utcHours, utcMinutes, utcSeconds));
+
+    // Convert UTC time to Atlantic Time (subtract 4 hours)
+    astDate.setHours(astDate.getHours() - 4);
+
+    return astDate;
+}
+
     return (
       
     <div className='grid justify-center items-start'>
@@ -247,7 +266,7 @@ const isDisabledNumber = (num: number, dateTime: Date | null, type: string | nul
                     <div className='grid grid-cols-3 gap-5 lg:max-w-none lg:grid-cols-6 xl:grid-cols-12'>
                     {times?.map((time, i) => (
                         <button key={`time-${i}`} className= 'rounded-sm border btn-main p-2' type='button' disabled={isDisabled(time, date.justDate)} onClick={() => setDate(prev => ({ ...prev, dateTime: time }))} >
-                            {format(time, 'kk:mm')}
+                            {format(convertUtcToAst(time), 'hh:mm a')}
                         </button>
                     ))}
                 </div>
