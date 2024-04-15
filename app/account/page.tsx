@@ -19,9 +19,11 @@ export default async function MyAccount() {
     const users = await getUser(username);
     const user = users[0]
 
-    let imageURL = user.image.asset?._ref
+    let imageURL : string | null = null;
+    
 
-    if(imageURL){
+    if(user.image?.asset?._ref){
+      imageURL = user.image.asset?._ref;
       // First, remove "image-"
     imageURL = imageURL.replace("image-", "");
     // Then, swap "-jpg" to ".jpg" and "-png" to ".png"
@@ -33,7 +35,7 @@ export default async function MyAccount() {
 
     }else{
       //idk code to a default image?
-      imageURL = "../images/default-profile-icon.jpg"
+      imageURL = "https://raw.githubusercontent.com/Josiah-10year/tennis-club-membership/new-opps/app/images/default-profile-icon.jpg"
     }
 
 
