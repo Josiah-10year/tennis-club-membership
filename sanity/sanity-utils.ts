@@ -252,12 +252,13 @@ export async function getCourtName(courtID:string): Promise<Court[]> {
   );
 }
 
-export async function deleteBooking(bookingID: string): Promise<void> {
+export async function deleteBooking(bookingID: string): Promise<boolean> {
     try {
         // Execute the delete operation directly using the document ID
         await client.delete(bookingID);
 
         console.log(`Booking with ID ${bookingID} deleted successfully.`);
+        return true
     } catch (error) {
         console.error(`Error deleting booking with ID ${bookingID}:`, error);
         throw error; // Rethrow the error to handle it elsewhere if needed

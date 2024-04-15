@@ -248,7 +248,7 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp, userProp, 
                 <Interests interestsArrayProp={interests} userInterestsArrayProp = {userProp.interests}/>
                 <div className="flex flex-col sm:flex-row sm:gap-12">
                 <div className="basis-1/2">
-                    <Link href="/home">
+                    <Link href="/">
                         <button className="w-full h-12 px-6 mt-4 text-lg text-white transition-colors duration-150 bg-red-500 rounded-lg focus:shadow-outline hover:bg-red-600" >
                         EXIT
                         </button>

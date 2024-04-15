@@ -20,13 +20,16 @@ const DeleteCourtBookings: React.FC<Props> = async ({ params }) => {
     const router = useRouter()
   
     const decodedBookingID = decodeURIComponent(bookingID);
-    await deleteBooking(decodedBookingID);
-
-    setTimeout(() => {
-      // Code to execute after the delay
+    const deleted = await deleteBooking(decodedBookingID);
+    if (deleted){
       router.push('/account');
       location.reload();
-  }, 1000);
+    }
+  //   setTimeout(() => {
+  //     // Code to execute after the delay
+  //     router.push('/account');
+  //     location.reload();
+  // }, 1000);
   
           
   
