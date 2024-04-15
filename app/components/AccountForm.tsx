@@ -129,28 +129,28 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp, userProp, 
     }
 
     return (
-        <div className="relative">
-        <div className="w-full h-[100px] relative">
+        <div>
+        <div className="w-full h-[100px]">
         </div>
-        <div className="max-w-7xl mx-auto mt-[-120px] relative bg-white px-8 sm:px-20">
-            <br></br>
+        <div className="max-w-7xl mx-auto mt-[-120px] bg-white px-8 sm:px-20">
+            <h1 className="text-center py-8">My Profile</h1>
             <div className="max-w-4xl mx-auto">
             <form onSubmit={handleSubmit(onSubmit)} className="border-2 border-blue-site p-8">
 
             <div className="flex flex-col items-center justify-center">
             <div className="sm:px-20">
                 {/* <Image src={imageURL} alt={"Profile Pic"} /> */}
-                <img src={imageURL} alt={"Profile Pic"} />
+                <img className="w-[200px] border rounded-full shadow-md h-auto"src={imageURL} alt={"Profile Pic"} />
             </div>
             <div className="sm:px-20">
                 <h3>@{userProp.username.current}</h3><br></br>
             </div>
             </div>
 
-            <h3 className="font-site text-lg my-3">Account Details</h3>
+            <h3 className="font-semibold text-gray-800 text-lg my-3">Account Details</h3>
                 <div className="flex flex-col sm:flex-row sm:gap-12">
                 <div className="basis-1/2">
-                    <label className="text-xs" htmlFor="first">
+                    <label className="text-gray-800 font-semibold text-sm" htmlFor="first">
                     First Name *
                     </label>
                     <input
@@ -160,7 +160,7 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp, userProp, 
                     required={true}
                     {...register("firstname")}
                     />
-                    <label className="text-xs" htmlFor="email">
+                    <label className="text-gray-800 font-semibold text-sm" htmlFor="email">
                     Email Address*
                     </label>
                     <input
@@ -170,7 +170,7 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp, userProp, 
                     required={true}
                     {...register("email")}
                     />
-                    <label className="text-xs" htmlFor="username">
+                    <label className="text-gray-800 font-semibold text-sm" htmlFor="username">
                     Username *
                     </label>
                     <input 
@@ -183,7 +183,7 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp, userProp, 
                     />
                 </div>
                 <div className="basis-1/2">
-                    <label className="text-xs" htmlFor="last">
+                    <label className="text-gray-800 font-semibold text-sm" htmlFor="last">
                     Last Name *
                     </label>
                     <input 
@@ -193,7 +193,7 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp, userProp, 
                     required={true}
                     {...register("lastname")}
                     />
-                    <label className="text-xs" htmlFor="phone">
+                    <label className="text-gray-800 font-semibold text-sm" htmlFor="phone">
                     Phone Number*
                     </label>
                     <input 
@@ -203,7 +203,7 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp, userProp, 
                     required={true} 
                     {...register("phone")}
                     />
-                    <label className="text-xs" htmlFor="password">
+                    <label className="text-gray-800 font-semibold text-sm" htmlFor="password">
                     Password *
                     </label>
                     <input
@@ -215,10 +215,10 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp, userProp, 
                     />
                 </div>
                 </div>
-                <h3 className="font-site text-lg my-3">Profile Details</h3>
+                <h3 className="font-semibold text-gray-800 text-lg my-3">Profile Details</h3>
                 <div className="flex flex-col sm:flex-row sm:gap-12">
                 <div className="basis-1/2">
-                    <label className="text-xs" htmlFor="avatar">
+                    <label className="text-gray-800 font-semibold text-sm" htmlFor="avatar">
                     Update Your Avatar
                     </label>
                     <input
@@ -230,7 +230,7 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp, userProp, 
                     placeholder="Image"
                     {...register("image")}
                     />
-                    <label className="text-xs" htmlFor="bio">
+                    <label className="text-gray-800 font-semibold text-sm" htmlFor="bio">
                     Bio
                     </label>
                     <textarea
@@ -249,14 +249,14 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp, userProp, 
                 <div className="flex flex-col sm:flex-row sm:gap-12">
                 <div className="basis-1/2">
                     <Link href="/home">
-                        <button className="btn-sec w-full mt-6 text-xl" >
-                        Go Back
+                        <button className="w-full h-12 px-6 mt-4 text-lg text-white transition-colors duration-150 bg-red-500 rounded-lg focus:shadow-outline hover:bg-red-600" >
+                        EXIT
                         </button>
                     </Link>
                 </div>
                 <div className="basis-1/2">
-                    <button className="btn-main w-full mt-6 text-xl" type="submit">
-                    Save Changes
+                    <button className="w-full h-12 px-6 mt-4 text-lg text-white transition-colors duration-150 bg-green-600 rounded-lg focus:shadow-outline hover:bg-green-700" type="submit">
+                    SAVE CHANGES
                     </button>
                 </div>
                 </div>

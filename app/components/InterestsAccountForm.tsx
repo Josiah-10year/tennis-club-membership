@@ -28,7 +28,7 @@ const index: FC<indexProps> =  ({ interestsArrayProp, userInterestsArrayProp}) =
 
     return (
         <div className="flex flex-col sm:flex-row sm:gap-12">
-            <label className="text-xs" htmlFor="interests">
+            <label className="text-gray-800 font-semibold text-sm" htmlFor="interests">
                 Interests
             </label>
             {interests?.map((interest, i) => (

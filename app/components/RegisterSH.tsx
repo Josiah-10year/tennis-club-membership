@@ -135,10 +135,10 @@ const Index: FC<indexProps> = ({ topicsArrayProp, interestsArrayProp, userArrayP
     }
 
     return (
-        <div className="relative">
-        <div className="w-full h-[200px] relative">
+        <div>
+        <div className="w-full h-[200px] ">
         </div>
-        <div className="max-w-7xl mx-auto mt-[-120px] relative bg-white px-8 sm:px-20">
+        <div className="max-w-7xl mx-auto mt-[-120px] bg-white px-8 sm:px-20">
             <h1 className="text-center py-8">Register</h1>
             <div className="max-w-4xl mx-auto">
             <form onSubmit={handleSubmit(onSubmit)} className="border-2 border-blue-site p-8">

@@ -111,10 +111,8 @@ export default async function CourtBookings({params}: Props){ // in () put
 
     return(
 
-        <div>
-            <h3>Court Bookings Page</h3>
-            <h3>The calendar and booking details</h3>
-            <h3>The content is being hidden by the nav bar but its here</h3>
+        <div className="max-w-5xl mx-auto py-20">
+            <h1 className="text-left py-8">Court Booking</h1>
             Your Booking: <br></br>
             {decodedCourtName} <br></br>
             {formattedDatetime} <br></br>

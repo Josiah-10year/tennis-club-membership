@@ -83,7 +83,7 @@ export default async function EventDetails({params}: Props){ // in () put
 
     //i am doing it like this because it thows issue if the particular event isnt defined; dont worry, only one event will come up anyways
     return (
-        <div className="relative">
+        <div>
             <div className="max-w-5xl mx-auto py-20">
                 <div className="container mx-auto px-12">
                 <a className="text-blue-600 underline text-sm" href="/events"> Back to Events </a>

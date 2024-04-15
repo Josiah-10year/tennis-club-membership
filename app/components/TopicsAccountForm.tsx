@@ -27,7 +27,7 @@ const index: FC<indexProps> =  ({ topicsArrayProp, userTopicsArrayProp }) => {
     
     return (
         <div className="basis-1/2">
-            <label className="text-xs" htmlFor="subscriptions">
+            <label className="text-gray-800 font-semibold text-sm" htmlFor="subscriptions">
                   Topic Subscriptions
             </label>
             {topics?.map((topic, i) => (
