@@ -51,20 +51,24 @@ export default async function MyAccount() {
       // Convert UTC to Atlantic Time (AST) by adding 4 hours
       const atlanticDate = new Date(utcDate.getTime() + (4 * 60 * 60 * 1000));
   
-      // Define formatting options
-      const options: Intl.DateTimeFormatOptions = {
-          day: '2-digit',
-          month: 'long',
-          year: 'numeric',
-          hour: 'numeric',
-          minute: '2-digit',
-          hour12: true, // Use 12-hour clock format
-          timeZone: 'America/Halifax' // Set the time zone to Atlantic Time (AST)
-      };
-      
-      // Format the Atlantic Time date string
-      return atlanticDate.toLocaleDateString(undefined, options);
+      // Set the time zone to Atlantic Time (AST)
+      atlanticDate.setTime(atlanticDate.getTime() - (atlanticDate.getTimezoneOffset() * 60 * 1000));
+  
+      // Extract date components
+      const day = atlanticDate.getDate().toString().padStart(2, '0');
+      const month = atlanticDate.toLocaleString('default', { month: 'long' });
+      const year = atlanticDate.getFullYear();
+      let hours = atlanticDate.getHours();
+      const minutes = atlanticDate.getMinutes().toString().padStart(2, '0');
+      const amOrPm = hours >= 12 ? 'PM' : 'AM';
+      hours = (hours % 12 || 12); // Convert hours to 12-hour format
+  
+      // Assemble the formatted date string
+      const formattedDate = `${day} ${month} ${year}, ${hours}:${minutes} ${amOrPm}`;
+  
+      return formattedDate;
   };
+  
 
     //get court name function
     const getCourtNameOnly = async (courtID: string): Promise<string> => {
