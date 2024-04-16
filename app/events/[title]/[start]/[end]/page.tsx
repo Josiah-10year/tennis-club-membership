@@ -78,8 +78,7 @@ export default async function EventDetails({ params }: Props) { // in () put
         <div>
             <div className="max-w-5xl mx-auto py-20">
                 <div className="container mx-auto px-12">
-                <a className="text-lime-600 underline text-sm mr-4" href="/events"> Back to Events </a>
-
+                    <a className="bg-lime-600 text-white text-center rounded-lg px-4 py-2 hover:bg-opacity-100 hover:scale-105" href="/events">Back</a>
                     {events.map((event, index) => (
                         <div key={index} className="my-8 bg-white rounded-lg shadow-xl p-8">
                             <h1 className="text-3xl font-bold mb-4">{event.title}</h1>
