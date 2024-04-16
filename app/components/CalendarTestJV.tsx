@@ -217,7 +217,7 @@ const Index: FC<IndexProps> = ({ courtArrayProp, fullyBookedDates, courtBookings
                                 <div>
                                 <a className="bg-lime-600 text-white text-center rounded-lg px-4 py-2 hover:bg-opacity-100 hover:scale-105" onClick={() => setDate((prev) => ({ ...prev, numPersons: null }))} >Back </a>
                                 <br></br><br></br>
-                                <div className="border-2 p-1 border-gray-600 rounded-lg  hover:border-blue-600 hover:bg-blue-100 transition">
+                                <div className="border-2 p-1 border-gray-600 rounded-lg  hover:border-lime-600 hover:bg-lime-100 transition">
                                     <a
                                         href={`/court_bookings/${encodeURIComponent(date.courtName)}/${encodeURIComponent(date.dateTime.toString())}/${encodeURIComponent(date.type)}/${encodeURIComponent(date.numPersons)}/${encodeURIComponent(userID)}`}
                                         key="test"
