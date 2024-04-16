@@ -215,9 +215,9 @@ const Index: FC<IndexProps> = ({ courtArrayProp, fullyBookedDates, courtBookings
                         date.type ? (
                             date.numPersons ? (
                                 <div>
-                                <a className="text-lime-600 underline text-sm mr-4" onClick={() => setDate((prev) => ({ ...prev, numPersons: null }))} >Go Back </a>
-                                
-                                <div className="border-2 p-1 border-gray-600 rounded-lg hover:border-blue-600 hover:bg-blue-100 transition">
+                                <a className="bg-lime-600 text-white text-center rounded-lg px-4 py-2 hover:bg-opacity-100 hover:scale-105" onClick={() => setDate((prev) => ({ ...prev, numPersons: null }))} >Go Back </a>
+                                <br></br><br></br>
+                                <div className="border-2 p-1 border-gray-600 rounded-lg  hover:border-blue-600 hover:bg-blue-100 transition">
                                     <a
                                         href={`/court_bookings/${encodeURIComponent(date.courtName)}/${encodeURIComponent(date.dateTime.toString())}/${encodeURIComponent(date.type)}/${encodeURIComponent(date.numPersons)}/${encodeURIComponent(userID)}`}
                                         key="test"
@@ -237,7 +237,7 @@ const Index: FC<IndexProps> = ({ courtArrayProp, fullyBookedDates, courtBookings
                                 <div>
                                     
                                     <a className="bg-lime-600 text-white text-center rounded-lg px-4 py-2 hover:bg-opacity-100 hover:scale-105" onClick={() => setDate((prev) => ({ ...prev, type: null }))} >Back </a>
-                                    <h1 className="text-3xl">Select the number of people:</h1><br></br>
+                                    <h1 className="text-3xl py-3">Select the number of people:</h1><br></br>
                                     <div className='grid grid-cols-5 gap-5 lg:max-w-none lg:grid-cols-10 xl:grid-cols-10'>
                                         {numPersonsArray?.map((choice, i) => (
                                             <button type='button' key={`choice-${i}`} className='btn-main rounded-sm border p-2' disabled={isDisabledNumber(choice, date.dateTime, date.type)} onClick={() => setDate((prev) => ({ ...prev, numPersons: choice }))}>
@@ -252,7 +252,7 @@ const Index: FC<IndexProps> = ({ courtArrayProp, fullyBookedDates, courtBookings
                         ) : (
                             <div>
                                 <a className="bg-lime-600 text-white text-center rounded-lg px-4 py-2 hover:bg-opacity-100 hover:scale-105"  onClick={() => setDate(prev => ({ ...prev, dateTime: null }))} > Back </a>
-                                <h1 className="text-3xl">Select a booking type:</h1><br></br>
+                                <h1 className="text-3xl py-3">Select a booking type:</h1><br></br>
                                 <div className='grid gap-5 grid-cols-2 lg:max-w-none lg:grid-cols-2 xl:grid-cols-2'>
                                     {choices?.map((choice, i) => (
                                         <button type='button' key={`choice-${i}`} className='rounded-sm btn-main border p-2' disabled={isDisabledType(choice, date.dateTime)} onClick={() => setDate((prev) => ({ ...prev, type: choice }))}>
@@ -267,7 +267,7 @@ const Index: FC<IndexProps> = ({ courtArrayProp, fullyBookedDates, courtBookings
                     ) : (
                         <div>
                             <a className="bg-lime-600 text-white text-center rounded-lg px-4 py-2 hover:bg-opacity-100 hover:scale-105" onClick={() => setDate((prev) => ({ ...prev, justDate: null }))} > Back </a>
-                            <h1 className="text-3xl">Select a timeslot:</h1><br></br>
+                            <h1 className="text-3xl py-3">Select a timeslot:</h1><br></br>
                             <div className='grid grid-cols-3 gap-5 lg:max-w-none lg:grid-cols-6 xl:grid-cols-12'>
                                 {times?.map((time, i) => (
                                     <button key={`time-${i}`} className='rounded-sm border btn-main p-2' type='button' disabled={isDisabled(time, date.justDate)} onClick={() => setDate(prev => ({ ...prev, dateTime: time }))} >
