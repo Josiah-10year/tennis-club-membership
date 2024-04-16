@@ -26,13 +26,13 @@ export default async function EventDetails({ params }: Props) {
                         <h1 className="text-xl">Categories</h1>
                         <ul>
                             <li>
-                                <a key={0} href={`/posts`} className="text-blue-600 hover:text-blue-900 transition text-foreground-light block text-base">All</a>
+                                <a key={0} href={`/posts`} className="text-lime-800 hover:text-lime-600 transition text-foreground-light block text-base">All</a>
                             </li>
                             {topics.map((topic) => (
                                 <li key={topic._id}> {/* Replace 'id' with your actual unique identifier */}
                                     <a
                                         href={`/posts/topic/${topic.name}`}
-                                        className="text-blue-600 hover:text-blue-900 transition text-foreground-light block text-base"
+                                        className="text-lime-800 hover:text-lime-600 transition text-foreground-light block text-base"
                                     >
                                         {topic.name}
                                     </a>
