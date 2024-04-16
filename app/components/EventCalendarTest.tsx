@@ -10,7 +10,6 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { Event } from '@/types/Event';
 import './EventCalendarTest.css'
 import { useRouter } from 'next/navigation';
-import './EventCalendarTest.css';
 
 interface IndexProps {
   eventArrayProp: Event[];
