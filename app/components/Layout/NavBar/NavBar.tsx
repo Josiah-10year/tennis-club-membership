@@ -3,9 +3,7 @@ import { NavLink } from './NavLink';
 import { useCallback, useState } from 'react';
 import type { LinkProps } from 'next/link';
 import { usePathname } from 'next/navigation';
-import { signOut} from 'next-auth/react'
-import Link from 'next/link';
-// import Login from '@app/components/Login/Login';
+import { signOut } from 'next-auth/react'
 
 const navbarItems = [
   { ref: '/', label: 'HOME' },
@@ -14,7 +12,7 @@ const navbarItems = [
   { ref: '/court_bookings', label: 'BOOKINGS', prefetch: false },
   { ref: '/contact', label: 'CONTACT', prefetch: false },
   { ref: '/account', label: 'ACCOUNT', prefetch: false },
-  { ref: '/api/route/signout', label: 'LOGOUT'} ///my-account
+  { ref: '/api/route/signout', label: 'LOGOUT' } ///my-account
 ];
 
 export const StyledNavLink = ({
@@ -27,9 +25,8 @@ export const StyledNavLink = ({
   className?: string;
 }) => (
   <NavLink
-    className={`${className ?? ''} ${
-      isActive ? 'text-lime-900 text-lg font-semibold' :  'hover:text-lime-600 text-lime-700 font-medium'
-    }`}
+    className={`${className ?? ''} ${isActive ? 'text-lime-900 text-lg font-semibold' : 'hover:text-lime-600 text-lime-700 font-medium'
+      }`}
     {...linkProps}
   />
 );
@@ -51,10 +48,10 @@ export function NavBar() {
         <div className="space-y-2 absolute top-0 right-5">
           {(isMenuShown
             ? [
-                'rotate-45 translate-y-[13px]',
-                'opacity-0 h-0',
-                '-rotate-45 translate-y-[-13px]',
-              ]
+              'rotate-45 translate-y-[13px]',
+              'opacity-0 h-0',
+              '-rotate-45 translate-y-[-13px]',
+            ]
             : ['', '', '']
           ).map((className, index) => (
             <span
@@ -68,11 +65,10 @@ export function NavBar() {
         </div>
       </button>
       <nav
-        className={`${
-          isMenuShown
+        className={`${isMenuShown
             ? 'max-md:w-full max-md:opacity-100'
             : 'max-md:w-0 max-md:opacity-0'
-        } transition-all duration-500 ease-in-out md:block overflow-hidden max-md:absolute max-md:animate-sideways-once max-md:h-screen max-md:bg-white max-md:pt-24 z-40 top-0 right-0`}
+          } transition-all duration-500 ease-in-out md:block overflow-hidden max-md:absolute max-md:animate-sideways-once max-md:h-screen max-md:bg-white max-md:pt-24 z-40 top-0 right-0`}
       >
         <ul className="flex flex-col items-center md:flex-row gap-10 md:gap-4 min-[900px]:gap-5 lg:gap-8 justify-end text-sm md:text-[15px] leading-[22px]">
           <li key={'/'} className="relative">
