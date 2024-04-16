@@ -1,25 +1,17 @@
 "use client"
-import { Event } from "@/types/Event";
 import { getEventDetails, getAdminUsers } from "../../../../../sanity/sanity-utils";
-import {add, format} from 'date-fns'
-import { redirect } from 'next/navigation'
-import { revalidatePath } from 'next/cache'
-import { authConfig, useloginIsRequiredServer } from "@/app/lib/auth";//loginIsRequiredServer
-import { getServerSession } from "next-auth";
-
 
 type Props = {
-    params: { title: string, start: string, end: string}
+    params: { title: string, start: string, end: string }
 }
 
-export default async function EventDetails({params}: Props){ // in () put 
+export default async function EventDetails({ params }: Props) { // in () put 
 
     type UserReference = {
         _type: 'reference';
         _ref: string;
     }
 
-    //properly format info
     const formattedTitle = decodeURIComponent(params.title)
 
     const decodedStart = decodeURIComponent(params.start)
@@ -51,21 +43,21 @@ export default async function EventDetails({params}: Props){ // in () put
             }
         }
         // If no matching author is found, return an empty string
-        return "";    
+        return "";
     }
 
     //format date function
     const formatDate = (dateString: string): string => {
         const date = new Date(dateString);
         const options: Intl.DateTimeFormatOptions = {
-          day: '2-digit',
-          month: 'long',
-          year: 'numeric',
-          hour: 'numeric',
-          minute: '2-digit'
+            day: '2-digit',
+            month: 'long',
+            year: 'numeric',
+            hour: 'numeric',
+            minute: '2-digit'
         };
         return date.toLocaleDateString(undefined, options);
-      };
+    };
 
     //format image link function
     const formatImageLink = (imageURL: string): string => {
@@ -86,24 +78,23 @@ export default async function EventDetails({params}: Props){ // in () put
         <div>
             <div className="max-w-5xl mx-auto py-20">
                 <div className="container mx-auto px-12">
-                <a className="text-blue-600 underline text-sm" href="/events"> Back to Events </a>
+                    <a className="text-blue-600 underline text-sm" href="/events"> Back to Events </a>
                     {events.map((event, index) => (
                         <div key={index} className="my-8 bg-white rounded-lg shadow-xl p-8">
                             <h1 className="text-3xl font-bold mb-4">{event.title}</h1>
                             {event.images && event.images.map((image, imageIndex) => (
-                                    <img 
-                                        key={imageIndex} 
-                                        src={image.asset && image.asset._ref ? formatImageLink(image.asset._ref) : ''} 
-                                        alt={`Image ${imageIndex}`} 
-                            className="w-auto h-auto max-w-[600px] rounded-lg shadow-md mb-4"
-                                    />
+                                <img
+                                    key={imageIndex}
+                                    src={image.asset && image.asset._ref ? formatImageLink(image.asset._ref) : ''}
+                                    alt={`Image ${imageIndex}`}
+                                    className="w-auto h-auto max-w-[600px] rounded-lg shadow-md mb-4"
+                                />
                             ))}
                             <p className="text-gray-800 text-sm mb-4"><span className="font-semibold">Hosted by:</span> {event.host}</p>
                             <p className="text-gray-800 text-sm mb-4"><span className="font-semibold">Description:</span> {event.description.toString()}</p>
                             <p className="text-gray-800 text-sm mb-4"><span className="font-semibold">Start:</span> {formatDate(event.start)}</p>
                             <p className="text-gray-800 text-sm mb-4"><span className="font-semibold">End:</span> {formatDate(event.end)}</p>
                             <p className="text-gray-800 text-sm mb-4"><span className="font-semibold">Venue:</span> {event.location}</p>
-                            {/* published by: {getAdminName(event.author)} */}
                         </div>
                     ))}
                 </div>
