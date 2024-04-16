@@ -67,7 +67,7 @@ const Index: FC<IndexProps> =  async ({comment, commenterID, userID}) => {
             setTimeout(() => {
             // Code to execute after the delay
             location.reload();
-        }, 1000);
+        }, 2000);
         
         
     }
