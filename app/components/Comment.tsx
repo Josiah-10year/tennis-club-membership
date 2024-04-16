@@ -15,24 +15,9 @@ interface indexProps {
     userID: User | undefined | null;
 }
 
-// interface DateType{
-//     courtName: string | null
-//     justDate: Date | null
-//     dateTime: Date | null
-//     type: string | null
-//     numPersons: number | null
-// }
 
 const Index: FC<indexProps> =  async ({comment, commenterID, userID}) => {
     
-    // const [date, setDate] = useState<DateType>({
-    //     courtName: null,
-    //     justDate: null,
-    //     dateTime: null,
-    //     type: null,
-    //     numPersons: null
-    // })
-
     //first get the user
     const users = await getUserByID(comment.user._ref)
     const user = users[0]
