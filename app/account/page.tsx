@@ -2,7 +2,6 @@ import { deleteBooking, getAllInterests, getAllTopics, getAllUsersUsernameAndEma
 import Link from "next/link";
 import { authConfig, useloginIsRequiredServer } from "../lib/auth";
 import { getServerSession } from "next-auth";
-import { User } from "@/types/User";
 import Form from "../components/AccountForm"
 
 
