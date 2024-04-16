@@ -39,6 +39,8 @@ export function NavBar() {
     () => setIsMenuShown(!isMenuShown),
     [isMenuShown]
   );
+
+  
   return (
     <>
       <button

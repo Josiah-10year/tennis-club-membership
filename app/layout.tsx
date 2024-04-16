@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "./components/Layout/Header";
 import Footer from "./components/Layout/Footer";
 
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -11,11 +12,17 @@ export const metadata: Metadata = {
   description: "St. Augustine Recreational Club",
 };
 
+
 export default function Layout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+
+
+
+  
   return (
     <html lang="en">
       <head>
@@ -28,9 +35,9 @@ export default function Layout({
         <link rel="icon" href="https://github.com/Josiah-10year/tennis-club-membership/blob/fd7e9089b3668756f74fae9225e85685438fe1ba/app/favicon.ico" />
       </head>
         <body>
-          <Header />
+        <Header />
           <main className="bg-transparent" style={{minHeight:'90%'}}>{children}</main>
-          <Footer />
+        <Footer />
         </body>
     </html>
   );

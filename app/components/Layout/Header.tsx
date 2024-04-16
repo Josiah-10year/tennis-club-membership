@@ -1,7 +1,17 @@
+"use client"
 import { NavBar } from "./NavBar/NavBar";
+
+let path = ""
+if(typeof window !== "undefined") {
+  path = window.location.pathname
+}
+
+const isRestrictedPath = path === '/login' || path === '/register' || path === '/admin';
 
 const Header = () => (
   <>
+  {!isRestrictedPath && (
+    
     <header
       className="absolute md:fixed bg-lime-100 w-full"
 
@@ -23,6 +33,7 @@ const Header = () => (
         </div>
       </div>
     </header>
+  )}
   </>
 );
 
