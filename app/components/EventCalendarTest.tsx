@@ -61,7 +61,7 @@ const Index: FC<IndexProps> = ({ eventArrayProp }) => {
         events={transformedEvents}
         startAccessor="start"
         endAccessor="end"
-        style={{ height: 500, zIndex: 999, position: "" }}
+        style={{ height: 500, zIndex: 999 }}
         date={currentDate}
         defaultView={currentView}
         onNavigate={handleNavigate}
