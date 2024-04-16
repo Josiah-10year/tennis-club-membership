@@ -1,8 +1,3 @@
-import { url } from "inspector";
-
-// import { Navigation, Pagination, Scrollbar } from 'swiper/modules';
-// import { Swiper, SwiperSlide } from 'swiper/react';
-import { Carousel } from 'react-responsive-carousel'
 export default async function Home() {
   return (
     <div className="max-w-5xl mx-auto justify-center py-20">
