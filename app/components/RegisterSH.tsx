@@ -5,9 +5,6 @@ import { FC } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Topics from "../components/TopicsSH";
 import Interests from "../components/InterestsSH";
-import { URL } from "url";
-import { InputType } from "zlib";
-import { File } from "buffer";
 import { useRouter } from "next/navigation";
 
 type Topic = {
