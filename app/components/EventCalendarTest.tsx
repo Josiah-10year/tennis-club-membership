@@ -1,15 +1,16 @@
 "use client"
 import { FC, useState } from 'react';
 import { Calendar, View, dateFnsLocalizer } from 'react-big-calendar';
-import format from 'date-fns/format';
-import parse from 'date-fns/parse';
-import startOfWeek from 'date-fns/startOfWeek';
-import getDay from 'date-fns/getDay';
-import enUS from 'date-fns/locale/en-US';
+import {format} from 'date-fns/format';
+import {parse} from 'date-fns/parse';
+import {startOfWeek} from 'date-fns/startOfWeek';
+import {getDay} from 'date-fns/getDay';
+import {enUS} from 'date-fns/locale/en-US';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { Event } from '@/types/Event';
 import './EventCalendarTest.css'
 import { useRouter } from 'next/navigation';
+import './EventCalendarTest.css';
 
 interface IndexProps {
   eventArrayProp: Event[];
@@ -60,7 +61,7 @@ const Index: FC<IndexProps> = ({ eventArrayProp }) => {
         events={transformedEvents}
         startAccessor="start"
         endAccessor="end"
-        style={{ height: 500 }}
+        style={{ height: 500, zIndex: 999, position: "" }}
         date={currentDate}
         defaultView={currentView}
         onNavigate={handleNavigate}
