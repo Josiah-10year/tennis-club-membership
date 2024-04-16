@@ -2,5 +2,4 @@
   position: fixed;
   bottom: 0;
   width: 100%;
-  z-index: 999; /* Ensure footer is on top of other content */
 }

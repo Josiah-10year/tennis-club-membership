@@ -1,22 +1,17 @@
 "use client"
 import { getUserByID, deleteBooking } from "../../sanity/sanity-utils";
-import { FC, useState } from 'react'
-import {add, format} from 'date-fns'
-import Link from "next/link";
+import { FC } from 'react'
 import { Comment } from "@/types/Comment";
 import { User } from "@/types/User";
-import { usePathname, useRouter } from "next/navigation";
 
-
-
-interface indexProps {
+interface IndexProps {
     comment: Comment;
     commenterID: string;
     userID: User | undefined | null;
 }
 
 
-const Index: FC<indexProps> =  async ({comment, commenterID, userID}) => {
+const Index: FC<IndexProps> =  async ({comment, commenterID, userID}) => {
     
     //first get the user
     const users = await getUserByID(comment.user._ref)
@@ -68,10 +63,8 @@ const Index: FC<indexProps> =  async ({comment, commenterID, userID}) => {
       }
 
     function handleDelete(id: string): void {
-        const deleted = deleteBooking(id)
-        // router.push(pathname)
-        // router.refresh()
-        setTimeout(() => {
+        deleteBooking(id)
+            setTimeout(() => {
             // Code to execute after the delay
             location.reload();
         }, 1000);
@@ -84,11 +77,11 @@ const Index: FC<indexProps> =  async ({comment, commenterID, userID}) => {
             {/* You can fetch and display user details based on the comment's user reference */}
             {user.image?.asset ? (
                 <div>
-                    <img src= {formatImageLink(user.image.asset?._ref)} className="w-8 h-8 rounded-full mr-2"></img>
+                    <img src= {formatImageLink(user.image.asset?._ref)} alt="" className="w-8 h-8 rounded-full mr-2"></img>
                 </div>
             ):(
                 <div>
-                    <img src="https://raw.githubusercontent.com/Josiah-10year/tennis-club-membership/new-opps/app/images/default-profile-icon.jpg" className="w-8 h-8 rounded-full mr-2"></img>                
+                    <img src="https://raw.githubusercontent.com/Josiah-10year/tennis-club-membership/new-opps/app/images/default-profile-icon.jpg" alt="" className="w-8 h-8 rounded-full mr-2"></img>                
                 </div>
             )}
             <p className="font-bold">@{user.username.current}</p>

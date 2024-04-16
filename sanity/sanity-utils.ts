@@ -7,19 +7,12 @@ import { Topic } from "../types/Topic"
 import { Interest } from "../types/Interest"
 import { User } from "@/types/User"
 import {Post} from '../types/Post'
-// import { Result } from "postcss"
-// import {basename} from 'path'
-// import {createReadStream} from 'fs'
-
 
 const token = "skc7uoGs1D3dTG4DlvaLaTnZZGEGDerzo0hc9qo1R53iiE6gYsG5XMX4RR1fNLCvS9gx8qOXTzsIGgfHgqMO0LEOpw150EBQEXaKRb04V8pj1D6TSXfi2x98LZL3Ls0qybA5qguOU0hm4zv4sTZfHo0L6OF6fgI6PKAIzFlFuwEDE8QVkvc9"
 const token2 = "skGzsq7QBzxzA4t26ggMQNyJs0fRxV6sh70Vv1pDooSXM0LOp9K1NMVE18G5cFklqkCt0ubEyTl4K8Vr1HByZtDcvPhkvUG2WwpWOL5A1q2zx7vGSuvbqpokl5bMDqm4H6rprFSkG8zxBRGnaFqj7qUrfkflAyfRPzIyt3OnNsC3kfWSaoY9"
 
 const delay = async (ms: number) => new Promise((res) => setTimeout(res, ms));
 
-// const getClient = () => {
-
-// }
 const client = createClient({
     projectId: "46b4kxer",
     dataset: "production",
@@ -41,8 +34,10 @@ export async function getEvents(): Promise<Event[]> {
             end,
             location,
             description
-        }`
-    )
+        }`,
+        {},
+        {cache: 'no-store'}
+    );
 }
 
 export async function getEvent(slug: string): Promise<Event> {
@@ -105,12 +100,6 @@ export async function getCourtBookingsAfterToday(): Promise<CourtBooking[]> {
 }
 
 export async function getCourtBookings(datetime:string, courtID:string): Promise<CourtBooking[]> { //, type: string, numPersons: number, courtName:string
-    // const client = createClient({
-    //     projectId: "46b4kxer",
-    //     dataset: "production",
-    //     apiVersion: "2024-02-27",
-    //     useCdn: false
-    // })
 
     return client.fetch(
       groq`*[_type == "booking" && start == $datetime && court._ref == $courtID]{
@@ -146,7 +135,7 @@ export async function addCourtBookings(courtID: string, startDatetime: string, e
     })
 
     try {
-    const transactionResult = await client.transaction()
+    await client.transaction()
     .create({
         _type: 'booking',
         court: { _type: 'reference', _ref: courtID },
@@ -166,36 +155,6 @@ export async function addCourtBookings(courtID: string, startDatetime: string, e
     }
 
 }
-
-//////////////////////////////////////////////////////////////////////////////////
-////////////////////////////NEW BOOKINGS TEST/////////////////////////////////////
-
-// export async function fetchData(link: string) : Promise<any>{
-//     try {
-//         // Make a GET request to the API endpoint
-//         const response = await fetch(link,{
-//     cache:"no-cache"
-//   });
-
-//         // Check if the request was successful (status code 200)
-//         if (response.ok) {
-//             // Parse the JSON response
-//             const data = await response.json();
-//             // console.log('Data:', data); 
-
-//             let results = data.result
-//             console.log('Data:', results); 
-//             return results
-//         } else {
-//             // If the response status is not OK, throw an error
-//             throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
-//         }
-//     } catch (error) {
-//         console.error('Error fetching data:', error);
-//     }
-// }
-
-//works but not needed for now
 
 //////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
@@ -386,7 +345,7 @@ export async function registerUser(first: string, last: string, email: string, p
         if (assetList.length != 0){
             client.assets.upload('image', assetList[0])
             .then(async (assetDocument) => {
-                const res = await client.create({
+                await client.create({
                     _type: 'user',
                     firstName: first,
                     lastName: last,
@@ -409,7 +368,7 @@ export async function registerUser(first: string, last: string, email: string, p
             })
         }
         else{
-            const res = await client.create({
+            await client.create({
                 _type: 'user',
                 firstName: first,
                 lastName: last,
@@ -494,7 +453,7 @@ export async function getPost(slug: string): Promise<Post[]> {
      export async function addComment(text: string, userID: string, postID: string): Promise<boolean> {
         
         try {
-            const transactionResult = await client.transaction()
+            await client.transaction()
             .create({
                 _type: 'comment',
                 user: { _type: 'reference', _ref: userID },
@@ -510,8 +469,3 @@ export async function getPost(slug: string): Promise<Post[]> {
                 return false;
             }
     }
-
-
-
-
-    import { useRouter } from 'next/router';
