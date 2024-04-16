@@ -24,17 +24,21 @@ export default async function Home() {
           loggedInUser? (
             loggedInUser.role === "admin" ? (
               <div>
-                <a
-                href="/admin/structure"
-              >
-                <p className="bg-gray-900 p-1 border-white border text-white bg-opacity-50 text-center rounded-lg hover:bg-opacity-100 hover:scale-105">Admin View</p>
-              </a>
+                  <a
+                  href="/admin/structure"
+                  >
+                  <p className="bg-gray-900 p-1 border-white border text-white bg-opacity-50 text-center rounded-lg hover:bg-opacity-100 hover:scale-105">Admin View</p>
+                </a>
               </div>
             ) : (
-              <div></div>
+              <div>
+
+              </div>
             )
           ):(
-            <div></div>
+            <div>
+              
+            </div>
           )
         ):(
           <div>
