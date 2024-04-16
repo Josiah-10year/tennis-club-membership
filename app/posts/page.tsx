@@ -1,11 +1,7 @@
-import { use } from "react";
+"use client"
 import { getAllTopics, getPosts } from "../../sanity/sanity-utils";
 import Link from "next/link";
-import { useRouter } from 'next/router';
-import { FaArrowCircleUp } from 'react-icons/fa';
-import { getServerSession } from "next-auth";
-import { authConfig, loginIsRequiredClient, useloginIsRequiredServer } from "../lib/auth";
-import { useSession } from "next-auth/react";
+
 import BackToTopButton from '../components/BackToTopButton';
 
 
@@ -45,7 +41,6 @@ export default async function Posts() {
                     </div>
                 </div>
             </div>
-            {/* Back to top button */}
             <BackToTopButton />
         </div>
     );

@@ -1,19 +1,16 @@
-import { Post } from "@/types/Post";
 import { Comment } from "@/types/Comment"
 import { getPost, getUser } from "../../../sanity/sanity-utils";
 import { getComments } from "../../../sanity/sanity-utils";
 import CommentComponent from '../../components/Comment';
 import CommentForm from '../../components/CommentForm';
 import { getServerSession } from "next-auth";
-import { authConfig, loginIsRequiredClient, useloginIsRequiredServer } from "@/app/lib/auth";
-import { User } from "@/types/User";
-import { useSession } from "next-auth/react";
+import { authConfig} from "@/app/lib/auth";
+
 type Props = {
     params: { post: string }
 }
 
 export default async function Project({ params }: Props) {
-
 
     const slug = params.post;
     const posts = await getPost(slug);
@@ -39,7 +36,6 @@ export default async function Project({ params }: Props) {
 
     const sortedComments = sortCommentsByCreatedAt(comments);
 
-    //format image link function
     const formatImageLink = (imageURL: string): string => {
         // First, remove "image-"
         imageURL = imageURL.replace("image-", "");
@@ -47,16 +43,12 @@ export default async function Project({ params }: Props) {
         imageURL = imageURL.replace("-jpg", ".jpg");
         imageURL = imageURL.replace("-png", ".png");
 
-        //finally put it in the right format
         imageURL = "https://cdn.sanity.io/images/46b4kxer/production/" + imageURL
 
         return imageURL
     }
 
-
-
     const session = await getServerSession(authConfig);
-
 
     let user;
     let username: string | null | undefined = null
@@ -70,32 +62,7 @@ export default async function Project({ params }: Props) {
         user = users[0]
     }
 
-    //const bioText = new Text("test");
-
-
     let currentUser = user
-    // if(typeof currentUser == "undefined")
-    //     currentUser = {
-    // _id: "1",
-    // _createdAt: "1",
-    // firstName: "",
-    // lastName: "",
-    // username: {_type: "slug", current: ""},
-    // email: "",
-    // phone: "",
-    // password: "",
-    // bio: "bioText",
-    // subscriptions: [],
-    // role: "",
-    // interests: [],
-    // content: [],
-    // image: {}
-
-    // }
-
-
-    // console.log(user)
-
     if (!post) {
         return <div>Loading...</div>;
     }
@@ -128,8 +95,6 @@ export default async function Project({ params }: Props) {
                     <p className="text-xs text-gray-600">no comments to display</p>
                 </div>
             )}
-
         </div>
     );
-
 }
