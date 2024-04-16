@@ -215,7 +215,7 @@ const Index: FC<IndexProps> = ({ courtArrayProp, fullyBookedDates, courtBookings
                         date.type ? (
                             date.numPersons ? (
                                 <div>
-                                <a className="bg-lime-600 text-white text-center rounded-lg px-4 py-2 hover:bg-opacity-100 hover:scale-105" onClick={() => setDate((prev) => ({ ...prev, numPersons: null }))} >Go Back </a>
+                                <a className="bg-lime-600 text-white text-center rounded-lg px-4 py-2 hover:bg-opacity-100 hover:scale-105" onClick={() => setDate((prev) => ({ ...prev, numPersons: null }))} >Back </a>
                                 <br></br><br></br>
                                 <div className="border-2 p-1 border-gray-600 rounded-lg  hover:border-blue-600 hover:bg-blue-100 transition">
                                     <a
