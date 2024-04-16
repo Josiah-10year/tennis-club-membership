@@ -1,6 +1,4 @@
-//"use client"
 import { getEvents } from "../../sanity/sanity-utils";
-import Link from "next/link";
 import Calendar from "../components/EventCalendarTest"
 
 export default async function Event() {
@@ -13,6 +11,6 @@ export default async function Event() {
       <Calendar eventArrayProp={events} />
       <br></br>
     </div>
-   );
+  );
 }
 
