@@ -1,7 +1,6 @@
 "use client"
 import { FC, useState } from 'react';
 import { Calendar, View, dateFnsLocalizer } from 'react-big-calendar';
-import { Event as EventType} from 'react-big-calendar'
 import format from 'date-fns/format';
 import parse from 'date-fns/parse';
 import startOfWeek from 'date-fns/startOfWeek';
@@ -10,8 +9,8 @@ import enUS from 'date-fns/locale/en-US';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { Event } from '@/types/Event';
 import './EventCalendarTest.css'
-import { redirect, useRouter} from 'next/navigation';
-//import { useRouter } from 'next/router'; // Import the useRouter hook
+import { useRouter } from 'next/navigation';
+
 interface IndexProps {
   eventArrayProp: Event[];
 }
