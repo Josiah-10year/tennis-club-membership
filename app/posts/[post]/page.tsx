@@ -1,6 +1,5 @@
 import { Comment } from "@/types/Comment"
-import { getPost, getUser } from "../../../sanity/sanity-utils";
-import { getComments } from "../../../sanity/sanity-utils";
+import { getComments,getPost, getUser } from "../../../sanity/sanity-utils";
 import CommentComponent from '../../components/Comment';
 import CommentForm from '../../components/CommentForm';
 import { getServerSession } from "next-auth";
@@ -68,7 +67,7 @@ export default async function Project({ params }: Props) {
     }
     return (
         <div className="max-w-5xl mx-auto py-20">
-            <a className="text-blue-600 underline text-sm" href="/posts"> Back to Posts </a>
+            <a className="bg-lime-600 text-white text-center rounded-lg px-4 py-2 hover:bg-opacity-100 hover:scale-105" href="/posts">Back</a>
             <h1 className="py-4">{post.title}</h1>
             {post.images && post.images.map((image, imageIndex) => (
                 <img
