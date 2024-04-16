@@ -15,34 +15,34 @@ interface indexProps {
 
 
 
-const Index: FC<indexProps> = ({userProp, postID}) => {
+const Index: FC<indexProps> = ({ userProp, postID }) => {
     const [comment, setComment] = useState<string>('');
 
     const router = useRouter();
-    
+
     const pathname = usePathname()
 
     if (!userProp) {
         // Handle the case where userProp is null
-        return(
+        return (
             <div>
-            <form className="flex items-center">
-            <input
-                type="text"
-                value={comment}
-                placeholder="Sign in to leave a comment..."
-                className="border border-gray-300 rounded-md p-2 mr-2 flex-grow"
-                disabled/>
-                <button
-                    className="bg-blue-500 text-white px-4 py-2 rounded-md text-sm"
-                    onClick={() => router.push('/login')}
-                    disabled>
-                    Submit
-                </button>
-        </form>
-        <u><a href='/login' className='text-blue-600 underline text-sm'>Click here to sign in</a></u>
-        <br></br>
-        </div>
+                <form className="flex items-center">
+                    <input
+                        type="text"
+                        value={comment}
+                        placeholder="Sign in to leave a comment..."
+                        className="border border-gray-300 rounded-md p-2 mr-2 flex-grow"
+                        disabled />
+                    <button
+                        className="bg-blue-500 text-white px-4 py-2 rounded-md text-sm"
+                        onClick={() => router.push('/login')}
+                        disabled>
+                        Submit
+                    </button>
+                </form>
+                <u><a href='/login' className='text-blue-600 underline text-sm'>Click here to sign in</a></u>
+                <br></br>
+            </div>
         );
     }
 
@@ -53,10 +53,10 @@ const Index: FC<indexProps> = ({userProp, postID}) => {
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         // Handle form submission here
-        
+
         console.log('Submitted:', comment);
-        if(comment !== "")
-            addComment(comment, userProp._id , postID)
+        if (comment !== "")
+            addComment(comment, userProp._id, postID)
         // Clear the input field after submission
         setComment('');
         setTimeout(() => {
