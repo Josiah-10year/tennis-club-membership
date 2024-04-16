@@ -17,7 +17,7 @@ interface indexProps {
 
 
 
-const index: FC<indexProps> =  ({ interestsArrayProp, userInterestsArrayProp}) => {
+const index: FC<indexProps> = ({ interestsArrayProp, userInterestsArrayProp }) => {
     const interests = interestsArrayProp;
 
     // Function to check if an interest is selected by the user
@@ -33,7 +33,7 @@ const index: FC<indexProps> =  ({ interestsArrayProp, userInterestsArrayProp}) =
             </label>
             {interests?.map((interest, i) => (
                 <div key={`topic._id-${i}`}>
-                    <input className="text-xs interest" value={interest._id} type="checkbox" key={`topic._id-${i}`} defaultChecked={isChecked(interest._id)}/>
+                    <input className="text-xs interest" value={interest._id} type="checkbox" key={`topic._id-${i}`} defaultChecked={isChecked(interest._id)} />
                     <label className="text-xs" htmlFor={`topic._id-${i}`}> {interest.name}</label>
                 </div>
             ))}
