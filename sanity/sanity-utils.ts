@@ -7,10 +7,6 @@ import { Topic } from "../types/Topic"
 import { Interest } from "../types/Interest"
 import { User } from "@/types/User"
 import {Post} from '../types/Post'
-// import { Result } from "postcss"
-// import {basename} from 'path'
-// import {createReadStream} from 'fs'
-
 
 const token = "skc7uoGs1D3dTG4DlvaLaTnZZGEGDerzo0hc9qo1R53iiE6gYsG5XMX4RR1fNLCvS9gx8qOXTzsIGgfHgqMO0LEOpw150EBQEXaKRb04V8pj1D6TSXfi2x98LZL3Ls0qybA5qguOU0hm4zv4sTZfHo0L6OF6fgI6PKAIzFlFuwEDE8QVkvc9"
 const token2 = "skGzsq7QBzxzA4t26ggMQNyJs0fRxV6sh70Vv1pDooSXM0LOp9K1NMVE18G5cFklqkCt0ubEyTl4K8Vr1HByZtDcvPhkvUG2WwpWOL5A1q2zx7vGSuvbqpokl5bMDqm4H6rprFSkG8zxBRGnaFqj7qUrfkflAyfRPzIyt3OnNsC3kfWSaoY9"
@@ -139,7 +135,7 @@ export async function addCourtBookings(courtID: string, startDatetime: string, e
     })
 
     try {
-    const transactionResult = await client.transaction()
+    await client.transaction()
     .create({
         _type: 'booking',
         court: { _type: 'reference', _ref: courtID },
@@ -159,9 +155,6 @@ export async function addCourtBookings(courtID: string, startDatetime: string, e
     }
 
 }
-
-
-//works but not needed for now
 
 //////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
@@ -352,7 +345,7 @@ export async function registerUser(first: string, last: string, email: string, p
         if (assetList.length != 0){
             client.assets.upload('image', assetList[0])
             .then(async (assetDocument) => {
-                const res = await client.create({
+                await client.create({
                     _type: 'user',
                     firstName: first,
                     lastName: last,
@@ -375,7 +368,7 @@ export async function registerUser(first: string, last: string, email: string, p
             })
         }
         else{
-            const res = await client.create({
+            await client.create({
                 _type: 'user',
                 firstName: first,
                 lastName: last,
@@ -460,7 +453,7 @@ export async function getPost(slug: string): Promise<Post[]> {
      export async function addComment(text: string, userID: string, postID: string): Promise<boolean> {
         
         try {
-            const transactionResult = await client.transaction()
+            await client.transaction()
             .create({
                 _type: 'comment',
                 user: { _type: 'reference', _ref: userID },
@@ -476,8 +469,3 @@ export async function getPost(slug: string): Promise<Post[]> {
                 return false;
             }
     }
-
-
-
-
-    import { useRouter } from 'next/router';

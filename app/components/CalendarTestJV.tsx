@@ -1,12 +1,10 @@
 "use client"
-import { getCourts } from "../../sanity/sanity-utils";
 import { FC, useState } from 'react'
 import ReactCalendar from 'react-calendar'
 import './CalendarTestJV.css'
 import { add, format } from 'date-fns'
 import { INTERVAL, STORE_CLOSING_TIME, STORE_OPENING_TIME } from '../constants/config'
 import { Court } from "@/types/Court";
-import Link from "next/link";
 import { CourtBooking } from "@/types/CourtBooking";
 
 
@@ -77,7 +75,6 @@ const Index: FC<IndexProps> = ({ courtArrayProp, fullyBookedDates, courtBookings
     }
 
     const times = getTimes();
-    // const courts = stringArrayProp;
     const choices = ["open", "private"]
     const numPersonsArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
@@ -238,7 +235,8 @@ const Index: FC<IndexProps> = ({ courtArrayProp, fullyBookedDates, courtBookings
                                 </div>
                             ) : (
                                 <div>
-                                    <a className="text-lime-600 underline text-sm mr-4" onClick={() => setDate((prev) => ({ ...prev, type: null }))} >Go Back </a>
+                                    
+                                    <a className="bg-lime-600 text-white text-center rounded-lg px-4 py-2 hover:bg-opacity-100 hover:scale-105" onClick={() => setDate((prev) => ({ ...prev, type: null }))} >Back </a>
                                     <h1 className="text-3xl">Select the number of people:</h1><br></br>
                                     <div className='grid grid-cols-5 gap-5 lg:max-w-none lg:grid-cols-10 xl:grid-cols-10'>
                                         {numPersonsArray?.map((choice, i) => (
@@ -253,7 +251,7 @@ const Index: FC<IndexProps> = ({ courtArrayProp, fullyBookedDates, courtBookings
 
                         ) : (
                             <div>
-                                <a className="text-lime-600 underline text-sm mr-4"  onClick={() => setDate(prev => ({ ...prev, dateTime: null }))} >Go Back </a>
+                                <a className="bg-lime-600 text-white text-center rounded-lg px-4 py-2 hover:bg-opacity-100 hover:scale-105"  onClick={() => setDate(prev => ({ ...prev, dateTime: null }))} > Back </a>
                                 <h1 className="text-3xl">Select a booking type:</h1><br></br>
                                 <div className='grid gap-5 grid-cols-2 lg:max-w-none lg:grid-cols-2 xl:grid-cols-2'>
                                     {choices?.map((choice, i) => (
@@ -268,7 +266,7 @@ const Index: FC<IndexProps> = ({ courtArrayProp, fullyBookedDates, courtBookings
 
                     ) : (
                         <div>
-                            <a className="text-lime-600 underline text-sm mr-4" onClick={() => setDate((prev) => ({ ...prev, justDate: null }))} >Go Back </a>
+                            <a className="bg-lime-600 text-white text-center rounded-lg px-4 py-2 hover:bg-opacity-100 hover:scale-105" onClick={() => setDate((prev) => ({ ...prev, justDate: null }))} > Back </a>
                             <h1 className="text-3xl">Select a timeslot:</h1><br></br>
                             <div className='grid grid-cols-3 gap-5 lg:max-w-none lg:grid-cols-6 xl:grid-cols-12'>
                                 {times?.map((time, i) => (
@@ -283,7 +281,7 @@ const Index: FC<IndexProps> = ({ courtArrayProp, fullyBookedDates, courtBookings
                 ) : (
 
                     <div className="grid grid-cols-1 gap-5 lg:max-w-none">
-                        <a className="text-lime-600 underline text-sm mr-4" onClick={() => setDate((prev) => ({ ...prev, courtName: null }))} >Go Back </a>
+                        <a className="bg-lime-600 text-white text-center rounded-lg px-4 py-2 hover:bg-opacity-100 hover:scale-105" onClick={() => setDate((prev) => ({ ...prev, courtName: null }))} > Back </a>
                         <h1 className="text-3xl">Select a date:</h1><br></br>
                         <ReactCalendar
                             minDate={new Date()}
@@ -314,7 +312,6 @@ const Index: FC<IndexProps> = ({ courtArrayProp, fullyBookedDates, courtBookings
                                 ) : (
                                     <div></div>
                                 )}
-
 
                                 <button type='button' onClick={() => setDate((prev) => ({ ...prev, courtName: court.name }))}>
                                     {court.name}
