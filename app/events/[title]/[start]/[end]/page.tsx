@@ -87,7 +87,7 @@ export default async function EventDetails({ params }: Props) { // in () put
                                     key={imageIndex}
                                     src={image.asset && image.asset._ref ? formatImageLink(image.asset._ref) : ''}
                                     alt={`Image ${imageIndex}`}
-                                    className="w-auto h-auto max-w-[600px] rounded-lg shadow-md mb-4"
+                                    className="w-full h-auto max-w-[600px] sm:w-auto sm:max-w-[600px] md:w-auto md:max-w-[600px] rounded-lg shadow-md mb-4"
                                 />
                             ))}
                             <p className="text-gray-800 text-sm mb-4"><span className="font-semibold">Hosted by:</span> {event.host}</p>
