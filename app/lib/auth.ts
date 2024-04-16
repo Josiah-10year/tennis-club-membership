@@ -1,15 +1,12 @@
 import { NextAuthOptions, User, getServerSession } from "next-auth"
-import { useSession } from "next-auth/react"
 import { redirect } from "next/navigation" //useRouter
-//import GithubProvider from "next-auth/providers/github"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { getUser } from "../../sanity/sanity-utils";
 
 export const authConfig: NextAuthOptions = {
-    // secret: process.env.NEXTAUTH_SECRET as string,
     session: {
         strategy: "jwt",
-        maxAge: 60 * 60//1 hr in seconds
+        maxAge: 60 * 60
     },
     providers: [
         CredentialsProvider({
@@ -39,7 +36,7 @@ export const authConfig: NextAuthOptions = {
                     return test as User;
                 }
 
-                return null //not found
+                return null
             }
         }),
     ],
@@ -52,7 +49,7 @@ export async function useloginIsRequiredServer() {
 
 export async function loginIsRequiredClient() {
     if (typeof window !== "undefined") {
-      const session = await getServerSession(authConfig);
-      if (!session) return redirect("/login");
+        const session = await getServerSession(authConfig);
+        if (!session) return redirect("/login");
     }
 }
