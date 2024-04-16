@@ -16,7 +16,7 @@ interface indexProps {
     userTopicsArrayProp: TopicReference[];
 }
 
-const index: FC<indexProps> =  ({ topicsArrayProp, userTopicsArrayProp }) => {
+const index: FC<indexProps> = ({ topicsArrayProp, userTopicsArrayProp }) => {
     const topics = topicsArrayProp;
 
     // Function to check if a topic is subscribed by the user
@@ -24,15 +24,15 @@ const index: FC<indexProps> =  ({ topicsArrayProp, userTopicsArrayProp }) => {
         const found = userTopicsArrayProp.some(topic => topic._ref === topicID);
         return found ? true : false;
     };
-    
+
     return (
         <div className="basis-1/2">
             <label className="text-gray-800 font-semibold text-sm" htmlFor="subscriptions">
-                  Topic Subscriptions
+                Topic Subscriptions
             </label>
             {topics?.map((topic, i) => (
                 <div key={`topic._id-${i}`}>
-                    <input className="text-xs topic" value={topic._id} type="checkbox" key={`topic._id-${i}`} defaultChecked={isChecked(topic._id)}/>
+                    <input className="text-xs topic" value={topic._id} type="checkbox" key={`topic._id-${i}`} defaultChecked={isChecked(topic._id)} />
                     <label className="text-xs" htmlFor={`topic._id-${i}`}> {topic.name}</label>
                 </div>
             ))}
