@@ -23,13 +23,13 @@ export function CredentialsForm(props: CredentialsFormProps) {
     });
 
     if (signInResponse && !signInResponse.error) {
-      
+
       //Redirect to homepage
       router.push("/");
       //Then reload to update cache 
       location.reload()
-      
-      return(window.alert("SUCCESS\nYou have been logged in successfully."));
+
+      return (window.alert("SUCCESS\nYou have been logged in successfully."));
     } else {
       console.log("Error: ", signInResponse);
       setError("Incorrect Username or Password");
@@ -70,9 +70,9 @@ export function CredentialsForm(props: CredentialsFormProps) {
       </button>
 
       <div className="text-xs tracking-widest">
-    <br></br>
-    <p className="text-xs">Do not have an account?<a href="/register"> <u className="text-blue-600 underline">Register here</u></a></p>
-  </div>
+        <br></br>
+        <p className="text-xs">Do not have an account?<a href="/register"> <u className="text-blue-600 underline">Register here</u></a></p>
+      </div>
     </form>
   );
 }
