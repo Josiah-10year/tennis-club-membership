@@ -17,9 +17,6 @@ const token2 = "skGzsq7QBzxzA4t26ggMQNyJs0fRxV6sh70Vv1pDooSXM0LOp9K1NMVE18G5cFkl
 
 const delay = async (ms: number) => new Promise((res) => setTimeout(res, ms));
 
-// const getClient = () => {
-
-// }
 const client = createClient({
     projectId: "46b4kxer",
     dataset: "production",
@@ -41,8 +38,10 @@ export async function getEvents(): Promise<Event[]> {
             end,
             location,
             description
-        }`
-    )
+        }`,
+        {},
+        {cache: 'no-store'}
+    );
 }
 
 export async function getEvent(slug: string): Promise<Event> {
@@ -105,12 +104,6 @@ export async function getCourtBookingsAfterToday(): Promise<CourtBooking[]> {
 }
 
 export async function getCourtBookings(datetime:string, courtID:string): Promise<CourtBooking[]> { //, type: string, numPersons: number, courtName:string
-    // const client = createClient({
-    //     projectId: "46b4kxer",
-    //     dataset: "production",
-    //     apiVersion: "2024-02-27",
-    //     useCdn: false
-    // })
 
     return client.fetch(
       groq`*[_type == "booking" && start == $datetime && court._ref == $courtID]{
@@ -167,33 +160,6 @@ export async function addCourtBookings(courtID: string, startDatetime: string, e
 
 }
 
-//////////////////////////////////////////////////////////////////////////////////
-////////////////////////////NEW BOOKINGS TEST/////////////////////////////////////
-
-// export async function fetchData(link: string) : Promise<any>{
-//     try {
-//         // Make a GET request to the API endpoint
-//         const response = await fetch(link,{
-//     cache:"no-cache"
-//   });
-
-//         // Check if the request was successful (status code 200)
-//         if (response.ok) {
-//             // Parse the JSON response
-//             const data = await response.json();
-//             // console.log('Data:', data); 
-
-//             let results = data.result
-//             console.log('Data:', results); 
-//             return results
-//         } else {
-//             // If the response status is not OK, throw an error
-//             throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
-//         }
-//     } catch (error) {
-//         console.error('Error fetching data:', error);
-//     }
-// }
 
 //works but not needed for now
 
