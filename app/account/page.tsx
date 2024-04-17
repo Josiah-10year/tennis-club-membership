@@ -49,10 +49,26 @@ export default async function MyAccount() {
       
       // Convert UTC to Atlantic Time (AST) (subtract 4 hours)
       const atlanticDate = new Date(utcDate.getTime() - (4 * 60 * 60 * 1000));
-      const atlanticDateD =  atlanticDate.toLocaleDateString()
-      const atlanticDateT =  atlanticDate.toLocaleTimeString()
 
-      const output = atlanticDateD + " " + atlanticDateT
+      // Get month, day, year, hour, and minute components
+    const optionsDate: Intl.DateTimeFormatOptions = {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric'
+    };
+    const datePart = atlanticDate.toLocaleDateString('en-US', optionsDate);
+
+    const optionsTime: Intl.DateTimeFormatOptions = {
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: true
+    };
+    const timePart = atlanticDate.toLocaleTimeString('en-US', optionsTime);
+
+    // Assemble the formatted date string
+    const formattedDate = `${datePart}, ${timePart}`;
+
+    return formattedDate;
 
       // Extract date components
       // const day = atlanticDate.getDate().toString().padStart(2, '0');
@@ -66,7 +82,6 @@ export default async function MyAccount() {
       // // Assemble the formatted date string
       // const formattedDate = `${day} ${month} ${year}, ${hours}:${minutes} ${amOrPm}`;
   
-      return output;
   };
   
 
