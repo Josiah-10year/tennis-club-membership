@@ -43,40 +43,28 @@ export default async function MyAccount() {
     const interests = await getAllInterests();
     const bookings = await getBookingsByUserID(user._id);
     
-  //   const formatDate = (dateString: string): string => {
-  //     // Create a new Date object from the provided UTC date string
-  //     const utcDate = new Date(dateString);
+    const formatDate = (dateString: string): string => {
+      // Create a new Date object from the provided UTC date string
+      const utcDate = new Date(dateString);
       
-  //     // Convert UTC to Atlantic Time (AST) (subtract 4 hours)
-  //     const atlanticDate = new Date(utcDate.getTime() - (4 * 60 * 60 * 1000));
+      // Convert UTC to Atlantic Time (AST) (subtract 4 hours)
+      const atlanticDate = new Date(utcDate.getTime() - (4 * 60 * 60 * 1000));
+      const atlanticDate2 =  atlanticDate.toLocaleDateString()
   
-  //     // Extract date components
-  //     const day = atlanticDate.getDate().toString().padStart(2, '0');
-  //     const month = atlanticDate.toLocaleString('default', { month: 'long' });
-  //     const year = atlanticDate.getFullYear();
-  //     let hours = atlanticDate.getHours();
-  //     const minutes = atlanticDate.getMinutes().toString().padStart(2, '0');
-  //     const amOrPm = hours >= 12 ? 'PM' : 'AM';
-  //     hours = (hours % 12 || 12); // Convert hours to 12-hour format
+      // Extract date components
+      // const day = atlanticDate.getDate().toString().padStart(2, '0');
+      // const month = atlanticDate.toLocaleString('default', { month: 'long' });
+      // const year = atlanticDate.getFullYear();
+      // let hours = atlanticDate.getHours();
+      // const minutes = atlanticDate.getMinutes().toString().padStart(2, '0');
+      // const amOrPm = hours >= 12 ? 'PM' : 'AM';
+      // hours = (hours % 12 || 12); // Convert hours to 12-hour format
   
-  //     // Assemble the formatted date string
-  //     const formattedDate = `${day} ${month} ${year}, ${hours}:${minutes} ${amOrPm}`;
+      // // Assemble the formatted date string
+      // const formattedDate = `${day} ${month} ${year}, ${hours}:${minutes} ${amOrPm}`;
   
-  //     return formattedDate;
-  // };
-
-  //format date function
-  const formatDate = (dateString: string): string => {
-    const date = new Date(dateString);
-    const options: Intl.DateTimeFormatOptions = {
-        day: '2-digit',
-        month: 'long',
-        year: 'numeric',
-        hour: 'numeric',
-        minute: '2-digit'
-    };
-    return date.toLocaleDateString(undefined, options);
-};
+      return atlanticDate2;
+  };
   
 
     //get court name function
