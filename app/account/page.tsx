@@ -49,8 +49,11 @@ export default async function MyAccount() {
       
       // Convert UTC to Atlantic Time (AST) (subtract 4 hours)
       const atlanticDate = new Date(utcDate.getTime() - (4 * 60 * 60 * 1000));
-      const atlanticDate2 =  atlanticDate.toLocaleDateString()
-  
+      const atlanticDateD =  atlanticDate.toLocaleDateString()
+      const atlanticDateT =  atlanticDate.toLocaleTimeString()
+
+      const output = atlanticDateD + " " + atlanticDateT
+
       // Extract date components
       // const day = atlanticDate.getDate().toString().padStart(2, '0');
       // const month = atlanticDate.toLocaleString('default', { month: 'long' });
@@ -63,7 +66,7 @@ export default async function MyAccount() {
       // // Assemble the formatted date string
       // const formattedDate = `${day} ${month} ${year}, ${hours}:${minutes} ${amOrPm}`;
   
-      return atlanticDate2;
+      return output;
   };
   
 

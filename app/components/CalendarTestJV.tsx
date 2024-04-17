@@ -271,7 +271,7 @@ const Index: FC<IndexProps> = ({ courtArrayProp, fullyBookedDates, courtBookings
                             <div className='grid grid-cols-3 gap-5 lg:max-w-none lg:grid-cols-6 xl:grid-cols-12'>
                                 {times?.map((time, i) => (
                                     <button key={`time-${i}`} className='rounded-sm border btn-main p-2' type='button' disabled={isDisabled(time, date.justDate)} onClick={() => setDate(prev => ({ ...prev, dateTime: time }))} >
-                                        {format(convertUtcToAst(time), 'hh:mm a')}
+                                        {format(time, 'hh:mm a')}
                                     </button>
                                 ))}
                             </div>

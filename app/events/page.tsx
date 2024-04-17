@@ -8,7 +8,9 @@ export default async function Event() {
     <div className="max-w-5xl mx-auto py-20">
       <center><h1>Upcoming Events</h1></center>
       <br></br>
+      <div className="h-95vh">
       <Calendar eventArrayProp={events} />
+      </div>
       <br></br>
     </div>
   );
